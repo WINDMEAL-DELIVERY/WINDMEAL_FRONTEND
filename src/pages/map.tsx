@@ -10,6 +10,46 @@ import {
 import { useState } from 'react';
 import { makeMarkerClustering } from './marker-cluster';
 
+interface cafeProp {
+  x: number;
+  y: number;
+  requests: number;
+  cafeName: string;
+}
+
+const cafes: cafeProp[] = [
+  {
+    x: 37.450795,
+    y: 127.128816,
+    requests: 100,
+    cafeName: '카페 1',
+  },
+  {
+    x: 37.448,
+    y: 127.1278,
+    requests: 75,
+    cafeName: '카페 2',
+  },
+  {
+    x: 37.447,
+    y: 127.1282,
+    requests: 120,
+    cafeName: '카페 3',
+  },
+  {
+    x: 37.4487,
+    y: 127.128,
+    requests: 50,
+    cafeName: '카페 4',
+  },
+  {
+    x: 37.4495,
+    y: 127.1292,
+    requests: 90,
+    cafeName: '카페 5',
+  },
+];
+
 function MarkerCluster() {
   const navermaps = useNavermaps();
   const map1 = useMap();
@@ -52,24 +92,16 @@ function MarkerCluster() {
   const [cluster] = useState(() => {
     const markers = [];
 
-    const marker1 = new window.naver.maps.Marker({
-      position: new window.naver.maps.LatLng(37.450795, 127.128816),
-      map1,
-    });
-    const marker2 = new window.naver.maps.Marker({
-      position: new window.naver.maps.LatLng(37.448, 127.1278),
-      map1,
-    });
-    const marker3 = new window.naver.maps.Marker({
-      position: new window.naver.maps.LatLng(37.447, 127.1282),
-      map1,
-    });
-    const marker4 = new window.naver.maps.Marker({
-      position: new window.naver.maps.LatLng(37.4487, 127.128),
-      map1,
-    });
-
-    markers.push(marker1, marker2, marker3, marker4);
+    for (let i = 0; i < cafes.length; i++) {
+      const cafeData: cafeProp = cafes[i];
+      const marker = new window.naver.maps.Marker({
+        position: new window.naver.maps.LatLng(cafeData.x, cafeData.y),
+        map1,
+        requests: cafeData.requests,
+        name: cafeData.cafeName,
+      });
+      markers.push(marker);
+    }
 
     // eslint-disable-next-line no-shadow
     const cluster = new MarkerClustering({
@@ -82,7 +114,8 @@ function MarkerCluster() {
       icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
       indexGenerator: [2, 4, 8, 12, 20],
       stylingFunction: (clusterMarker: any, count: number) => {
-        clusterMarker.getElement().querySelector('div:first-child').innerText = count;
+        clusterMarker.getElement().querySelector('div:first-child').innerText =
+          count;
       },
     });
 
