@@ -1594,6 +1594,11 @@
   dependencies:
     "@babel/types" "^7.20.7"
 
+"@types/geojson@*":
+  version "7946.0.12"
+  resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-7946.0.12.tgz#0307536218d32e6b970bccd1d148b9c4e5b6f10d"
+  integrity sha512-uK2z1ZHJyC0nQRbuovXFt4mzXDwf27vQeUWNhfKGwRcWW429GOhP8HxUHlM6TLH4bzmlv/HlEjpvJh3JfmGsAA==
+
 "@types/graceful-fs@^4.1.3":
   version "4.1.6"
   resolved "https://registry.yarnpkg.com/@types/graceful-fs/-/graceful-fs-4.1.6.tgz#e14b2576a1c25026b7f02ede1de3b84c3a1efeae"
@@ -1642,6 +1647,13 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==
+
+"@types/navermaps@^3.7.1":
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/@types/navermaps/-/navermaps-3.7.1.tgz#ea9992458b52794e86999575297b43ed5dd5b0e9"
+  integrity sha512-VqHkbpllheLsshIx+6VkpKFPMqp6zFZrFPZka4oaaDFlmktmY6s9N25DnM1c38+UWLy9leBxuoPnlkNZneo9ZA==
+  dependencies:
+    "@types/geojson" "*"
 
 "@types/node@*":
   version "20.6.2"
