@@ -58,19 +58,19 @@ function MarkerCluster() {
 
     const marker1 = new window.naver.maps.Marker({
       position: new window.naver.maps.LatLng(37.450795, 127.128816),
-      map: map,
+      map,
     });
     const marker2 = new window.naver.maps.Marker({
       position: new window.naver.maps.LatLng(37.448, 127.1278),
-      map: map,
+      map,
     });
     const marker3 = new window.naver.maps.Marker({
       position: new window.naver.maps.LatLng(37.447, 127.1282),
-      map: map,
+      map,
     });
     const marker4 = new window.naver.maps.Marker({
       position: new window.naver.maps.LatLng(37.4487, 127.128),
-      map: map,
+      map,
     });
 
     markers.push(marker1, marker2, marker3, marker4);
@@ -79,8 +79,8 @@ function MarkerCluster() {
     const cluster = new MarkerClustering({
       minClusterSize: 2,
       maxZoom: 17,
-      map: map,
-      markers: markers,
+      map,
+      markers,
       disableClickZoom: false,
       gridSize: 120,
       icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
@@ -105,7 +105,7 @@ function MyMap() {
     <NaverMap
       defaultCenter={new navermaps.LatLng(37.450795, 127.128816)}
       defaultZoom={16}
-      zoomControl={true}
+      zoomControl // zoomControl={true}
       zoomControlOptions={{
         position: navermaps.Position.TOP_LEFT,
         style: navermaps.ZoomControlStyle.SMALL,
