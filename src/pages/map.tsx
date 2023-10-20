@@ -5,6 +5,7 @@ import {
   useNavermaps,
   Overlay,
   useMap,
+  Marker,
 } from 'react-naver-maps';
 
 import { useState } from 'react';
@@ -98,7 +99,12 @@ function MarkerCluster() {
         position: new window.naver.maps.LatLng(cafeData.x, cafeData.y),
         map1,
         requests: cafeData.requests,
-        name: cafeData.cafeName,
+        title: cafeData.cafeName,
+      });
+
+      const infowindow = new window.naver.maps.InfoWindow({
+        content: cafeData.cafeName,
+        // 여기에 원하는 스타일을 추가할 수 있습니다.
       });
       markers.push(marker);
     }
@@ -139,6 +145,16 @@ function MyMap() {
         style: navermaps.ZoomControlStyle.SMALL,
       }}
     >
+      {cafes.map(cafe => (
+        <Marker
+          key={cafe.cafeName}
+          position={new window.naver.maps.LatLng(cafe.x, cafe.y)}
+          title={cafe.cafeName}
+          icon={{
+            content: `<button><div>${cafe.cafeName}</div></button>`,
+          }}
+        />
+      ))}
       <MarkerCluster />
     </NaverMap>
   );
