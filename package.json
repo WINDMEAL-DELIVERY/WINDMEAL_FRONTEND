@@ -17,6 +17,7 @@
     "eslint-config-next": "13.4.19",
     "eslint-plugin-jest-dom": "^5.1.0",
     "next": "13.4.19",
+    "next-auth": "^4.24.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-naver-maps": "^0.1.2",
