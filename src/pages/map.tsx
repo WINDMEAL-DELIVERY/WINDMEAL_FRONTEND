@@ -102,10 +102,6 @@ function MarkerCluster() {
         title: cafeData.cafeName,
       });
 
-      const infowindow = new window.naver.maps.InfoWindow({
-        content: cafeData.cafeName,
-        // 여기에 원하는 스타일을 추가할 수 있습니다.
-      });
       markers.push(marker);
     }
 
