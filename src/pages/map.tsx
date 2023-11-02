@@ -9,8 +9,8 @@ import {
 } from 'react-naver-maps';
 
 import { useState } from 'react';
-import { makeMarkerClustering } from './marker-cluster';
 import AutoCompleteBox from '@/components/auto-complete';
+import { makeMarkerClustering } from './marker-cluster';
 
 interface cafeProp {
   x: number;
@@ -163,6 +163,8 @@ export default function map() {
       style={{
         width: '100%',
         height: '600px',
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
       <AutoCompleteBox />
