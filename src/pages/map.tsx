@@ -8,6 +8,7 @@ import {
   Marker,
 } from 'react-naver-maps';
 
+import { AutoComplete } from '@geist-ui/core';
 import { useState } from 'react';
 import { makeMarkerClustering } from './marker-cluster';
 
@@ -157,13 +158,30 @@ function MyMap() {
 }
 
 export default function map() {
+  const options = [
+    { value: 'a', label: 'One' },
+    { value: 'b', label: 'Two' },
+    { value: 'c', label: 'Three' },
+  ];
   return (
     <MapDiv
       style={{
         width: '100%',
         height: '600px',
+        // display: 'flex',
+        // justifyContent: 'center',
       }}
     >
+      <AutoComplete
+        placeholder="Enter here"
+        options={options}
+        crossOrigin="anonymous"
+        style={{
+          zIndex: '999',
+          backgroundColor: 'white',
+          height: '40px',
+        }}
+      />
       <MyMap />
     </MapDiv>
   );
