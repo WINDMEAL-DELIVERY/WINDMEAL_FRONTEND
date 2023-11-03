@@ -9,6 +9,7 @@ import {
 } from 'react-naver-maps';
 
 import { useState } from 'react';
+import AutoCompleteBox from '@/components/auto-complete-box';
 import { makeMarkerClustering } from './marker-cluster';
 
 interface cafeProp {
@@ -102,10 +103,6 @@ function MarkerCluster() {
         title: cafeData.cafeName,
       });
 
-      const infowindow = new window.naver.maps.InfoWindow({
-        content: cafeData.cafeName,
-        // 여기에 원하는 스타일을 추가할 수 있습니다.
-      });
       markers.push(marker);
     }
 
@@ -166,8 +163,11 @@ export default function map() {
       style={{
         width: '100%',
         height: '600px',
+        display: 'flex',
+        justifyContent: 'center',
       }}
     >
+      <AutoCompleteBox />
       <MyMap />
     </MapDiv>
   );
