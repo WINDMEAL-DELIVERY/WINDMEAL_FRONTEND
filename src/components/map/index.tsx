@@ -94,7 +94,7 @@ function MarkerCluster() {
   const [cluster] = useState(() => {
     const markers = [];
 
-    for (let i = 0; i < cafes.length; i++) {
+    for (let i = 0; i < cafes.length; i += 1) {
       const cafeData: cafeProp = cafes[i];
       const marker = new window.naver.maps.Marker({
         position: new window.naver.maps.LatLng(cafeData.x, cafeData.y),
@@ -116,7 +116,7 @@ function MarkerCluster() {
       gridSize: 120,
       icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
       indexGenerator: [2, 4, 8, 12, 20],
-      stylingFunction: (clusterMarker: any, count: number) => {
+      stylingFunction: (clusterMarker: unknown, count: number) => {
         clusterMarker.getElement().querySelector('div:first-child').innerText =
           count;
       },
@@ -157,7 +157,7 @@ function MyMap() {
   );
 }
 
-export default function map() {
+export default function Map() {
   return (
     <MapDiv
       style={{
