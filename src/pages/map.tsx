@@ -9,7 +9,7 @@ import {
 } from 'react-naver-maps';
 
 import { useState } from 'react';
-import AutoCompleteBox from '@/components/auto-complete';
+import AutoCompleteBox from '@/components/auto-complete-box';
 import { makeMarkerClustering } from './marker-cluster';
 
 interface cafeProp {
