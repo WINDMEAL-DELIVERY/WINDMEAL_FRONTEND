@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { AutoComplete } from '@geist-ui/core';
-import { Wrapper } from './styles';
+import { Wrapper } from '@components/auto-complete-box/styles';
 
 export default function AutoCompleteBox() {
   // 경우에 따라 파라미터로 style이나 options를 받아 사용하도록 변경 예정
