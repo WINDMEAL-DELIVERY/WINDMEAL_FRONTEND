@@ -131,17 +131,25 @@ function MarkerCluster() {
 function MyMap() {
   // instead of window.naver.maps
   const navermaps = useNavermaps();
+  const [map, setMap] = useState();
+  const jeju = new navermaps.LatLng(33.3590628, 126.534361);
+  const handleClick = (e) => {
+    e.preventDefault();
+    if (map) map.setCenter(jeju);
+  };
 
   return (
     <NaverMap
       defaultCenter={new navermaps.LatLng(37.450795, 127.128816)}
       defaultZoom={16}
       zoomControl // zoomControl={true}
+      ref={setMap}
       zoomControlOptions={{
         position: navermaps.Position.TOP_LEFT,
         style: navermaps.ZoomControlStyle.SMALL,
       }}
     >
+      <button style={{zIndex: "99"}} onClick={handleClick}>c</button>
       {cafes.map(cafe => (
         <Marker
           key={cafe.cafeName}
