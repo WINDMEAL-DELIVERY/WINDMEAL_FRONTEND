@@ -12,7 +12,7 @@ export default function AutoCompleteBox() {
   ];
   const [options, setOptions] = useState<AutoCompleteOption[]>([]);
   const searchHandler = (currentValue: string) => {
-    if (!currentValue) return setOptions([]);
+    if (!currentValue) return setOptions(allOptions);
     const relatedOptions = allOptions.filter(item =>
       item.value.includes(currentValue),
     );
