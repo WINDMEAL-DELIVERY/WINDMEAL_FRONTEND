@@ -8,7 +8,7 @@ import {
   Marker,
 } from 'react-naver-maps';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import { makeMarkerClustering } from './marker-cluster';
 
@@ -36,19 +36,19 @@ const cafes: cafeProp[] = [
     x: 37.447,
     y: 127.1282,
     requests: 120,
-    cafeName: '카페 3',
+    cafeName: '컴포즈 커피',
   },
   {
     x: 37.4487,
     y: 127.128,
     requests: 50,
-    cafeName: '카페 4',
+    cafeName: '신의 한컵',
   },
   {
     x: 37.4495,
     y: 127.1292,
     requests: 90,
-    cafeName: '카페 5',
+    cafeName: '커피만',
   },
 ];
 
@@ -128,15 +128,19 @@ function MarkerCluster() {
   return <Overlay element={cluster} />;
 }
 
-function MyMap() {
+function MyMap({ selected }) {
   // instead of window.naver.maps
   const navermaps = useNavermaps();
   const [map, setMap] = useState();
-  const jeju = new navermaps.LatLng(33.3590628, 126.534361);
-  const handleClick = (e) => {
-    e.preventDefault();
-    if (map) map.setCenter(jeju);
-  };
+
+  useEffect(() => {
+    const cafe = cafes.filter(e => e.cafeName === selected);
+    if (cafe.length > 0) {
+      const loc = new navermaps.LatLng(cafe[0].x, cafe[0].y);
+      console.log(cafe, loc)
+      if (map) map.setCenter(loc);
+    }
+  }, [selected]);
 
   return (
     <NaverMap
@@ -149,7 +153,6 @@ function MyMap() {
         style: navermaps.ZoomControlStyle.SMALL,
       }}
     >
-      <button style={{zIndex: "99"}} onClick={handleClick}>c</button>
       {cafes.map(cafe => (
         <Marker
           key={cafe.cafeName}
@@ -166,6 +169,10 @@ function MyMap() {
 }
 
 export default function Map() {
+  // 위 식당 중 selectedValue와 동일한 객체의 x,y 좌표를 불러와서 포커싱함
+
+  const [selected, setSelected] = useState<string>();
+
   return (
     <MapDiv
       style={{
@@ -175,8 +182,8 @@ export default function Map() {
         justifyContent: 'center',
       }}
     >
-      <AutoCompleteBox />
-      <MyMap />
+      <AutoCompleteBox selected={selected} setSelected={setSelected} />
+      <MyMap selected={selected} />
     </MapDiv>
   );
 }
