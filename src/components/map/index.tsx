@@ -128,19 +128,21 @@ function MarkerCluster() {
   return <Overlay element={cluster} />;
 }
 
-function MyMap({ selected }) {
-  // instead of window.naver.maps
+function MyMap({ selected, selectFlag }) {
   const navermaps = useNavermaps();
   const [map, setMap] = useState();
 
+  // select 이벤트 발생 시 포커싱 하기 위함
   useEffect(() => {
     const cafe = cafes.filter(e => e.cafeName === selected);
     if (cafe.length > 0) {
       const loc = new navermaps.LatLng(cafe[0].x, cafe[0].y);
-      console.log(cafe, loc)
-      if (map) map.setCenter(loc);
+      if (map) {
+        map.setCenter(loc);
+        map.setZoom(18);
+      }
     }
-  }, [selected]);
+  }, [selected, selectFlag]);
 
   return (
     <NaverMap
@@ -170,8 +172,13 @@ function MyMap({ selected }) {
 
 export default function Map() {
   // 위 식당 중 selectedValue와 동일한 객체의 x,y 좌표를 불러와서 포커싱함
-
   const [selected, setSelected] = useState<string>();
+  const [selectFlag, setSelectFlag] = useState(0);
+
+  const handleSelect = (selectedValue: string) => {
+    setSelected(selectedValue);
+    setSelectFlag(selectFlag + 1);
+  };
 
   return (
     <MapDiv
@@ -182,8 +189,8 @@ export default function Map() {
         justifyContent: 'center',
       }}
     >
-      <AutoCompleteBox selected={selected} setSelected={setSelected} />
-      <MyMap selected={selected} />
+      <AutoCompleteBox handleSelect={handleSelect} />
+      <MyMap selected={selected} selectFlag={selectFlag} />
     </MapDiv>
   );
 }

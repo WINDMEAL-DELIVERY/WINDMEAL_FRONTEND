@@ -3,7 +3,7 @@ import { AutoComplete } from '@geist-ui/core';
 import { Wrapper } from '@components/auto-complete-box/styles';
 import { AutoCompleteOption } from '@geist-ui/core/esm/auto-complete';
 
-export default function AutoCompleteBox({selected, setSelected}) {
+export default function AutoCompleteBox({ handleSelect }) {
   // 경우에 따라 파라미터로 style이나 options를 받아 사용하도록 변경 예정
   const allOptions = [
     { value: '신의 한컵', label: '신의 한컵' },
@@ -18,10 +18,6 @@ export default function AutoCompleteBox({selected, setSelected}) {
       item.value.includes(currentValue),
     );
     setOptions(relatedOptions);
-  };
-
-  const handleSelect = (selectedValue: string) => {
-    setSelected(selectedValue);
   };
 
   return (
