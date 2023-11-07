@@ -128,12 +128,13 @@ function MarkerCluster() {
   return <Overlay element={cluster} />;
 }
 
-function MyMap({ selected, selectFlag }) {
+function MyMap({ selected, selectFlag, handleSelect }) {
   const navermaps = useNavermaps();
   const [map, setMap] = useState();
 
   // select 이벤트 발생 시 포커싱 하기 위함
   useEffect(() => {
+    console.log("selected~",  selected)
     const cafe = cafes.filter(e => e.cafeName === selected);
     if (cafe.length > 0) {
       const loc = new navermaps.LatLng(cafe[0].x, cafe[0].y);
@@ -163,6 +164,7 @@ function MyMap({ selected, selectFlag }) {
           icon={{
             content: `<button><div>${cafe.cafeName}</div></button>`,
           }}
+          onClick={() => handleSelect(cafe.cafeName)}
         />
       ))}
       <MarkerCluster />
@@ -190,7 +192,11 @@ export default function Map() {
       }}
     >
       <AutoCompleteBox handleSelect={handleSelect} />
-      <MyMap selected={selected} selectFlag={selectFlag} />
+      <MyMap
+        selected={selected}
+        selectFlag={selectFlag}
+        handleSelect={handleSelect}
+      />
     </MapDiv>
   );
 }
