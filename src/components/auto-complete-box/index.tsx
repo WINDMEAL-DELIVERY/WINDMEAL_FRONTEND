@@ -10,7 +10,6 @@ export default function AutoCompleteBox({ handleSelect }) {
     { value: '컴포즈 커피', label: '컴포즈 커피' },
     { value: '커피만', label: '커피만' },
   ];
-  // const [selected, setSelected] = useState<AutoCompleteOption[]>(allOptions[1]);
   const [options, setOptions] = useState<AutoCompleteOption[]>([]);
   const handleSearch = (currentValue: string) => {
     if (!currentValue) return setOptions(allOptions);

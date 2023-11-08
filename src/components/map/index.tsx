@@ -134,7 +134,6 @@ function MyMap({ selected, selectFlag, handleSelect }) {
 
   // select 이벤트 발생 시 포커싱 하기 위함
   useEffect(() => {
-    console.log("selected~",  selected)
     const cafe = cafes.filter(e => e.cafeName === selected);
     if (cafe.length > 0) {
       const loc = new navermaps.LatLng(cafe[0].x, cafe[0].y);
@@ -149,7 +148,7 @@ function MyMap({ selected, selectFlag, handleSelect }) {
     <NaverMap
       defaultCenter={new navermaps.LatLng(37.450795, 127.128816)}
       defaultZoom={16}
-      zoomControl // zoomControl={true}
+      zoomControl
       ref={setMap}
       zoomControlOptions={{
         position: navermaps.Position.TOP_LEFT,
