@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import { makeMarkerClustering } from './marker-cluster';
+import Dialog from '../dialog';
 
 interface cafeProp {
   x: number;
@@ -175,10 +176,16 @@ export default function Map() {
   // 위 식당 중 selectedValue와 동일한 객체의 x,y 좌표를 불러와서 포커싱함
   const [selected, setSelected] = useState<string>();
   const [selectFlag, setSelectFlag] = useState(0);
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
 
   const handleSelect = (selectedValue: string) => {
     setSelected(selectedValue);
     setSelectFlag(selectFlag + 1);
+    setIsDialogVisible(true);
+  };
+
+  const hideDialog = () => {
+    setIsDialogVisible(false); // 다이얼로그를 숨김 설정
   };
 
   return (
@@ -195,6 +202,15 @@ export default function Map() {
         selected={selected}
         selectFlag={selectFlag}
         handleSelect={handleSelect}
+      />
+      <Dialog
+        size={30}
+        visible={isDialogVisible}
+        title="임시 모달"
+        description="주저리 주저리"
+        onCancel={hideDialog}
+        onConfirm={hideDialog}
+        confirmTitle="Close"
       />
     </MapDiv>
   );

@@ -90,13 +90,17 @@ const WhiteBox = styled.div<{
   }
 `;
 const StyledConfirmButton = styled.button`
-  font-size: 1.4rem;
-  padding: 1.5rem 0;
+  font-size: 1rem;
+  padding: 1rem 0;
   font-weight: 500;
+  width: 3rem;
+  title: '취소';
 `;
 const StyledCancelButton = styled.button`
-  font-size: 1.4rem;
-  padding: 1.5rem 0;
+  font-size: 1rem;
+  padding: 1rem 0;
+  width: 3rem;
+  title: '취소';
 `;
 
 function Dialog({
@@ -105,7 +109,7 @@ function Dialog({
   title,
   description,
   hideButtons = false,
-  cancellable = false,
+  cancellable = true,
   children,
   onCancel,
   onConfirm,
@@ -128,13 +132,17 @@ function Dialog({
                     // theme="unfocus"
                     title="취소"
                     onClick={onCancel}
-                  />
+                  >
+                    취소
+                  </StyledCancelButton>
                 )}
                 <StyledConfirmButton
                   //   theme="primary"
                   title={confirmTitle}
                   onClick={onConfirm}
-                />
+                >
+                  확인
+                </StyledConfirmButton>
               </ButtonWrapper>
             )}
           </WhiteBox>
