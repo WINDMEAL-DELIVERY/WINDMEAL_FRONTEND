@@ -107,8 +107,7 @@ function MarkerCluster() {
       markers.push(marker);
     }
 
-    // eslint-disable-next-line no-shadow
-    const cluster = new MarkerClustering({
+    const clusters = new MarkerClustering({
       minClusterSize: 2,
       maxZoom: 17,
       map1,
@@ -123,13 +122,13 @@ function MarkerCluster() {
       },
     });
 
-    return cluster;
+    return clusters;
   });
 
   return <Overlay element={cluster} />;
 }
 
-function MyMap({ selected, selectFlag, handleSelect }) {
+function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
   const navermaps = useNavermaps();
   const [map, setMap] = useState();
 
@@ -175,8 +174,8 @@ function MyMap({ selected, selectFlag, handleSelect }) {
 export default function Map() {
   // 위 식당 중 selectedValue와 동일한 객체의 x,y 좌표를 불러와서 포커싱함
   const [selected, setSelected] = useState<string>();
-  const [selectFlag, setSelectFlag] = useState(0);
-  const [isDialogVisible, setIsDialogVisible] = useState(false);
+  const [selectFlag, setSelectFlag] = useState<number>(0);
+  const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
 
   const handleSelect = (selectedValue: string) => {
     setSelected(selectedValue);
@@ -207,7 +206,7 @@ export default function Map() {
         size={30}
         visible={isDialogVisible}
         title="임시 모달"
-        description="주저리 주저리"
+        description="상점의 기본 사항들이 뜰 것"
         onCancel={hideDialog}
         onConfirm={hideDialog}
         confirmTitle="Close"
