@@ -10,8 +10,8 @@ import {
 
 import { useEffect, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
-import { makeMarkerClustering } from './marker-cluster';
-import Dialog from '../dialog';
+import Dialog from '@/components/dialog';
+import { makeMarkerClustering } from '@/components/map/marker-cluster';
 
 interface cafeProp {
   x: number;
