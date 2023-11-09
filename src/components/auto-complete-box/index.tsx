@@ -16,7 +16,7 @@ export default function AutoCompleteBox({ handleSelect }) {
     const relatedOptions = allOptions.filter(item =>
       item.value.includes(currentValue),
     );
-    setOptions(relatedOptions);
+    return setOptions(relatedOptions);
   };
 
   return (
