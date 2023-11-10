@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   display: flex;
-  justify-content: center;
   flex-direction: column;
   align-items: center;
   width: 100%;
@@ -13,6 +12,7 @@ export const ImagesDiv = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  margin-top: 40%;
 `;
 
 export const UponLogoImageDiv = styled.div`
