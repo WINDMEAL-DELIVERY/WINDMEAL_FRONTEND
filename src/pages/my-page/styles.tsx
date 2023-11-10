@@ -1,17 +1,5 @@
 import styled from 'styled-components';
 
-export const HeaderBar = styled.div`
-  display: flex;
-  box-sizing: border-box;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 5rem;
-  background-color: #f5f8faff;
-  padding: 0 1.5% 0 1.5%;
-`;
-
 export const GoBack = styled.button`
   background-color: #f5f8faff;
   border: 0;

@@ -30,3 +30,14 @@ export const Wrapper = styled.div`
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 `;
+export const HeaderBar = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 5rem;
+  background-color: #f5f8faff;
+  padding: 0 1.5% 0 1.5%;
+`;
