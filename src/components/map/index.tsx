@@ -13,43 +13,43 @@ import AutoCompleteBox from '@/components/auto-complete-box';
 import Dialog from '@/components/dialog';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
 
-interface cafeProp {
+interface storeProp {
   x: number;
   y: number;
   requests: number;
-  cafeName: string;
+  storeName: string;
 }
 
-const cafes: cafeProp[] = [
+const stores: storeProp[] = [
   {
     x: 37.450795,
     y: 127.128816,
     requests: 100,
-    cafeName: '카페 1',
+    storeName: '카페 1',
   },
   {
     x: 37.448,
     y: 127.1278,
     requests: 75,
-    cafeName: '카페 2',
+    storeName: '카페 2',
   },
   {
     x: 37.447,
     y: 127.1282,
     requests: 120,
-    cafeName: '컴포즈 커피',
+    storeName: '컴포즈 커피',
   },
   {
     x: 37.4487,
     y: 127.128,
     requests: 50,
-    cafeName: '신의 한컵',
+    storeName: '신의 한컵',
   },
   {
     x: 37.4495,
     y: 127.1292,
     requests: 90,
-    cafeName: '커피만',
+    storeName: '커피만',
   },
 ];
 
@@ -95,13 +95,13 @@ function MarkerCluster() {
   const [cluster] = useState(() => {
     const markers = [];
 
-    for (let i = 0; i < cafes.length; i += 1) {
-      const cafeData: cafeProp = cafes[i];
+    for (let i = 0; i < stores.length; i += 1) {
+      const storeData: storeProp = stores[i];
       const marker = new window.naver.maps.Marker({
-        position: new window.naver.maps.LatLng(cafeData.x, cafeData.y),
+        position: new window.naver.maps.LatLng(storeData.x, storeData.y),
         map1,
-        requests: cafeData.requests,
-        title: cafeData.cafeName,
+        requests: storeData.requests,
+        title: storeData.storeName,
       });
 
       markers.push(marker);
@@ -134,9 +134,9 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
 
   // select 이벤트 발생 시 포커싱 하기 위함
   useEffect(() => {
-    const cafe = cafes.filter(e => e.cafeName === selected);
-    if (cafe.length > 0) {
-      const loc = new navermaps.LatLng(cafe[0].x, cafe[0].y);
+    const store = stores.filter(e => e.storeName === selected);
+    if (store.length > 0) {
+      const loc = new navermaps.LatLng(store[0].x, store[0].y);
       if (map) {
         map.setCenter(loc);
         map.setZoom(18);
@@ -155,15 +155,15 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
         style: navermaps.ZoomControlStyle.SMALL,
       }}
     >
-      {cafes.map(cafe => (
+      {stores.map(store => (
         <Marker
-          key={cafe.cafeName}
-          position={new window.naver.maps.LatLng(cafe.x, cafe.y)}
-          title={cafe.cafeName}
+          key={store.storeName}
+          position={new window.naver.maps.LatLng(store.x, store.y)}
+          title={store.storeName}
           icon={{
-            content: `<button><div>${cafe.cafeName}</div></button>`,
+            content: `<button><div>${store.storeName}</div></button>`,
           }}
-          onClick={() => handleSelect(cafe.cafeName)}
+          onClick={() => handleSelect(store.storeName)}
         />
       ))}
       <MarkerCluster />
