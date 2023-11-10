@@ -8,47 +8,48 @@ import {
   Marker,
 } from 'react-naver-maps';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
-import { makeMarkerClustering } from './marker-cluster';
+import Dialog from '@/components/dialog';
+import { makeMarkerClustering } from '@/components/map/marker-cluster';
 
-interface cafeProp {
+interface storeProp {
   x: number;
   y: number;
   requests: number;
-  cafeName: string;
+  storeName: string;
 }
 
-const cafes: cafeProp[] = [
+const stores: storeProp[] = [
   {
     x: 37.450795,
     y: 127.128816,
     requests: 100,
-    cafeName: '카페 1',
+    storeName: '카페 1',
   },
   {
     x: 37.448,
     y: 127.1278,
     requests: 75,
-    cafeName: '카페 2',
+    storeName: '카페 2',
   },
   {
     x: 37.447,
     y: 127.1282,
     requests: 120,
-    cafeName: '카페 3',
+    storeName: '컴포즈 커피',
   },
   {
     x: 37.4487,
     y: 127.128,
     requests: 50,
-    cafeName: '카페 4',
+    storeName: '신의 한컵',
   },
   {
     x: 37.4495,
     y: 127.1292,
     requests: 90,
-    cafeName: '카페 5',
+    storeName: '커피만',
   },
 ];
 
@@ -94,20 +95,19 @@ function MarkerCluster() {
   const [cluster] = useState(() => {
     const markers = [];
 
-    for (let i = 0; i < cafes.length; i += 1) {
-      const cafeData: cafeProp = cafes[i];
+    for (let i = 0; i < stores.length; i += 1) {
+      const storeData: storeProp = stores[i];
       const marker = new window.naver.maps.Marker({
-        position: new window.naver.maps.LatLng(cafeData.x, cafeData.y),
+        position: new window.naver.maps.LatLng(storeData.x, storeData.y),
         map1,
-        requests: cafeData.requests,
-        title: cafeData.cafeName,
+        requests: storeData.requests,
+        title: storeData.storeName,
       });
 
       markers.push(marker);
     }
 
-    // eslint-disable-next-line no-shadow
-    const cluster = new MarkerClustering({
+    const clusters = new MarkerClustering({
       minClusterSize: 2,
       maxZoom: 17,
       map1,
@@ -122,34 +122,48 @@ function MarkerCluster() {
       },
     });
 
-    return cluster;
+    return clusters;
   });
 
   return <Overlay element={cluster} />;
 }
 
-function MyMap() {
-  // instead of window.naver.maps
+function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
   const navermaps = useNavermaps();
+  const [map, setMap] = useState();
+
+  // select 이벤트 발생 시 포커싱 하기 위함
+  useEffect(() => {
+    const store = stores.filter(e => e.storeName === selected);
+    if (store.length > 0) {
+      const loc = new navermaps.LatLng(store[0].x, store[0].y);
+      if (map) {
+        map.setCenter(loc);
+        map.setZoom(18);
+      }
+    }
+  }, [selected, selectFlag]);
 
   return (
     <NaverMap
       defaultCenter={new navermaps.LatLng(37.450795, 127.128816)}
       defaultZoom={16}
-      zoomControl // zoomControl={true}
+      zoomControl
+      ref={setMap}
       zoomControlOptions={{
         position: navermaps.Position.TOP_LEFT,
         style: navermaps.ZoomControlStyle.SMALL,
       }}
     >
-      {cafes.map(cafe => (
+      {stores.map(store => (
         <Marker
-          key={cafe.cafeName}
-          position={new window.naver.maps.LatLng(cafe.x, cafe.y)}
-          title={cafe.cafeName}
+          key={store.storeName}
+          position={new window.naver.maps.LatLng(store.x, store.y)}
+          title={store.storeName}
           icon={{
-            content: `<button><div>${cafe.cafeName}</div></button>`,
+            content: `<button><div>${store.storeName}</div></button>`,
           }}
+          onClick={() => handleSelect(store.storeName)}
         />
       ))}
       <MarkerCluster />
@@ -158,6 +172,21 @@ function MyMap() {
 }
 
 export default function Map() {
+  // 위 식당 중 selectedValue와 동일한 객체의 x,y 좌표를 불러와서 포커싱함
+  const [selected, setSelected] = useState<string>();
+  const [selectFlag, setSelectFlag] = useState<number>(0);
+  const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+
+  const handleSelect = (selectedValue: string) => {
+    setSelected(selectedValue);
+    setSelectFlag(selectFlag + 1);
+    setIsDialogVisible(true);
+  };
+
+  const hideDialog = () => {
+    setIsDialogVisible(false); // 다이얼로그를 숨김 설정
+  };
+
   return (
     <MapDiv
       style={{
@@ -167,8 +196,21 @@ export default function Map() {
         justifyContent: 'center',
       }}
     >
-      <AutoCompleteBox />
-      <MyMap />
+      <AutoCompleteBox handleSelect={handleSelect} />
+      <MyMap
+        selected={selected}
+        selectFlag={selectFlag}
+        handleSelect={handleSelect}
+      />
+      <Dialog
+        size={30}
+        visible={isDialogVisible}
+        title="임시 모달"
+        description="상점의 기본 사항들이 뜰 것"
+        onCancel={hideDialog}
+        onConfirm={hideDialog}
+        confirmTitle="Close"
+      />
     </MapDiv>
   );
 }
