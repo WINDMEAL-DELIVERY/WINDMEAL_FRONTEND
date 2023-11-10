@@ -1,13 +1,5 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  background-color: #f5f8faff;
-`;
-
 export const HeaderBar = styled.div`
   display: flex;
   box-sizing: border-box;
@@ -15,7 +7,7 @@ export const HeaderBar = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  height: 7vh;
+  height: 5rem;
   background-color: #f5f8faff;
   padding: 0 1.5% 0 1.5%;
 `;
@@ -41,7 +33,7 @@ export const ProfileFrame = styled.div`
   flex-direction: row;
   align-items: center;
   width: 100%;
-  height: 25vh;
+  height: 13rem;
   box-sizing: border-box;
   background-color: #f5f8faff;
   padding: 0 3% 0 10%;
@@ -82,7 +74,7 @@ export const DeliveredListFrame = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  height: 25vh;
+  height: 13rem;
   background-color: #f5f8faff;
   box-sizing: border-box;
   padding: 0 10% 0 10%;
@@ -119,7 +111,7 @@ export const OrderDetailListFrame = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  height: 25vh;
+  height: 13rem;
   background-color: #f5f8faff;
   box-sizing: border-box;
   padding: 0 10% 0 10%;
@@ -142,7 +134,7 @@ export const WithdrawalFrame = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 100%;
-  height: 8%;
+  height: 5rem;
   background-color: #f5f8faff;
   box-sizing: border-box;
   padding: 0 10% 0 10%;

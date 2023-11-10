@@ -1,5 +1,5 @@
 import BottomTab from '@components/bottom-tab';
-import { Wrapper } from '@pages/bulletin-board/styles';
+import { Wrapper } from '@styles/styles';
 
 export default function BulletinBoard() {
   return (

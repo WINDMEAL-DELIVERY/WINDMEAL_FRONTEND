@@ -2,7 +2,6 @@ import BottomTab from '@components/bottom-tab';
 import {
   ProfileImageFrame,
   ProfileImage,
-  Wrapper,
   HeaderBar,
   GoBack,
   Cart,
@@ -18,6 +17,7 @@ import {
   Withdrawal,
   WithdrawalFrame,
 } from '@pages/my-page/styles';
+import { Wrapper } from '@styles/styles';
 
 export default function MyPage() {
   return (

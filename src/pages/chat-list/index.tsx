@@ -1,5 +1,5 @@
 import BottomTab from '@components/bottom-tab';
-import { Wrapper } from '@pages/chat-list/styles';
+import { Wrapper } from '@styles/styles';
 
 export default function ChatList() {
   return (

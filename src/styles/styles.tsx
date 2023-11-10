@@ -4,12 +4,14 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100dvh;
   background-color: #f5f8faff;
 `;
 
 export const Wrapper = styled.div`
   /* 전체 적용 스타일 */
-  background-color: white;
+  background-color: #f5f8faff;
+  min-height: 100dvh;
 
   /* 핸드폰 */
   @media screen and (max-width: 768px) {
