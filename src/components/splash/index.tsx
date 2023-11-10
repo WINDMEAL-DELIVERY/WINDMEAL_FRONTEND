@@ -25,9 +25,9 @@ export default function splash() {
             alt="바람개비 딜리버리 메인로고"
             style={{ width: '100%', height: '100%' }}
           />
-        </MainLogoImageDiv>
+        </MainLogoImageDiv>{' '}
+        <div>Loading...</div>
       </ImagesDiv>
-      <div>Loading...</div>
     </Wrapper>
   );
 }
