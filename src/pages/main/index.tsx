@@ -1,10 +1,11 @@
 import BottomTab from 'src/components/bottom-tab';
 import { Wrapper } from '@styles/styles';
+import Map from '../../components/map';
 
 export default function main() {
   return (
     <Wrapper>
-      <div>메인페이지입니다.</div>
+      <Map />
       <BottomTab />
     </Wrapper>
   );
