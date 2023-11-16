@@ -8,6 +8,11 @@ import {
   Marker,
 } from 'react-naver-maps';
 
+import {
+  OptionButtonContainer,
+  OptionButton,
+  TopContainer,
+} from '@components/map/styles';
 import { useEffect, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import Dialog from '@/components/dialog';
@@ -191,12 +196,21 @@ export default function Map() {
     <MapDiv
       style={{
         width: '100%',
-        height: '600px',
+        height: '100%',
         display: 'flex',
         justifyContent: 'center',
       }}
     >
-      <AutoCompleteBox handleSelect={handleSelect} />
+      <TopContainer>
+        <AutoCompleteBox handleSelect={handleSelect} />
+        <OptionButtonContainer>
+          <OptionButton>출발</OptionButton>
+          <OptionButton>도착</OptionButton>
+          <OptionButton>도착시간</OptionButton>
+          <OptionButton>음식종류</OptionButton>
+          <OptionButton>영업중</OptionButton>
+        </OptionButtonContainer>
+      </TopContainer>
       <MyMap
         selected={selected}
         selectFlag={selectFlag}
