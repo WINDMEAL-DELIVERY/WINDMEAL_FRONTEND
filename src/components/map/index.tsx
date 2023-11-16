@@ -17,44 +17,53 @@ import { useEffect, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import Dialog from '@/components/dialog';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
-
-interface storeProp {
-  x: number;
-  y: number;
-  requests: number;
-  storeName: string;
-}
+import { MyMapProps, storeProp } from '@/types/type';
 
 const stores: storeProp[] = [
   {
-    x: 37.450795,
-    y: 127.128816,
+    storeId: 1,
+    location: {
+      x: 37.450795,
+      y: 127.128816,
+    },
     requests: 100,
-    storeName: '카페 1',
+    name: '카페 1',
   },
   {
-    x: 37.448,
-    y: 127.1278,
+    storeId: 2,
+    location: {
+      x: 37.448,
+      y: 127.1278,
+    },
     requests: 75,
-    storeName: '카페 2',
+    name: '카페 2',
   },
   {
-    x: 37.447,
-    y: 127.1282,
+    storeId: 3,
+    location: {
+      x: 37.447,
+      y: 127.1282,
+    },
     requests: 120,
-    storeName: '컴포즈 커피',
+    name: '컴포즈 커피',
   },
   {
-    x: 37.4487,
-    y: 127.128,
+    storeId: 4,
+    location: {
+      x: 37.4487,
+      y: 127.128,
+    },
     requests: 50,
-    storeName: '신의 한컵',
+    name: '신의 한컵',
   },
   {
-    x: 37.4495,
-    y: 127.1292,
+    storeId: 5,
+    location: {
+      x: 37.4495,
+      y: 127.1292,
+    },
     requests: 90,
-    storeName: '커피만',
+    name: '커피만',
   },
 ];
 
@@ -103,10 +112,13 @@ function MarkerCluster() {
     for (let i = 0; i < stores.length; i += 1) {
       const storeData: storeProp = stores[i];
       const marker = new window.naver.maps.Marker({
-        position: new window.naver.maps.LatLng(storeData.x, storeData.y),
+        position: new window.naver.maps.LatLng(
+          storeData.location.x,
+          storeData.location.y,
+        ),
         map1,
         requests: storeData.requests,
-        title: storeData.storeName,
+        title: storeData.name,
       });
 
       markers.push(marker);
@@ -139,9 +151,12 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
 
   // select 이벤트 발생 시 포커싱 하기 위함
   useEffect(() => {
-    const store = stores.filter(e => e.storeName === selected);
+    const store = stores.filter(e => e.name === selected);
     if (store.length > 0) {
-      const loc = new navermaps.LatLng(store[0].x, store[0].y);
+      const loc = new navermaps.LatLng(
+        store[0].location.x,
+        store[0].location.y,
+      );
       if (map) {
         map.setCenter(loc);
         map.setZoom(18);
@@ -162,13 +177,15 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
     >
       {stores.map(store => (
         <Marker
-          key={store.storeName}
-          position={new window.naver.maps.LatLng(store.x, store.y)}
-          title={store.storeName}
+          key={store.name}
+          position={
+            new window.naver.maps.LatLng(store.location.x, store.location.y)
+          }
+          title={store.name}
           icon={{
-            content: `<button><div>${store.storeName}</div></button>`,
+            content: `<button><div>${store.name}</div></button>`,
           }}
-          onClick={() => handleSelect(store.storeName)}
+          onClick={() => handleSelect(store.name)}
         />
       ))}
       <MarkerCluster />
