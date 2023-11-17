@@ -1,5 +1,5 @@
 import BottomTab from 'src/components/bottom-tab';
-import { Wrapper } from '@pages/main/styles';
+import { Wrapper } from '@styles/styles';
 import Map from '../../components/map';
 
 export default function main() {
