@@ -26,7 +26,7 @@ export default function AutoCompleteBox({
   return (
     <Wrapper>
       <AutoComplete
-        placeholder="검색해보세요!"
+        placeholder="식당을 검색해주세요"
         options={options}
         crossOrigin="anonymous"
         onSearch={handleSearch}
