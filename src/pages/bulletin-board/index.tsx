@@ -4,6 +4,7 @@ import { Wrapper } from '@pages/bulletin-board/styles';
 import React, { useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, onMessage, getToken } from 'firebase/messaging';
+import { Button } from '@geist-ui/core';
 
 export default function BulletinBoard() {
   const onMessageFCM = async () => {
@@ -47,14 +48,38 @@ export default function BulletinBoard() {
     });
   };
 
-  useEffect(() => {
+  // 창 뜨게 해서 버튼 클릭 하도록
+  function requestPermission() {
+    Notification.requestPermission().then(permission => {
+      if (permission !== 'granted') {
+        // 푸시 거부됐을 때 처리할 내용
+        console.log('Notification permission denied.');
+      } else {
+        // 푸시 승인됐을 때 처리할 내용
+        console.log('Notification permission granted.');
+      }
+    });
+  }
+
+  // useEffect(() => {
+  //   requestPermission();
+  //   onMessageFCM();
+  // }, []);
+
+  const handleClickFCM = () => {
     onMessageFCM();
-  }, []);
+  };
+
+  const handleClickRequest = () => {
+    requestPermission();
+  };
 
   return (
     <Wrapper>
       <div>게시판</div>
       <BottomTab />
+      <Button onClick={handleClickFCM}>FCM</Button>
+      <Button onClick={handleClickRequest}>request</Button>
     </Wrapper>
   );
 }
