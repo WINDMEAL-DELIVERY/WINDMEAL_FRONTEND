@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import BottomTab from '@components/bottom-tab';
-import { Wrapper } from '@pages/bulletin-board/styles';
-import React, { useEffect } from 'react';
+import { Wrapper } from '@/styles/styles';
+import React from 'react';
 import { initializeApp } from 'firebase/app';
 import { getMessaging, onMessage, getToken } from 'firebase/messaging';
 import { Button } from '@geist-ui/core';
