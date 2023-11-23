@@ -6,7 +6,9 @@ function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    router.replace('/main');
+    setTimeout(() => {
+      router.replace('/main');
+    }, 2000);
   }, []);
 
   return <SplashScreen />;
