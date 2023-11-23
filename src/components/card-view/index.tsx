@@ -1,25 +1,62 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Slider from 'react-slick';
+import tempImg from '@/components/card-view/styles';
 
 const CardContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  background-color: grey;
+  justify-content: space-around;
+`;
+
+const DeliveryContainer = styled.div`
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  width: 15rem;
+  margin: 1.5rem;
+`;
+
+const DeliveryTitle = styled.h3`
+  color: white;
+`;
+
+const DeliveryCard = styled.div`
+  margin-bottom: 1rem;
+  background-color: white;
   display: flex;
   flex-direction: column;
 `;
 
-const DeliveryCard = styled.div`
-  border: 1px solid #ccc;
-  margin-bottom: 10px;
-  padding: 10px;
+const DeliveryMenu = styled.p`
 `;
 
-const MenuList = styled.ul`
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+const DeliveryStart = styled.p`
 `;
 
-const MenuItem = styled.li`
-  margin-bottom: 5px;
+const DeliveryEnd = styled.p`
+`;
+
+const DeliveryState = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const DeliveryCustomer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+const DeliveryCustomerImg = styled.img`
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
 
 interface Menu {
@@ -32,6 +69,8 @@ interface Delivery {
   storeName: string;
   destination: string;
   customerName: string;
+  customerImg: string;
+  status: string;
 }
 
 export default function CardView() {
@@ -49,6 +88,8 @@ export default function CardView() {
       storeName: '컴포즈 커피',
       destination: 'AI 공학관',
       customerName: '주문자1',
+      customerImg: tempImg,
+      status: '배달중',
     },
     {
       id: 2,
@@ -63,6 +104,8 @@ export default function CardView() {
       storeName: '컴포즈 커피',
       destination: 'AI 공학관',
       customerName: '주문자1',
+      customerImg: "",
+      status: '배달중',
     },
     {
       id: 3,
@@ -77,33 +120,64 @@ export default function CardView() {
       storeName: '컴포즈 커피',
       destination: 'AI 공학관',
       customerName: '주문자1',
+      customerImg: '../../constants/반명함.jpg',
+      status: '배달중',
     },
   ]);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3, // 보여질 슬라이드 개수
+    slidesToScroll: 1, // 스크롤 시 이동할 슬라이드 개수
+  };
+
   return (
     <CardContainer>
-      <div>
-        <h2>배달 중 목록</h2>
-        <div style={{ maxHeight: '300px', overflowY: 'auto' }}>
-          {deliveries.map(delivery => (
-            <DeliveryCard key={delivery.id}>
-              <h3>{delivery.storeName}</h3>
-              <p>출발지: {delivery.storeName}</p>
-              <p>도착지: {delivery.destination}</p>
-              <p>주문자 닉네임: {delivery.customerName}</p>
-              <MenuList>
-                {delivery.menus.map((menu, index) => (
-                  <MenuItem key={index}>{menu.menuName}</MenuItem>
-                ))}
-              </MenuList>
+      <DeliveryContainer>
+        <DeliveryTitle>배달중 목록</DeliveryTitle>
+        {deliveries.map(delivery => (
+          <DeliveryCard key={delivery.id}>
+            <DeliveryMenu>{delivery.menus[0].menuName}</DeliveryMenu>
+            <DeliveryStart>{delivery.storeName}</DeliveryStart>
+            <DeliveryState>
+              <p>⇣ {delivery.status}</p>
+            </DeliveryState>
+            <DeliveryEnd>{delivery.destination}</DeliveryEnd>
+            <DeliveryCustomer>
+              <DeliveryCustomerImg alt='22' src={delivery.customerImg} />
+              <img alt="22" src="./kakao.png" />
+              <DeliveryCustomer>{delivery.customerName}</DeliveryCustomer>
+            </DeliveryCustomer>
+            <ButtonContainer>
               <button>채팅하기</button>
-            </DeliveryCard>
-          ))}
-        </div>
-      </div>
-      <div>
-        <h2>요청 목록</h2>
-        {/* 여기에 요청 목록 컴포넌트 추가 */}
-      </div>
+              <button>게시글 상세</button>
+            </ButtonContainer>
+          </DeliveryCard>
+        ))}
+      </DeliveryContainer>
+      <DeliveryContainer>
+        <DeliveryTitle>요청 목록</DeliveryTitle>
+        {deliveries.map(delivery => (
+          <DeliveryCard key={delivery.id}>
+            <DeliveryMenu>{delivery.menus[0].menuName}</DeliveryMenu>
+            <DeliveryStart>{delivery.storeName}</DeliveryStart>
+            <DeliveryState>
+              <p>⇣ {delivery.status}</p>
+            </DeliveryState>
+            <DeliveryEnd>{delivery.destination}</DeliveryEnd>
+            <DeliveryCustomer>
+              <DeliveryCustomerImg src={delivery.customerImg} />
+              <DeliveryCustomer>{delivery.customerName}</DeliveryCustomer>
+            </DeliveryCustomer>
+            <ButtonContainer>
+              <button>채팅하기</button>
+              <button>게시글 상세</button>
+            </ButtonContainer>
+          </DeliveryCard>
+        ))}
+      </DeliveryContainer>
     </CardContainer>
   );
 }
