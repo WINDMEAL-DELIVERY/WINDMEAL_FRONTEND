@@ -2,7 +2,7 @@ import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
-import LoginPageLogo from '@images/LoginPageLogo.png';
+import LoginPageLogo from '@images/LoginPageLogo.svg';
 import LoginBtnLogo from '@images/LoginBtnLogo.png';
 import {
   BigText,
@@ -30,7 +30,7 @@ export default function Login() {
           <Image
             src={LoginPageLogo}
             alt="바람개비 딜리버리 메인로고"
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '40%', height: '40%' }}
           />
         </MainLogoImgDiv>
         <TextDiv>
