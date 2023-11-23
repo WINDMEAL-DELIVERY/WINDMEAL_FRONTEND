@@ -27,8 +27,8 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const NavItem = styled.a<{ isActive: boolean }>`
-  color: ${props => (props.isActive ? 'green' : 'black')};
+export const NavItem = styled.a<{ active: string }>`
+  color: ${props => (props.active === 'true' ? 'green' : 'black')};
   text-decoration: none;
   cursor: pointer;
 
