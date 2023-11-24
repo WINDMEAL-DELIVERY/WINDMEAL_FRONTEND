@@ -36,7 +36,7 @@ export default function Register() {
     (e: ChangeEvent<HTMLInputElement>) => {
       setNickName(e.target.value);
     },
-    [nickName],
+    [],
   );
 
   useEffect(() => {
