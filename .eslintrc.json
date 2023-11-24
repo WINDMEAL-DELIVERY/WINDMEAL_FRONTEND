@@ -25,6 +25,7 @@
     }
   },
   "rules": {
+    "no-nested-ternary": "off",
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "react/jsx-filename-extension": [
       "warn",
