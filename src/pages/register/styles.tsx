@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { InputNickNameDivProps } from '@type/type';
+import { InputNickNameProps } from '@type/type';
 
 export const HeaderBar = styled.div`
   display: flex;
@@ -82,7 +82,7 @@ export const NickNameText = styled.span`
   color: #3e3a39;
 `;
 
-export const InputNickNameDiv = styled.div<InputNickNameDivProps>`
+export const InputNickNameDiv = styled.div<InputNickNameProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;

@@ -22,11 +22,15 @@ import Image from 'next/image';
 
 import Vector from '@images/Vector 2.svg';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { InputNickNameProps } from '@type/type';
 
 export default function Register() {
   const [nickName, setNickName] = useState('');
-  const [isFocused, setIsFocused] = useState('false');
-  const [hasSpecialChar, setHasSpecialChar] = useState('false');
+  const [nickNameState, setNickNameState] = useState<InputNickNameProps>({
+    isFocused: 'false',
+    hasSpecialChar: 'false',
+    isDuplicated: 'false',
+  });
 
   const handleNickNameChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,9 +42,15 @@ export default function Register() {
   useEffect(() => {
     const test = /[!@#$%^&*(),.?":{}|<>]/.test(nickName);
     if (test) {
-      setHasSpecialChar('true');
+      setNickNameState(prevState => ({
+        ...prevState,
+        hasSpecialChar: 'true',
+      }));
     } else {
-      setHasSpecialChar('false');
+      setNickNameState(prevState => ({
+        ...prevState,
+        hasSpecialChar: 'false',
+      }));
     }
   }, [nickName]);
 
@@ -69,14 +79,25 @@ export default function Register() {
         <NickNameDiv>
           <NickNameText>닉네임</NickNameText>
           <InputNickNameDiv
-            isFocused={isFocused}
-            hasSpecialChar={hasSpecialChar}
+            isFocused={nickNameState.isFocused}
+            hasSpecialChar={nickNameState.hasSpecialChar}
+            isDuplicated={nickNameState.isDuplicated}
           >
             <InputNickName
               type="text"
               value={nickName}
-              onFocus={() => setIsFocused('true')}
-              onBlur={() => setIsFocused('false')}
+              onFocus={() => {
+                setNickNameState(prevState => ({
+                  ...prevState,
+                  isFocused: 'true',
+                }));
+              }}
+              onBlur={() => {
+                setNickNameState(prevState => ({
+                  ...prevState,
+                  isFocused: 'false',
+                }));
+              }}
               onChange={handleNickNameChange}
               placeholder="닉네임을 입력해 주세요."
             />
@@ -86,7 +107,7 @@ export default function Register() {
           </InputNickNameDiv>
         </NickNameDiv>
         <ValidateNickName>
-          {hasSpecialChar === 'true'
+          {nickNameState.hasSpecialChar === 'true'
             ? '닉네임은 특수문자를 포함할 수 없어요.'
             : ''}
         </ValidateNickName>

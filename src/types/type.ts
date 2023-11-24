@@ -4,7 +4,8 @@ export interface MyMapProps {
   handleSelect: (selectedValue: string) => void;
 }
 
-export interface InputNickNameDivProps {
+export interface InputNickNameProps {
   isFocused: string;
   hasSpecialChar: string;
+  isDuplicated: string;
 }
