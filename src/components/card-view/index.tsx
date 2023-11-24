@@ -9,27 +9,46 @@ import 'slick-carousel/slick/slick-theme.css';
 const CardContainer = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: grey;
+  background-color: rgb(70, 70, 70);
   justify-content: space-around;
+  align-items: center;
+  height: 25rem;
 `;
 
 const DeliveryContainer = styled.div`
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
-  width: 15rem;
+  width: 40%;
   margin: 1.5rem;
 `;
 
-const DeliveryTitle = styled.h3`
+const DeliveryTitle = styled.h2`
   color: white;
+  margin-bottom: 0.6rem;
+  font-weight: bold;
+`;
+
+const NoDeliveryText = styled.h2`
+  font-weight: bold;
 `;
 
 const DeliveryCard = styled.div`
   margin-bottom: 1rem;
-  background-color: white;
+  background-color: rgb(200, 200, 200);
   display: flex;
   flex-direction: column;
+  height: 18rem;
+  border-radius: 2rem;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DeliveryCardContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  justify-content: space-around;
 `;
 
 const DeliveryMenu = styled.p``;
@@ -138,49 +157,75 @@ export default function CardView() {
     <CardContainer>
       <DeliveryContainer>
         <DeliveryTitle>배달중 목록</DeliveryTitle>
-        <Slider {...settings}>
-          {deliveries.map(delivery => (
-            <DeliveryCard key={delivery.id}>
-              <DeliveryMenu>{delivery.menus[0].menuName}</DeliveryMenu>
-              <DeliveryStart>{delivery.storeName}</DeliveryStart>
-              <DeliveryState>
-                <p>⇣ {delivery.status}</p>
-              </DeliveryState>
-              <DeliveryEnd>{delivery.destination}</DeliveryEnd>
-              <DeliveryCustomer>
-                <DeliveryCustomerImg alt="22" src={delivery.customerImg} />
-                <DeliveryCustomer>{delivery.customerName}</DeliveryCustomer>
-              </DeliveryCustomer>
-              <ButtonContainer>
-                <button type="button">채팅하기</button>
-                <button type="button">게시글 상세</button>
-              </ButtonContainer>
-            </DeliveryCard>
-          ))}
-        </Slider>
+        {deliveries.length > 0 ? (
+          <Slider {...settings}>
+            {deliveries.map(delivery => (
+              <DeliveryCard key={delivery.id}>
+                <DeliveryCardContent>
+                  <DeliveryMenu>{delivery.menus[0].menuName}</DeliveryMenu>
+                  <DeliveryStart>{delivery.storeName}</DeliveryStart>
+                  <DeliveryState>
+                    <p>⇣ {delivery.status}</p>
+                  </DeliveryState>
+                  <DeliveryEnd>{delivery.destination}</DeliveryEnd>
+                  <DeliveryCustomer>
+                    <DeliveryCustomerImg
+                      alt="사용자 프로필"
+                      src={delivery.customerImg}
+                    />
+                    <DeliveryCustomer>{delivery.customerName}</DeliveryCustomer>
+                  </DeliveryCustomer>
+                  <ButtonContainer>
+                    <button type="button">채팅하기</button>
+                    <button type="button">게시글 상세</button>
+                  </ButtonContainer>
+                </DeliveryCardContent>
+              </DeliveryCard>
+            ))}
+          </Slider>
+        ) : (
+          <DeliveryCard>
+            <DeliveryCardContent>
+              <NoDeliveryText>배달중인 목록이 없습니다.</NoDeliveryText>
+            </DeliveryCardContent>
+          </DeliveryCard>
+        )}
       </DeliveryContainer>
       <DeliveryContainer>
         <DeliveryTitle>요청 목록</DeliveryTitle>
-        <Slider {...settings}>
-          {deliveries.map(delivery => (
-            <DeliveryCard key={delivery.id}>
-              <DeliveryMenu>{delivery.menus[0].menuName}</DeliveryMenu>
-              <DeliveryStart>{delivery.storeName}</DeliveryStart>
-              <DeliveryState>
-                <p>⇣ {delivery.status}</p>
-              </DeliveryState>
-              <DeliveryEnd>{delivery.destination}</DeliveryEnd>
-              <DeliveryCustomer>
-                <DeliveryCustomerImg alt="22" src={delivery.customerImg} />
-                <DeliveryCustomer>{delivery.customerName}</DeliveryCustomer>
-              </DeliveryCustomer>
-              <ButtonContainer>
-                <button type="button">채팅하기</button>
-                <button type="button">게시글 상세</button>
-              </ButtonContainer>
-            </DeliveryCard>
-          ))}
-        </Slider>
+        {deliveries.length > 0 ? (
+          <Slider {...settings}>
+            {deliveries.map(delivery => (
+              <DeliveryCard key={delivery.id}>
+                <DeliveryCardContent>
+                  <DeliveryMenu>{delivery.menus[0].menuName}</DeliveryMenu>
+                  <DeliveryStart>{delivery.storeName}</DeliveryStart>
+                  <DeliveryState>
+                    <p>⇣ {delivery.status}</p>
+                  </DeliveryState>
+                  <DeliveryEnd>{delivery.destination}</DeliveryEnd>
+                  <DeliveryCustomer>
+                    <DeliveryCustomerImg
+                      alt="사용자 프로필"
+                      src={delivery.customerImg}
+                    />
+                    <DeliveryCustomer>{delivery.customerName}</DeliveryCustomer>
+                  </DeliveryCustomer>
+                  <ButtonContainer>
+                    <button type="button">채팅하기</button>
+                    <button type="button">게시글 상세</button>
+                  </ButtonContainer>
+                </DeliveryCardContent>
+              </DeliveryCard>
+            ))}
+          </Slider>
+        ) : (
+          <DeliveryCard>
+            <DeliveryCardContent>
+              <NoDeliveryText>배달중인 목록이 없습니다.</NoDeliveryText>
+            </DeliveryCardContent>
+          </DeliveryCard>
+        )}
       </DeliveryContainer>
     </CardContainer>
   );
