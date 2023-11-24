@@ -26,6 +26,7 @@ const DeliveryContainer = styled.div`
 const DeliveryTitle = styled.h2`
   color: white;
   margin-bottom: 0.6rem;
+  margin-left: 1rem;
   font-weight: bold;
 `;
 
@@ -48,7 +49,13 @@ const DeliveryCardContent = styled.div`
   display: flex;
   flex-direction: column;
   padding: 1rem;
-  justify-content: space-around;
+  height: 85%;
+  > * {
+    margin-bottom: 1rem; /* 자식 요소들 간에 하단 여백 */
+    &:last-child {
+      margin-bottom: 0; /* 마지막 자식에는 여백을 주지 않음 */
+    }
+  }
 `;
 
 const DeliveryMenu = styled.p``;
@@ -62,9 +69,16 @@ const DeliveryState = styled.div`
   flex-direction: row;
 `;
 
+const DeliveryCustomerWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 const DeliveryCustomer = styled.div`
   display: flex;
   flex-direction: row;
+  margin-left: 0.4rem;
 `;
 
 const DeliveryCustomerImg = styled.img`
@@ -76,6 +90,10 @@ const DeliveryCustomerImg = styled.img`
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
+  gap: 2rem;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: auto;
 `;
 
 interface Menu {
@@ -168,13 +186,13 @@ export default function CardView() {
                     <p>⇣ {delivery.status}</p>
                   </DeliveryState>
                   <DeliveryEnd>{delivery.destination}</DeliveryEnd>
-                  <DeliveryCustomer>
+                  <DeliveryCustomerWrapper>
                     <DeliveryCustomerImg
                       alt="사용자 프로필"
                       src={delivery.customerImg}
                     />
                     <DeliveryCustomer>{delivery.customerName}</DeliveryCustomer>
-                  </DeliveryCustomer>
+                  </DeliveryCustomerWrapper>
                   <ButtonContainer>
                     <button type="button">채팅하기</button>
                     <button type="button">게시글 상세</button>
@@ -204,13 +222,13 @@ export default function CardView() {
                     <p>⇣ {delivery.status}</p>
                   </DeliveryState>
                   <DeliveryEnd>{delivery.destination}</DeliveryEnd>
-                  <DeliveryCustomer>
+                  <DeliveryCustomerWrapper>
                     <DeliveryCustomerImg
                       alt="사용자 프로필"
                       src={delivery.customerImg}
                     />
                     <DeliveryCustomer>{delivery.customerName}</DeliveryCustomer>
-                  </DeliveryCustomer>
+                  </DeliveryCustomerWrapper>
                   <ButtonContainer>
                     <button type="button">채팅하기</button>
                     <button type="button">게시글 상세</button>
@@ -222,7 +240,7 @@ export default function CardView() {
         ) : (
           <DeliveryCard>
             <DeliveryCardContent>
-              <NoDeliveryText>배달중인 목록이 없습니다.</NoDeliveryText>
+              <NoDeliveryText>요청중인 목록이 없습니다.</NoDeliveryText>
             </DeliveryCardContent>
           </DeliveryCard>
         )}
