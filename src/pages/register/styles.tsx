@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { InputNickNameProps } from '@type/type';
 
 export const HeaderBar = styled.div`
@@ -82,6 +82,18 @@ export const NickNameText = styled.span`
   color: #3e3a39;
 `;
 
+const shakeAnimation = keyframes`
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25%, 75% {
+    transform: translateX(-2px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+`;
+
 export const InputNickNameDiv = styled.div<InputNickNameProps>`
   display: flex;
   flex-direction: row;
@@ -90,9 +102,17 @@ export const InputNickNameDiv = styled.div<InputNickNameProps>`
   width: 94%;
   padding: 0 0 1% 0;
 
-  ${({ isFocused }) => css`
+  ${({ $focused, $error, $special }) => css`
     transition: border-color 0.3s ease;
-    border-bottom: 1px solid ${isFocused === 'true' ? '#5776b9' : '#d9d9d9'};
+    border-bottom: 1px solid
+      ${$special ? '#ED1C24' : $focused ? '#5776b9' : '#d9d9d9'};
+    // #5776b9
+
+    animation: ${$error
+      ? css`
+          ${shakeAnimation} 0.3s ease-in-out
+        `
+      : 'none'};
   `}
 `;
 
@@ -113,7 +133,7 @@ export const DoubleCheckText = styled.span`
   font-size: 14px;
 `;
 
-export const ValidateNickName = styled.div`
+export const ValidateNickName = styled.div<InputNickNameProps>`
   width: 93%;
   height: 27px;
   display: flex;
@@ -122,6 +142,9 @@ export const ValidateNickName = styled.div`
   background-color: white;
   font-size: 12px;
   font-weight: 400;
+  ${({ $focused, $special }) => css`
+    color: ${$special ? '#ED1C24' : $focused ? '#5776b9' : 'none'};
+  `}
 `;
 export const GetStartDiv = styled.div`
   display: flex;

@@ -22,14 +22,20 @@ import Image from 'next/image';
 
 import Vector from '@images/Vector 2.svg';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { InputNickNameProps } from '@type/type';
+import { GuideMessageType, InputNickNameProps } from '@type/type';
 
 export default function Register() {
+  const guideMessage: GuideMessageType = {
+    specialChar: '닉네임은 특수문자를 포함할 수 없어요.',
+    duplicated: '중복된 닉네임이에요.',
+    validated: '사용 가능한 닉네임이에요.',
+  };
   const [nickName, setNickName] = useState('');
   const [nickNameState, setNickNameState] = useState<InputNickNameProps>({
-    isFocused: 'false',
-    hasSpecialChar: 'false',
-    isDuplicated: 'false',
+    $focused: false,
+    $special: false,
+    $duplicated: false,
+    $error: false,
   });
 
   const handleNickNameChange = useCallback(
@@ -39,17 +45,35 @@ export default function Register() {
     [],
   );
 
+  const handleCheckDuplicate = () => {
+    // 특수문자가 존재하는데 버튼을 눌렀다.
+    if (nickNameState.$special) {
+      setNickNameState(prevState => ({
+        ...prevState,
+        $error: true,
+      }));
+      // 3초 후에 isError를 다시 false로 설정
+      setTimeout(() => {
+        setNickNameState(prevState => ({
+          ...prevState,
+          $error: false,
+        }));
+      }, 3000);
+    }
+    // 유효성 검사는 문제 없지만, 중복되었다.
+  };
+
   useEffect(() => {
     const test = /[!@#$%^&*(),.?":{}|<>]/.test(nickName);
     if (test) {
       setNickNameState(prevState => ({
         ...prevState,
-        hasSpecialChar: 'true',
+        $special: true,
       }));
     } else {
       setNickNameState(prevState => ({
         ...prevState,
-        hasSpecialChar: 'false',
+        $special: false,
       }));
     }
   }, [nickName]);
@@ -79,9 +103,10 @@ export default function Register() {
         <NickNameDiv>
           <NickNameText>닉네임</NickNameText>
           <InputNickNameDiv
-            isFocused={nickNameState.isFocused}
-            hasSpecialChar={nickNameState.hasSpecialChar}
-            isDuplicated={nickNameState.isDuplicated}
+            $focused={nickNameState.$focused}
+            $special={nickNameState.$special}
+            $duplicated={nickNameState.$duplicated}
+            $error={nickNameState.$error}
           >
             <InputNickName
               type="text"
@@ -89,27 +114,30 @@ export default function Register() {
               onFocus={() => {
                 setNickNameState(prevState => ({
                   ...prevState,
-                  isFocused: 'true',
+                  $focused: true,
                 }));
               }}
               onBlur={() => {
                 setNickNameState(prevState => ({
                   ...prevState,
-                  isFocused: 'false',
+                  $focused: true,
                 }));
               }}
               onChange={handleNickNameChange}
               placeholder="닉네임을 입력해 주세요."
             />
-            <DoubleCheckBtn type="button">
+            <DoubleCheckBtn type="button" onClick={handleCheckDuplicate}>
               <DoubleCheckText>중복확인</DoubleCheckText>
             </DoubleCheckBtn>
           </InputNickNameDiv>
         </NickNameDiv>
-        <ValidateNickName>
-          {nickNameState.hasSpecialChar === 'true'
-            ? '닉네임은 특수문자를 포함할 수 없어요.'
-            : ''}
+        <ValidateNickName
+          $focused={nickNameState.$focused}
+          $special={nickNameState.$special}
+          $duplicated={nickNameState.$duplicated}
+          $error={nickNameState.$error}
+        >
+          {nickNameState.$special ? guideMessage.specialChar : ''}
         </ValidateNickName>
         <GetStartDiv>
           <GetStartBtn>

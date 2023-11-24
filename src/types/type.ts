@@ -5,7 +5,14 @@ export interface MyMapProps {
 }
 
 export interface InputNickNameProps {
-  isFocused: string;
-  hasSpecialChar: string;
-  isDuplicated: string;
+  $focused: boolean;
+  $special: boolean;
+  $duplicated: boolean;
+  $error: boolean;
+}
+
+export interface GuideMessageType {
+  specialChar: string;
+  duplicated: string;
+  validated: string;
 }
