@@ -4,7 +4,7 @@ import {
   AddContainer,
   DeleteButton,
   LogoContainer,
-} from '@components/AddFile/styles';
+} from '@/components/add-file/styles';
 import { AddfileProps } from '@/types/type';
 import Dialog from '../dialog';
 

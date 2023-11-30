@@ -1,12 +1,12 @@
 import { getStoreList } from '@/api/cms';
 import { storeListProps } from '@/types/type';
-import AddFile from '@components/AddFile';
 import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useEffect, useState } from 'react';
 import { Card } from '@geist-ui/react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import { useRouter } from 'next/router';
+import AddStore from '@/components/add-store';
 
 export default function CMS() {
   const [storeList, setStoreList] = useState<storeListProps[]>([]);
@@ -30,7 +30,6 @@ export default function CMS() {
 
   const handleClickStore = (id: number) => {
     router.push(`/cms/${id}`);
-    console.log('id', id);
   };
 
   return (
@@ -48,7 +47,7 @@ export default function CMS() {
           ))}
         </StoreContainer>
       </Card>
-      <AddFile />
+      <AddStore />
       <BottomTab />
     </Wrapper>
   );

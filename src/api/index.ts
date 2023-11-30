@@ -12,7 +12,7 @@ const authorizationClient = axios.create({
 authorizationClient.interceptors.request.use(config => {
   return Object.assign(config, {
     headers: {
-      Authorization: `Bearer B9WCglL7eESaXHvrM64WlX8XS5mnrAhwB0ygkO3t9UiN+iICt1qBpLWLESt/wEqmjwLol8ZrGfs/KuJ1mUk1Za6ONNanls061yS0RrXBDdqPxc5LBvTtn3jjwC8JStN49Circ44uyJ/ndWIDGE6IRxPztU2oLpJRqudRcNldXILZhGpTs7/9WFFzSj37yniK7FPtg0l8lv8m1m5Tie7npmqnTiE7YefR06ffEcY/vwlGmxwU6idv+vFDgRFwGGmy//MdErXVVQWa3XxhWOo+sMLrhoCXjSRZVkz6RnW7mu5bZt/8kwcyFMpwUYWPSLng`,
+      Authorization: `Bearer B9WCglL7eESaXHvrM64WlX8XS5mnrAhwB0ygkO3t9UiN+iICt1qBpLWLESt/wEqmjwLol8ZrGfs/KuJ1mUk1Za6ONNanls061yS0RrXBDdqPxc5LBvTtn3jjwC8JStN49Circ44uyJ/ndWIDGE6IR1brivx7Vy/xwikNtUal6LoVvC1ENtjd0BqcxJLz4wgcOrqK/glWsIGM/5bwU455LClfhEyJhOvIAte3PVqvEb8IbmbYfaNh1xsDbUIjp3snkDYOTpnmLOv4ojxqc5YZx2UHnV8/yvIa2jSGPzTcEAnkoHarQzklP68+Pi4KBMBX`,
       // Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
