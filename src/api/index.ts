@@ -6,13 +6,14 @@ axios.defaults.withCredentials = true;
 
 const authorizationClient = axios.create({
   baseURL: API.BASE_URL,
-  withCredentials: true, // 요청보낼 때 자격 증명 정보(인증 헤더 등)을 포함시킴
+  withCredentials: false, // 요청보낼 때 자격 증명 정보(인증 헤더 등)을 포함시킴
 });
 
 authorizationClient.interceptors.request.use(config => {
   return Object.assign(config, {
     headers: {
-      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+      Authorization: `Bearer B9WCglL7eESaXHvrM64WlX8XS5mnrAhwB0ygkO3t9UiN+iICt1qBpLWLESt/wEqmjwLol8ZrGfs/KuJ1mUk1Za6ONNanls061yS0RrXBDdqPxc5LBvTtn3jjwC8JStN49Circ44uyJ/ndWIDGE6IRz16Dj3Bafsy0Qnjm8GcbkE7cORDJXn1HmQu2QdPfLEHdi0K1cUgj7um6GnVMpidJq9TPN7MYpLe/0SieSGOTIC9obONGPaRCyE6a4dH2u7M5aelwhU0T6QX0QR6pNY3MFqwWTFhiDLqquVp15kP+t3smgTAOS6dQy/pMtEwSqww`,
+      // Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
   });
 });
