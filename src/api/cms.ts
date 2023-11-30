@@ -1,6 +1,11 @@
 import { authorizationClient } from '.';
 import API from './config';
 
+export const getStoreList = async () => {
+  const { data } = await authorizationClient.get(API.STORE);
+  return data;
+};
+
 export const createStore = async (storeData: object) => {
   const { data } = await authorizationClient.post(API.STORE, storeData);
   return data;
