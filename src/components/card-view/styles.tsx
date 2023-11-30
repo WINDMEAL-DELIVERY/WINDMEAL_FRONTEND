@@ -10,11 +10,10 @@ export const CardContainer = styled.div`
 `;
 
 export const DeliveryContainer = styled.div`
-  margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
-  width: 40%;
-  margin: 1.5rem;
+  width: 45%;
+  margin: 0.5rem;
 `;
 
 export const DeliveryTitle = styled.h2`
@@ -84,7 +83,7 @@ export const DeliveryCustomerImg = styled.img`
 export const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 2rem;
+  gap: 1rem;
   margin-right: auto;
   margin-left: auto;
   margin-top: auto;
