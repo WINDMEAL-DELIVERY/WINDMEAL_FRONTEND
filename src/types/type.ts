@@ -8,3 +8,8 @@ export interface AddfileProps {
   onImageUpload?: (imageFile: string) => void;
   imageUrl?: string;
 }
+
+export interface storeListProps {
+  name: string;
+  id: number;
+}
