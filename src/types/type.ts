@@ -11,5 +11,5 @@ export interface AddfileProps {
 
 export interface storeListProps {
   name: string;
-  id: number;
+  storeId: number;
 }

@@ -6,9 +6,12 @@ import { Wrapper } from '@styles/styles';
 import { useEffect, useState } from 'react';
 import { Card } from '@geist-ui/react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
+import { useRouter } from 'next/router';
 
 export default function CMS() {
   const [storeList, setStoreList] = useState<storeListProps[]>([]);
+  const router = useRouter();
+
   const fetchAllStores = async () => {
     try {
       const {
@@ -25,7 +28,10 @@ export default function CMS() {
     fetchAllStores();
   }, []);
 
-  const handleClickStore = () => {};
+  const handleClickStore = (id: number) => {
+    router.push(`/cms/${id}`);
+    console.log('id', id);
+  };
 
   return (
     <Wrapper>
@@ -33,7 +39,10 @@ export default function CMS() {
       <Card>
         <StoreContainer>
           {storeList.map(store => (
-            <StyledText key={store.id} onClick={handleClickStore}>
+            <StyledText
+              key={store.storeId}
+              onClick={() => handleClickStore(store.storeId)}
+            >
               {store.name}
             </StyledText>
           ))}
