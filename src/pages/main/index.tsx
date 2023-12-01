@@ -1,10 +1,12 @@
-import BottomTab from 'src/components/bottom-tab';
+import BottomTab from '@/components/bottom-tab';
 import { Wrapper } from '@styles/styles';
-import Map from '@components/map';
+import CardView from '@/components/card-view';
+import Map from '@/components/map';
 
 export default function main() {
   return (
     <Wrapper>
+      <CardView />
       <Map />
       <BottomTab />
     </Wrapper>

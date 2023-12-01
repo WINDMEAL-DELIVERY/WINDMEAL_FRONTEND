@@ -24,4 +24,17 @@ export interface storeProp {
   menuCategories?: MenuCategory[];
   open?: boolean;
   requests?: number;
+
+interface Menu {
+  menuName: string;
+}
+
+export interface Delivery {
+  id: number;
+  menus: Menu[];
+  storeName: string;
+  destination: string;
+  customerName: string;
+  customerImg: string;
+  status: string;
 }
