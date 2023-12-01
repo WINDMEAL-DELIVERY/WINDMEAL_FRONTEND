@@ -23,6 +23,10 @@ import Image from 'next/image';
 import Vector from '@images/Vector 2.svg';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { GuideMessageType, InputNickNameProps } from '@type/type';
+import { useMutation } from 'react-query';
+import { NicknameDuplicateResponse } from '@type/userType';
+import { AxiosError } from 'axios';
+import { checkDuplicatedNickname } from '@apis/user/register';
 
 export default function Register() {
   const guideMessage: GuideMessageType = {
@@ -36,6 +40,19 @@ export default function Register() {
     $special: false,
     $duplicated: false,
     $error: false,
+  });
+
+  const checkDuplicatedNicknameMutation = useMutation<
+    NicknameDuplicateResponse,
+    AxiosError,
+    string
+  >('isDuplicated', checkDuplicatedNickname, {
+    onSuccess: data => {
+      alert(data.success);
+    },
+    onError: err => {
+      alert(err);
+    },
   });
 
   const handleNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,8 +77,9 @@ export default function Register() {
     // 특수문자가 존재하는데 '중복 확인'버튼을 눌렀다.
     if (nickNameState.$special || nickName === '') {
       executeErrorAnimation();
+    } else {
+      checkDuplicatedNicknameMutation.mutate(nickName);
     }
-    // 유효성 검사는 문제 없지만, 중복되었다.
   };
 
   useEffect(() => {

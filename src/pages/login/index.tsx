@@ -1,7 +1,7 @@
 import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
-
+import { GOOGLE_URL } from '@/apis';
 import LoginPageLogo from '@images/LoginPageLogo.svg';
 import LoginBtnLogo from '@images/LoginBtnLogo.png';
 import {
@@ -17,10 +17,9 @@ import {
 
 export default function Login() {
   const router = useRouter();
-  const GOOGLE_LOGIN_URL = process.env.NEXT_PUBLIC_LOGIN_URL as string;
 
   const handleButtonClick = () => {
-    router.push(GOOGLE_LOGIN_URL);
+    router.push(GOOGLE_URL);
   };
   return (
     <Wrapper>
