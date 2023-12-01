@@ -21,7 +21,7 @@ import {
 import Image from 'next/image';
 
 import Vector from '@images/Vector 2.svg';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { GuideMessageType, InputNickNameProps } from '@type/type';
 
 export default function Register() {
@@ -30,7 +30,7 @@ export default function Register() {
     duplicated: '중복된 닉네임이에요.',
     validated: '사용 가능한 닉네임이에요.',
   };
-  const [nickName, setNickName] = useState('');
+  const [nickName, setNickName] = useState<string>('');
   const [nickNameState, setNickNameState] = useState<InputNickNameProps>({
     $focused: false,
     $special: false,
@@ -38,34 +38,36 @@ export default function Register() {
     $error: false,
   });
 
-  const handleNickNameChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setNickName(e.target.value);
-    },
-    [],
-  );
-
-  const handleCheckDuplicate = () => {
-    // 특수문자가 존재하는데 버튼을 눌렀다.
-    if (nickNameState.$special) {
+  const handleNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setNickName(e.target.value);
+  };
+  const executeErrorAnimation = () => {
+    setNickNameState(prevState => ({
+      ...prevState,
+      $error: true,
+    }));
+    // error animation 이 반복해서 발생하지 않도록 하기 위해 3초마다 상태를 업데이트 하였습니다.
+    setTimeout(() => {
       setNickNameState(prevState => ({
         ...prevState,
-        $error: true,
+        $error: false,
       }));
-      // 3초 후에 isError를 다시 false로 설정
-      setTimeout(() => {
-        setNickNameState(prevState => ({
-          ...prevState,
-          $error: false,
-        }));
-      }, 3000);
+    }, 3000);
+  };
+
+  const handleCheckDuplicate = () => {
+    // 닉네임이 입력되지 않았는데 '중복 확인'버튼을 눌렀다.
+    // 특수문자가 존재하는데 '중복 확인'버튼을 눌렀다.
+    if (nickNameState.$special || nickName === '') {
+      executeErrorAnimation();
     }
     // 유효성 검사는 문제 없지만, 중복되었다.
   };
 
   useEffect(() => {
-    const test = /[!@#$%^&*(),.?":{}|<>]/.test(nickName);
-    if (test) {
+    // 특수문자를 확인한다.
+    const testSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(nickName);
+    if (testSpecialChars) {
       setNickNameState(prevState => ({
         ...prevState,
         $special: true,
@@ -111,6 +113,7 @@ export default function Register() {
             <InputNickName
               type="text"
               value={nickName}
+              maxLength={13}
               onFocus={() => {
                 setNickNameState(prevState => ({
                   ...prevState,
