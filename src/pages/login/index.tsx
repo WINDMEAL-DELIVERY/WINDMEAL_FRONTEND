@@ -17,11 +17,10 @@ import {
 
 export default function Login() {
   const router = useRouter();
+  const GOOGLE_LOGIN_URL = process.env.NEXT_PUBLIC_LOGIN_URL as string;
 
   const handleButtonClick = () => {
-    router.push(
-      'http://localhost:8080/oauth2/authorization/google?redirect_uri=http://localhost:3000/register',
-    );
+    router.push(GOOGLE_LOGIN_URL);
   };
   return (
     <Wrapper>
