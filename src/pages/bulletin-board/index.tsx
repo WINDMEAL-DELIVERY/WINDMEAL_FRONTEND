@@ -1,5 +1,6 @@
 import BottomTab from '@components/bottom-tab';
-import { Wrapper } from '@styles/styles';
+import { Wrapper } from '@/styles/styles';
+import React from 'react';
 
 export default function BulletinBoard() {
   return (
