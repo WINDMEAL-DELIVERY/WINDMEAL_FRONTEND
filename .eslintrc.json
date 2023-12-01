@@ -25,6 +25,7 @@
     }
   },
   "rules": {
+    "no-nested-ternary": "off",
     "prettier/prettier": ["error", { "endOfLine": "auto" }],
     "react/jsx-filename-extension": [
       "warn",
@@ -40,6 +41,7 @@
       "ts": "never",
       "tsx": "never"
     }],
+    "import/no-extraneous-dependencies": 0, // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
     "import/prefer-default-export": "off",
     "import/no-unresolved": "off",
     "react/react-in-jsx-scope": "off",

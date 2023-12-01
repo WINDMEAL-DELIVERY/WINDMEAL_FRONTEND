@@ -7,26 +7,17 @@ export default function BottomTab() {
     <Wrapper>
       <NavItem
         href="/bulletin-board"
-        active={router.pathname === '/bulletin-board' ? 'true' : 'false'}
+        $isActive={router.pathname === '/bulletin-board'}
       >
         게시글
       </NavItem>
-      <NavItem
-        href="/main"
-        active={router.pathname === '/main' ? 'true' : 'false'}
-      >
+      <NavItem href="/main" $isActive={router.pathname === '/main'}>
         홈
       </NavItem>
-      <NavItem
-        href="/chat-list"
-        active={router.pathname === '/chat-list' ? 'true' : 'false'}
-      >
+      <NavItem href="/chat-list" $isActive={router.pathname === '/chat-list'}>
         채팅
       </NavItem>
-      <NavItem
-        href="/my-page"
-        active={router.pathname === '/my-page' ? 'true' : 'false'}
-      >
+      <NavItem href="/my-page" $isActive={router.pathname === '/my-page'}>
         마이페이지
       </NavItem>
     </Wrapper>

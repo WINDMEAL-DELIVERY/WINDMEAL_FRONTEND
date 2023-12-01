@@ -14,6 +14,7 @@ export const MainLogoImgDiv = styled.div`
   justify-content: center;
   width: 90%;
   height: 90%;
+  padding: 23% 0 23% 0;
 `;
 
 export const TextDiv = styled.div`
