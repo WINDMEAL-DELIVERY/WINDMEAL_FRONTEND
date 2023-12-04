@@ -1,10 +1,18 @@
 export interface MyMapProps {
-export interface MyMapProps {
   selected: string | undefined;
   selectFlag: number;
   handleSelect: (selectedValue: string) => void;
 }
 
+export interface AddfileProps {
+  onImageUpload?: (imageFile: string) => void;
+  imageUrl?: string;
+}
+
+export interface storeListProps {
+  name: string;
+  storeId: number;
+}
 
 export interface InputNickNameProps {
   $focused: boolean;
@@ -17,6 +25,7 @@ export interface GuideMessageType {
   specialChar: string;
   duplicated: string;
   validated: string;
+}
 
 export interface MenuCategory {
   menuCategoryId: number;
@@ -38,6 +47,7 @@ export interface storeProp {
   menuCategories?: MenuCategory[];
   open?: boolean;
   requests?: number;
+}
 
 interface Menu {
   menuName: string;
@@ -51,14 +61,4 @@ export interface Delivery {
   customerName: string;
   customerImg: string;
   status: string;
-}
-
-export interface AddfileProps {
-  onImageUpload?: (imageFile: string) => void;
-  imageUrl?: string;
-}
-
-export interface storeListProps {
-  name: string;
-  storeId: number;
 }
