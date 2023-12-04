@@ -1,14 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Text, Spacer, Input, Button, Select } from '@geist-ui/react';
 import AddFile from '@components/add-file';
 
 export default function AddStore() {
+  const [storeImg, setStoreImg] = useState<string | null>(null);
+  const [storeCategory, setStoreCategory] = useState('');
+  const defaultImgUrl =
+    'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F67%2F41%2Fb9%2F6741b98b6e8f6754c16775da03334535.png&type=sc960_832';
+  const [inputData, setInputData] = useState({
+    memberId: 1,
+    name: '',
+    phoneNumber: '',
+    openTime: '',
+    closeTime: '',
+    placeName: '',
+    longitude: '',
+    latitude: '',
+    categoryList: storeCategory,
+  });
+
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
+    const formData = new FormData();
+    const storeImgOptional = storeImg === null ? defaultImgUrl : storeImg;
+    formData.append('request', JSON.stringify(inputData));
+    formData.append('file', storeImgOptional);
+    for (const pair of formData.entries()) {
+      console.log(pair);
+    }
   };
 
-  const handleInputChange = (value) => {
+  const handleInputChange = (fieldName: string, value: string) => {
+    setInputData(prevData => ({
+      ...prevData,
+      [fieldName]: value,
+    }));
+  };
 
+  const handleAddFile = (img: string) => {
+    setStoreImg(img);
+  };
+
+  const handleChangeCategory = (category: string) => {
+    setStoreCategory(category);
+    console.log('storeCategory', storeCategory);
   };
 
   const inputFields = [
@@ -29,29 +64,31 @@ export default function AddStore() {
         name={label[1]}
         width="95%"
         crossOrigin={undefined}
-        onChange={() => handleInputChange(label[1])}
+        onChange={e => handleInputChange(label[1], e.target.value)}
       />
     ));
   };
 
   return (
     <Card>
-      <form onSubmit={handleSubmit}>
-        <Text h3>가게 정보 입력</Text>
-        <Spacer />
-        {renderInputs()}
-        <Select placeholder="카페">
-          <Select.Option value="카페">카페</Select.Option>
-          <Select.Option value="식당">식당</Select.Option>
-          <Select.Option value="생필품">생필품</Select.Option>
-        </Select>
-        <Spacer />
-        <AddFile />
-        <Spacer />
-        <Button type="secondary" onClick={handleSubmit}>
-          제출
-        </Button>
-      </form>
+      <Text h3>가게 정보 입력</Text>
+      <Spacer />
+      {renderInputs()}
+      <Select
+        placeholder="카페"
+        onChange={handleChangeCategory}
+        value={storeCategory}
+      >
+        <Select.Option value="카페">카페</Select.Option>
+        <Select.Option value="식당">식당</Select.Option>
+        <Select.Option value="생필품">생필품</Select.Option>
+      </Select>
+      <Spacer />
+      <AddFile onImageUpload={handleAddFile} />
+      <Spacer />
+      <Button type="secondary" onClick={handleSubmit}>
+        제출
+      </Button>
     </Card>
   );
 }
