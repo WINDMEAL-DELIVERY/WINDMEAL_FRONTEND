@@ -4,7 +4,6 @@ export interface MyMapProps {
   handleSelect: (selectedValue: string) => void;
 }
 
-
 export interface InputNickNameProps {
   $focused: boolean;
   $special: boolean;
@@ -17,6 +16,7 @@ export interface GuideMessageType {
   specialChar: string;
   duplicated: string;
   validated: string;
+}
 
 export interface MenuCategory {
   menuCategoryId: number;
@@ -38,8 +38,9 @@ export interface storeProp {
   menuCategories?: MenuCategory[];
   open?: boolean;
   requests?: number;
+}
 
-interface Menu {
+export interface Menu {
   menuName: string;
 }
 
