@@ -122,7 +122,11 @@ export default function Register() {
           $duplicated: true,
           $validated: false,
         }));
-      } else {
+      } else if (errMessage === '닉네임에는 특수문자가 포함될 수 없습니다.') {
+        executeErrorAnimation();
+      } else if (errMessage === '사용자를 찾을 수 없습니다.')
+        executeErrorAnimation();
+      else {
         alert('오류가 발생했습니다. 다시 시도해주세요.');
       }
     },
