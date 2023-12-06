@@ -51,9 +51,9 @@ export default function AddFile({ imageUrl, onImageUpload }: AddfileProps) {
       <LogoContainer>
         <AddButton type="file" accept="image/*" onChange={onUpload} />
         {imageSrc && <AddContainer src={imageSrc} />}
-        {imageSrc && (
+        {/* {imageSrc && (
           <DeleteButton onClick={onDelete}>이미지 삭제</DeleteButton>
-        )}
+        )} */}
       </LogoContainer>
 
       <Dialog

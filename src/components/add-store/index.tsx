@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { CSSProperties, useState } from 'react';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import AddFile from '@components/add-file';
 import Select from 'react-select';
@@ -25,6 +25,7 @@ export default function AddStore() {
   const defaultImgUrl =
     'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F67%2F41%2Fb9%2F6741b98b6e8f6754c16775da03334535.png&type=sc960_832';
 
+  // 이후 category get 해줘야
   const options = [
     { value: '카페', label: '카페' },
     { value: '식당', label: '식당' },
@@ -38,7 +39,6 @@ export default function AddStore() {
       ...prevData,
       categoryList: newArray,
     }));
-    console.log("inputData", inputData);
   };
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
@@ -74,9 +74,9 @@ export default function AddStore() {
   ];
 
   const customStyles = {
-    control: (provided: any) => ({
+    control: (provided: CSSProperties) => ({
       ...provided,
-      width: '90%', // 원하는 너비로 설정
+      width: '90%',
     }),
   };
 
@@ -110,6 +110,7 @@ export default function AddStore() {
       <Button type="secondary" onClick={handleSubmit}>
         제출
       </Button>
+      <Spacer style={{ marginTop: '3rem' }} />
     </Card>
   );
 }
