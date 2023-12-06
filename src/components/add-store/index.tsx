@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
-import { Card, Text, Spacer, Input, Button, Select } from '@geist-ui/react';
+import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import AddFile from '@components/add-file';
+import Select from 'react-select';
+
+interface Option {
+  value: string;
+  label: string;
+}
 
 export default function AddStore() {
   const [storeImg, setStoreImg] = useState<string | null>(null);
-  const [storeCategory, setStoreCategory] = useState('');
-  const defaultImgUrl =
-    'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F67%2F41%2Fb9%2F6741b98b6e8f6754c16775da03334535.png&type=sc960_832';
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [inputData, setInputData] = useState({
     memberId: 1,
     name: '',
@@ -16,8 +20,26 @@ export default function AddStore() {
     placeName: '',
     longitude: '',
     latitude: '',
-    categoryList: storeCategory,
+    categoryList: selectedOptions,
   });
+  const defaultImgUrl =
+    'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F67%2F41%2Fb9%2F6741b98b6e8f6754c16775da03334535.png&type=sc960_832';
+
+  const options = [
+    { value: '카페', label: '카페' },
+    { value: '식당', label: '식당' },
+    { value: '생필품', label: '생필품' },
+  ];
+
+  const handleMultiChange = (updatedArray: Option[]) => {
+    const newArray = updatedArray.map(element => element.value);
+    setSelectedOptions(newArray);
+    setInputData(prevData => ({
+      ...prevData,
+      categoryList: newArray,
+    }));
+    console.log("inputData", inputData);
+  };
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -41,11 +63,6 @@ export default function AddStore() {
     setStoreImg(img);
   };
 
-  const handleChangeCategory = (category: string) => {
-    setStoreCategory(category);
-    console.log('storeCategory', storeCategory);
-  };
-
   const inputFields = [
     ['가게 이름', 'name'],
     ['전화 번호', 'phoneNumber'],
@@ -55,6 +72,13 @@ export default function AddStore() {
     ['위도', 'longitude'],
     ['경도', 'latitude'],
   ];
+
+  const customStyles = {
+    control: (provided: any) => ({
+      ...provided,
+      width: '90%', // 원하는 너비로 설정
+    }),
+  };
 
   const renderInputs = () => {
     return inputFields.map(label => (
@@ -75,14 +99,11 @@ export default function AddStore() {
       <Spacer />
       {renderInputs()}
       <Select
-        placeholder="카페"
-        onChange={handleChangeCategory}
-        value={storeCategory}
-      >
-        <Select.Option value="카페">카페</Select.Option>
-        <Select.Option value="식당">식당</Select.Option>
-        <Select.Option value="생필품">생필품</Select.Option>
-      </Select>
+        isMulti
+        options={options}
+        styles={customStyles}
+        onChange={handleMultiChange}
+      />
       <Spacer />
       <AddFile onImageUpload={handleAddFile} />
       <Spacer />
