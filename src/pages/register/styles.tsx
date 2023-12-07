@@ -102,12 +102,10 @@ export const InputNickNameDiv = styled.div<InputNickNameProps>`
   width: 94%;
   padding: 0 0 1% 0;
 
-  ${({ $focused, $error, $special }) => css`
+  ${({ $focused, $error, $special, $duplicated }) => css`
     transition: border-color 0.3s ease;
     border-bottom: 1px solid
-      ${$special ? '#ED1C24' : $focused ? '#5776b9' : '#d9d9d9'};
-    // #5776b9
-
+      ${$special || $duplicated ? '#ED1C24' : $focused ? '#5776b9' : '#d9d9d9'};
     animation: ${$error
       ? css`
           ${shakeAnimation} 0.3s ease-in-out
@@ -142,8 +140,12 @@ export const ValidateNickName = styled.div<InputNickNameProps>`
   background-color: white;
   font-size: 12px;
   font-weight: 400;
-  ${({ $focused, $special }) => css`
-    color: ${$special ? '#ED1C24' : $focused ? '#5776b9' : 'none'};
+  ${({ $focused, $special, $duplicated }) => css`
+    color: ${$special || $duplicated
+      ? '#ED1C24'
+      : $focused
+      ? '#5776b9'
+      : 'none'};
   `}
 `;
 export const GetStartDiv = styled.div`

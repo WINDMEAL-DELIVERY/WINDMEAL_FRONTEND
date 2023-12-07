@@ -24,9 +24,12 @@ import Vector from '@images/Vector 2.svg';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { GuideMessageType, InputNickNameProps } from '@type/type';
 import { useMutation } from 'react-query';
-import { NicknameDuplicateResponse } from '@type/userType';
+import { NicknameRequest, RegisterResponse } from '@type/userType';
 import { AxiosError } from 'axios';
-import { checkDuplicatedNickname } from '@apis/user/register';
+import { checkDuplicatedNickname, setUserNickname } from '@apis/user/register';
+import { useRouter } from 'next/router';
+import { useSearchParams } from 'next/navigation';
+import { setCookie } from 'cookies-next';
 
 export default function Register() {
   const guideMessage: GuideMessageType = {
@@ -39,37 +42,104 @@ export default function Register() {
     $focused: false,
     $special: false,
     $duplicated: false,
+    $validated: false,
     $error: false,
   });
+  const router = useRouter();
+  const params = useSearchParams();
+  const code = params.get('code')?.replace(/ /g, '+');
 
-  const checkDuplicatedNicknameMutation = useMutation<
-    NicknameDuplicateResponse,
-    AxiosError,
-    string
-  >('isDuplicated', checkDuplicatedNickname, {
-    onSuccess: data => {
-      alert(data.success);
-    },
-    onError: err => {
-      alert(err);
-    },
-  });
+  useEffect(() => {
+    if (code) {
+      setCookie('token', code, {
+        expires: new Date(Number(new Date()) + 7776000000), // 3개월
+      });
+      // router.replace('/register');
+    }
+  }, [code]);
 
-  const handleNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setNickName(e.target.value);
-  };
   const executeErrorAnimation = () => {
     setNickNameState(prevState => ({
       ...prevState,
       $error: true,
     }));
-    // error animation 이 반복해서 발생하지 않도록 하기 위해 3초마다 상태를 업데이트 하였습니다.
+    // error animation 이 반복해서 발생하지 않도록 하기 위해 1초마다 상태를 업데이트 하였습니다.
     setTimeout(() => {
       setNickNameState(prevState => ({
         ...prevState,
         $error: false,
       }));
-    }, 3000);
+    }, 1000);
+  };
+
+  const checkDuplicatedNicknameMutation = useMutation<
+    RegisterResponse,
+    AxiosError,
+    string
+  >('isDuplicated', checkDuplicatedNickname, {
+    onSuccess: data => {
+      // 사용 불가능한 중복된 닉네임
+      if (data.data) {
+        executeErrorAnimation();
+        setNickNameState(prevState => ({
+          ...prevState,
+          $duplicated: true,
+          $validated: false,
+        }));
+      }
+      // 사용 가능한 닉네임
+      else if (!data.data) {
+        setNickNameState(prevState => ({
+          ...prevState,
+          $duplicated: false,
+          $validated: true,
+        }));
+      }
+    },
+    onError: err => {
+      alert(err); // 추후에 다른 방식으로 대체
+    },
+  });
+
+  const registerMutation = useMutation<
+    RegisterResponse,
+    AxiosError,
+    NicknameRequest
+  >('register', (data: NicknameRequest) => setUserNickname(data), {
+    onSuccess: data => {
+      if (data.code === 200) {
+        router.replace('/main');
+      }
+    },
+    onError: error => {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      const errMessage = error.response.data.message || '';
+      if (errMessage === '이미 사용 중인 닉네임입니다.') {
+        executeErrorAnimation();
+        setNickNameState(prevState => ({
+          ...prevState,
+          $duplicated: true,
+          $validated: false,
+        }));
+      } else if (errMessage === '닉네임에는 특수문자가 포함될 수 없습니다.') {
+        executeErrorAnimation();
+      } else if (errMessage === '사용자를 찾을 수 없습니다.')
+        executeErrorAnimation();
+      else {
+        alert('오류가 발생했습니다. 다시 시도해주세요.');
+      }
+    },
+  });
+
+  const handleNickNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    // 중복 확인 완료 후 닉네임을 다시 수정했을 때를 방지한다.
+    setNickNameState(prevState => ({
+      ...prevState,
+      $duplicated: false,
+      $validated: false,
+    }));
+    setNickName(e.target.value);
   };
 
   const handleCheckDuplicate = () => {
@@ -84,7 +154,7 @@ export default function Register() {
 
   useEffect(() => {
     // 특수문자를 확인한다.
-    const testSpecialChars = /[!@#$%^&*(),.?":{}|<>]/.test(nickName);
+    const testSpecialChars = /[!@#$%^&*(),._?":{}|<>]/.test(nickName);
     if (testSpecialChars) {
       setNickNameState(prevState => ({
         ...prevState,
@@ -101,7 +171,7 @@ export default function Register() {
   return (
     <Wrapper>
       <HeaderBar>
-        <BackImageBtn>
+        <BackImageBtn onClick={() => router.replace('/login')}>
           <Image
             src={Vector}
             alt="뒤로가기 버튼"
@@ -126,6 +196,7 @@ export default function Register() {
             $focused={nickNameState.$focused}
             $special={nickNameState.$special}
             $duplicated={nickNameState.$duplicated}
+            $validated={nickNameState.$validated}
             $error={nickNameState.$error}
           >
             <InputNickName
@@ -156,12 +227,28 @@ export default function Register() {
           $focused={nickNameState.$focused}
           $special={nickNameState.$special}
           $duplicated={nickNameState.$duplicated}
+          $validated={nickNameState.$validated}
           $error={nickNameState.$error}
         >
-          {nickNameState.$special ? guideMessage.specialChar : ''}
+          {(() => {
+            switch (true) {
+              case nickNameState.$special:
+                return guideMessage.specialChar;
+              case nickNameState.$duplicated && !nickNameState.$validated:
+                return guideMessage.duplicated;
+              case !nickNameState.$duplicated && nickNameState.$validated:
+                return guideMessage.validated;
+              default:
+                return '';
+            }
+          })()}
         </ValidateNickName>
         <GetStartDiv>
-          <GetStartBtn>
+          <GetStartBtn
+            onClick={() => {
+              registerMutation.mutate({ nickname: nickName });
+            }}
+          >
             <GetStartText>시작하기</GetStartText>
           </GetStartBtn>
         </GetStartDiv>
