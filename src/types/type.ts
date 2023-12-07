@@ -9,7 +9,7 @@ export interface AddfileProps {
   imageUrl?: string;
 }
 
-export interface storeListProps {
+export interface StoreListProps {
   name: string;
   storeId: number;
 }
@@ -33,7 +33,7 @@ export interface MenuCategory {
   name: string;
 }
 
-export interface storeProp {
+export interface StoreProp {
   storeId: number;
   name: string;
   phoneNumber?: string;
@@ -61,4 +61,13 @@ export interface Delivery {
   customerName: string;
   customerImg: string;
   status: string;
+}
+
+export interface Option {
+  value: string;
+  label: string;
+}
+
+export interface AddStoreProps {
+  handleAddStore: (newStore: StoreListProps) => void;
 }

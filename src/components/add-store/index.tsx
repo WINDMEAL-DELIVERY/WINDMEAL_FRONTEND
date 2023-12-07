@@ -2,13 +2,10 @@ import React, { CSSProperties, useState } from 'react';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import AddFile from '@components/add-file';
 import Select from 'react-select';
+import { createStore } from '@/api/cms';
+import { AddStoreProps, StoreListProps, Option } from '@/types/type';
 
-interface Option {
-  value: string;
-  label: string;
-}
-
-export default function AddStore() {
+export default function AddStore({ handleAddStore }: AddStoreProps) {
   const [storeImg, setStoreImg] = useState<string | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [inputData, setInputData] = useState({
@@ -50,6 +47,20 @@ export default function AddStore() {
     for (const pair of formData.entries()) {
       console.log(pair);
     }
+    const addStore = async () => {
+      try {
+        const response = await createStore(formData);
+        console.log('response', response);
+        const storeInfo: StoreListProps = {
+          name: response.name,
+          storeId: response.storeId,
+        };
+        handleAddStore(storeInfo);
+      } catch (error) {
+        console.error('Error fetching stores:', error);
+      }
+    };
+    addStore();
   };
 
   const handleInputChange = (fieldName: string, value: string) => {

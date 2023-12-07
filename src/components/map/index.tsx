@@ -17,9 +17,9 @@ import { useEffect, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import Dialog from '@/components/dialog';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
-import { MyMapProps, storeProp } from '@/types/type';
+import { MyMapProps, StoreProp } from '@/types/type';
 
-const stores: storeProp[] = [
+const stores: StoreProp[] = [
   {
     storeId: 1,
     location: {
@@ -110,7 +110,7 @@ function MarkerCluster() {
     const markers = [];
 
     for (let i = 0; i < stores.length; i += 1) {
-      const storeData: storeProp = stores[i];
+      const storeData: StoreProp = stores[i];
       const marker = new window.naver.maps.Marker({
         position: new window.naver.maps.LatLng(
           storeData.location.x,

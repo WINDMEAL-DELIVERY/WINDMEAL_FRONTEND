@@ -6,8 +6,12 @@ export const getStoreList = async () => {
   return data;
 };
 
-export const createStore = async (storeData: object) => {
-  const { data } = await authorizationClient.post(API.STORE, storeData);
+export const createStore = async (storeData: FormData) => {
+  const { data } = await authorizationClient.post(API.STORE, storeData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return data;
 };
 
