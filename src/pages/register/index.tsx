@@ -63,7 +63,7 @@ export default function Register() {
       ...prevState,
       $error: true,
     }));
-    // error animation 이 반복해서 발생하지 않도록 하기 위해 3초마다 상태를 업데이트 하였습니다.
+    // error animation 이 반복해서 발생하지 않도록 하기 위해 1초마다 상태를 업데이트 하였습니다.
     setTimeout(() => {
       setNickNameState(prevState => ({
         ...prevState,
