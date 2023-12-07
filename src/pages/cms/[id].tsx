@@ -2,26 +2,50 @@ import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
-import { createMenuCategory } from '@/api/cms';
-import { useState } from 'react';
+import { createMenuCategory, getStoreInfo } from '@/api/cms';
+import { useEffect, useState } from 'react';
+import { StoreContainer, StyledText } from '@pages/cms/styles';
+
+interface MenuCategory {
+  menuCategoryId: number;
+  name: string;
+}
 
 export default function CMSStore() {
   const router = useRouter();
   const { id: storeId } = router.query;
-  const [menuCategory, setMenuCategory] = useState<string>('');
+  const [menuCategory, setMenuCategory] = useState<string>(''); // 새로운
+  const [menuCategoryList, setMenuCategoryList] = useState<MenuCategory[]>([]); // 전체 리스트 관리
 
   const handleInputChange = (value: string) => {
     setMenuCategory(value);
   };
 
+  const fetchStoreInfo = async () => {
+    try {
+      const {
+        data: { menuCategories },
+      } = await getStoreInfo(Number(storeId));
+      console.log('menuCategories', menuCategories);
+      setMenuCategoryList(menuCategories);
+    } catch (error) {
+      console.error('Error fetching stores:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStoreInfo();
+  }, []);
+
   const handleSubmit = () => {
     const addMenuCategory = async () => {
       try {
-        const response = await createMenuCategory(Number(storeId), {
+        const { data } = await createMenuCategory(Number(storeId), {
           name: menuCategory,
         });
-        console.log('response', response);
-        // 메뉴카테고리 업뎃 추가
+        console.log('createMenuCategory', data);
+        // 메뉴카테고리 리스트 업뎃
+        fetchStoreInfo();
       } catch (error) {
         console.error('Error fetching stores:', error);
       }
@@ -31,6 +55,18 @@ export default function CMSStore() {
 
   return (
     <Wrapper>
+      <Card>
+        <StoreContainer>
+          {menuCategoryList.map(category => (
+            <StyledText
+              key={category.menuCategoryId}
+              // onClick={() => handleClickStore(category.menuCategoryId)}
+            >
+              {category.name}
+            </StyledText>
+          ))}
+        </StoreContainer>
+      </Card>
       <Card>
         <Text h3>메뉴 카테고리 생성</Text>
         <Spacer />

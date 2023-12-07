@@ -6,6 +6,11 @@ export const getStoreList = async () => {
   return data;
 };
 
+export const getStoreInfo = async (storeId: number) => {
+  const { data } = await authorizationClient.get(`${API.STORE}/${storeId}`);
+  return data;
+};
+
 export const createStore = async (storeData: FormData) => {
   const { data } = await authorizationClient.post(API.STORE, storeData, {
     headers: {
