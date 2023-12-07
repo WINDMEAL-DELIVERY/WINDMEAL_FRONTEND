@@ -5,11 +5,7 @@ import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import { createMenuCategory, getStoreInfo } from '@/api/cms';
 import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
-
-interface MenuCategory {
-  menuCategoryId: number;
-  name: string;
-}
+import { Menu, MenuCategory } from '@/types/type';
 
 export default function CMSStore() {
   const router = useRouter();
@@ -53,8 +49,11 @@ export default function CMSStore() {
     addMenuCategory();
   };
 
-  const handleClickStore = (menuCategoryId: number) => {
-    router.push(`/cms/${storeId}/${menuCategoryId}`);
+  const handleClickStore = (menuCategoryId: number, menus: Menu[]) => {
+    router.push({
+      pathname: `/cms/${storeId}/${menuCategoryId}`,
+      query: { menus },
+    });
   };
 
   return (
@@ -64,7 +63,9 @@ export default function CMSStore() {
           {menuCategoryList.map(category => (
             <StyledText
               key={category.menuCategoryId}
-              onClick={() => handleClickStore(category.menuCategoryId)}
+              onClick={() =>
+                handleClickStore(category.menuCategoryId, category.menus)
+              }
             >
               {category.name}
             </StyledText>

@@ -27,10 +27,47 @@ export interface GuideMessageType {
   validated: string;
 }
 
+// export interface MenuCategory {
+//   menuCategoryId: number;
+//   storeId: number;
+//   name: string;
+// }
+
+interface MenuName {
+  menuName: string;
+}
+
+export interface Delivery {
+  id: number;
+  menus: MenuName[];
+  storeName: string;
+  destination: string;
+  customerName: string;
+  customerImg: string;
+  status: string;
+}
+
+export interface Option {
+  value: string;
+  label: string;
+}
+
+export interface AddStoreProps {
+  handleAddStore: (newStore: StoreListProps) => void;
+}
+
+export interface Menu {
+  menuCategoryId: number;
+  name: string;
+  description: string;
+  price: number;
+  menuId?: number;
+}
+
 export interface MenuCategory {
   menuCategoryId: number;
-  storeId: number;
   name: string;
+  menus: Menu[];
 }
 
 export interface StoreProp {
@@ -47,27 +84,4 @@ export interface StoreProp {
   menuCategories?: MenuCategory[];
   open?: boolean;
   requests?: number;
-}
-
-interface Menu {
-  menuName: string;
-}
-
-export interface Delivery {
-  id: number;
-  menus: Menu[];
-  storeName: string;
-  destination: string;
-  customerName: string;
-  customerImg: string;
-  status: string;
-}
-
-export interface Option {
-  value: string;
-  label: string;
-}
-
-export interface AddStoreProps {
-  handleAddStore: (newStore: StoreListProps) => void;
 }
