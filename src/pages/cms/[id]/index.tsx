@@ -53,6 +53,10 @@ export default function CMSStore() {
     addMenuCategory();
   };
 
+  const handleClickStore = (menuCategoryId: number) => {
+    router.push(`/cms/${storeId}/${menuCategoryId}`);
+  };
+
   return (
     <Wrapper>
       <Card>
@@ -60,7 +64,7 @@ export default function CMSStore() {
           {menuCategoryList.map(category => (
             <StyledText
               key={category.menuCategoryId}
-              // onClick={() => handleClickStore(category.menuCategoryId)}
+              onClick={() => handleClickStore(category.menuCategoryId)}
             >
               {category.name}
             </StyledText>
