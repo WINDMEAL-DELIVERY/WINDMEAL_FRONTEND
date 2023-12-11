@@ -3,14 +3,19 @@ import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import { createMenu } from '@/api/cms';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import AddFile from '@/components/add-file';
 import { Menu } from '@/types/type';
 
+interface RouterQuery {
+  sid?: string;
+  menus?: Menu[]; // or the actual type of 'menus'
+}
+
 export default function CMSMenuCategory() {
   const router = useRouter();
-  const { sid: menuCategoryId, menus } = router.query;
+  const { sid: menuCategoryId, menus }: RouterQuery = router.query;
   const [menuImg, setMenuImg] = useState<string | null>(null);
   const [inputData, setInputData] = useState({
     menuCategoryId,
@@ -18,6 +23,10 @@ export default function CMSMenuCategory() {
     description: '',
     price: 0,
   });
+
+  useEffect(() => {
+    console.log(menus);
+  }, []);
 
   const inputFields = [
     ['메뉴 이름', 'name'],
@@ -76,7 +85,7 @@ export default function CMSMenuCategory() {
           {menus?.map((menu: Menu) => (
             <StyledText
               key={menu.menuId}
-              //   onClick={() => handleClickStore(category.menuCategoryId)}
+            //   onClick={() => handleClickStore(category.menuCategoryId)}
             >
               {menu.name}
             </StyledText>
