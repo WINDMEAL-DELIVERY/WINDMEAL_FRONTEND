@@ -133,9 +133,14 @@ function MarkerCluster() {
       gridSize: 120,
       icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
       indexGenerator: [2, 4, 8, 12, 20],
-      stylingFunction: (clusterMarker: unknown, count: number) => {
-        clusterMarker.getElement().querySelector('div:first-child').innerText =
-          count;
+      stylingFunction: (clusterMarker: any, count: number) => {
+        const element = clusterMarker.getElement();
+        if (element) {
+          const firstChild = element.querySelector('div:first-child');
+          if (firstChild) {
+            firstChild.innerText = count;
+          }
+        }
       },
     });
 
