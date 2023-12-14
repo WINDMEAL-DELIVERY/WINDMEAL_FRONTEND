@@ -9,7 +9,7 @@ function Home() {
 
   useEffect(() => {
     setTimeout(() => {
-      if (token) {
+      if (token !== '') {
         router.replace('/main');
       } else {
         router.replace('/login');
