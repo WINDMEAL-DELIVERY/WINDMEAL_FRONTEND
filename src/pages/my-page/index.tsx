@@ -15,7 +15,7 @@ import {
   OrderDetailList,
   Withdrawal,
   WithdrawalFrame,
-} from '@pages/my-page/styles';
+} from '@styles/myPageStyles';
 import { HeaderBar, Wrapper } from '@styles/styles';
 
 export default function MyPage() {
