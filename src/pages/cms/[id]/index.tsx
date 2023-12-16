@@ -2,10 +2,10 @@ import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
-import { createMenuCategory, getStoreInfo } from '@/api/cms';
+import { createMenuCategory, getStoreInfo } from '@/apis/cms/cms';
 import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
-import { Menu, MenuCategory } from '@/types/type';
+import { MenuCategory } from '@/types/type';
 
 export default function CMSStore() {
   const router = useRouter();
@@ -51,11 +51,9 @@ export default function CMSStore() {
     addMenuCategory();
   };
 
-  const handleClickStore = (menuCategoryId: number, menus: Menu[]) => {
-    console.log("menus", menus)
+  const handleClickStore = (menuCategoryId: number) => {
     router.push({
       pathname: `/cms/${storeId}/${menuCategoryId}`,
-      query: { menulist: menus },
     });
   };
 
@@ -66,9 +64,7 @@ export default function CMSStore() {
           {menuCategoryList.map(category => (
             <StyledText
               key={category.menuCategoryId}
-              onClick={() =>
-                handleClickStore(category.menuCategoryId, category.menus)
-              }
+              onClick={() => handleClickStore(category.menuCategoryId)}
             >
               {category.name}
             </StyledText>

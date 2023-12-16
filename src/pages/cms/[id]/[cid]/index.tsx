@@ -2,7 +2,7 @@ import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
-import { createMenu } from '@/api/cms';
+import { createMenu } from '@/apis/cms/cms';
 import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import AddFile from '@/components/add-file';
@@ -26,7 +26,7 @@ export default function CMSMenuCategory() {
   // });
 
   useEffect(() => {
-    console.log("params", q)
+    console.log('params', q);
   }, []);
 
   const inputFields = [
