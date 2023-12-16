@@ -9,7 +9,7 @@ export default function AddStore({ handleAddStore }: AddStoreProps) {
   const [storeImg, setStoreImg] = useState<string | null>(null);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [inputData, setInputData] = useState({
-    memberId: 1,
+    memberId: 1, // 이후 멤버 아이디 받아 넣어줘야함
     name: '',
     phoneNumber: '',
     openTime: '',

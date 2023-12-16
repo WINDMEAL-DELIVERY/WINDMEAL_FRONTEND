@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const LogoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 24rem;
+  max-width: 22rem;
 `;
 
 export const AddButton = styled.input`

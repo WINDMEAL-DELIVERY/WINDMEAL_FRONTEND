@@ -7,7 +7,7 @@ export const getStoreList = async () => {
 };
 
 export const getStoreInfo = async (storeId: number) => {
-  const { data } = await authorizationClient.get(`${API.STORE}/${storeId}`);
+  const { data } = await authorizationClient.get(`/cms${API.STORE}/${storeId}`);
   return data;
 };
 

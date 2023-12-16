@@ -20,7 +20,9 @@ export default function CMSStore() {
   const fetchStoreInfo = async () => {
     try {
       const {
-        data: { menuCategories },
+        data: {
+          storeResponse: { menuCategories },
+        },
       } = await getStoreInfo(Number(storeId));
       console.log('menuCategories', menuCategories);
       setMenuCategoryList(menuCategories);
