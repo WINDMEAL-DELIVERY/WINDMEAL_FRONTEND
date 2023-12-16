@@ -1,4 +1,4 @@
-import { getStoreList } from '@/apis/cms/cms';
+import { getStoreList } from '@/apis/store/store';
 import { StoreListProps } from '@/types/type';
 import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
@@ -7,26 +7,30 @@ import { Card } from '@geist-ui/react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import { useRouter } from 'next/router';
 import AddStore from '@/components/add-store';
+import { useMutation, useQuery } from 'react-query';
 
 export default function CMS() {
   const [storeList, setStoreList] = useState<StoreListProps[]>([]);
   const router = useRouter();
 
-  const fetchAllStores = async () => {
-    try {
-      const {
-        data: { content },
-      } = await getStoreList();
-      console.log('storelist', content);
-      setStoreList(content);
-    } catch (error) {
-      console.error('Error fetching stores:', error);
-    }
-  };
+  const { data: stores } = useQuery<StoreListProps[]>(
+    ['storeList'],
+    async () => {
+      const { data } = await getStoreList();
+      return data.content;
+    },
+    {
+      onSuccess: () => {
+        console.log('response1', stores);
+      },
+      onError: err => console.log('!!', err),
+    },
+  );
 
   useEffect(() => {
-    fetchAllStores();
-  }, []);
+    console.log('response2', stores);
+    if (stores) setStoreList(stores);
+  }, [stores]);
 
   const handleClickStore = (id: number) => {
     router.push(`/cms/${id}`);

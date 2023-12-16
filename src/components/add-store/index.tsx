@@ -2,7 +2,7 @@ import React, { CSSProperties, useState } from 'react';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import AddFile from '@components/add-file';
 import Select from 'react-select';
-import { createStore } from '@/apis/cms/cms';
+import { createStore } from '@/apis/store/store';
 import { AddStoreProps, StoreListProps, Option } from '@/types/type';
 
 export default function AddStore({ handleAddStore }: AddStoreProps) {
