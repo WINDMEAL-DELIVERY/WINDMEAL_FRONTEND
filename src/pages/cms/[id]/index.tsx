@@ -50,9 +50,10 @@ export default function CMSStore() {
   };
 
   const handleClickStore = (menuCategoryId: number, menus: Menu[]) => {
+    console.log("menus", menus)
     router.push({
       pathname: `/cms/${storeId}/${menuCategoryId}`,
-      query: { menus },
+      query: { menulist: menus },
     });
   };
 

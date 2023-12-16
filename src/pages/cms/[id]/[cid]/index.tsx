@@ -10,22 +10,23 @@ import { Menu } from '@/types/type';
 
 interface RouterQuery {
   sid?: string;
-  menus?: Menu[]; // or the actual type of 'menus'
+  menus?: Menu[];
 }
 
 export default function CMSMenuCategory() {
   const router = useRouter();
-  const { sid: menuCategoryId, menus }: RouterQuery = router.query;
+  // const { sid: menuCategoryId, menus }: RouterQuery = router.query;
+  const q = router.query;
   const [menuImg, setMenuImg] = useState<string | null>(null);
-  const [inputData, setInputData] = useState({
-    menuCategoryId,
-    name: '',
-    description: '',
-    price: 0,
-  });
+  // const [inputData, setInputData] = useState({
+  //   menuCategoryId,
+  //   name: '',
+  //   description: '',
+  //   price: 0,
+  // });
 
   useEffect(() => {
-    console.log(menus);
+    console.log("params", q)
   }, []);
 
   const inputFields = [
@@ -80,7 +81,7 @@ export default function CMSMenuCategory() {
 
   return (
     <Wrapper>
-      <Card>
+      {/* <Card>
         <StoreContainer>
           {menus?.map((menu: Menu) => (
             <StyledText
@@ -103,7 +104,7 @@ export default function CMSMenuCategory() {
           제출
         </Button>
         <Spacer style={{ marginTop: '3rem' }} />
-      </Card>
+      </Card> */}
       <BottomTab />
     </Wrapper>
   );

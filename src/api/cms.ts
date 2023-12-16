@@ -12,11 +12,7 @@ export const getStoreInfo = async (storeId: number) => {
 };
 
 export const createStore = async (storeData: FormData) => {
-  const { data } = await authorizationClient.post(API.STORE, storeData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  const { data } = await authorizationClient.post(API.STORE, storeData);
   return data;
 };
 

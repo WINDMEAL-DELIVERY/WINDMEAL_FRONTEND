@@ -43,6 +43,10 @@ export default function AddStore({ handleAddStore }: AddStoreProps) {
     const formData = new FormData();
     const storeImgOptional = storeImg === null ? defaultImgUrl : storeImg;
     formData.append('request', JSON.stringify(inputData));
+    formData.append(
+      'request',
+      new Blob([JSON.stringify(inputData)], { type: 'application/json' }),
+    );
     formData.append('file', storeImgOptional);
     for (const pair of formData.entries()) {
       console.log(pair);
