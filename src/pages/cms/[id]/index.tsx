@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import { MenuCategory } from '@/types/type';
 import { createMenuCategory, getStoreInfo } from '@/apis/store/store';
+import { useMutation, useQuery } from 'react-query';
 
 export default function CMSStore() {
   const router = useRouter();
@@ -17,23 +18,28 @@ export default function CMSStore() {
     setMenuCategory(value);
   };
 
-  const fetchStoreInfo = async () => {
-    try {
+  const { data: mclist } = useQuery<MenuCategory[]>(
+    ['menuCategoryList'],
+    async () => {
       const {
         data: {
           storeResponse: { menuCategories },
         },
       } = await getStoreInfo(Number(storeId));
-      console.log('menuCategories', menuCategories);
-      setMenuCategoryList(menuCategories);
-    } catch (error) {
-      console.error('Error fetching stores:', error);
-    }
-  };
+      return menuCategories;
+    },
+    {
+      onSuccess: () => {
+        console.log('response1', mclist);
+      },
+      onError: err => console.log('!!', err),
+    },
+  );
 
   useEffect(() => {
-    fetchStoreInfo();
-  }, []);
+    console.log('response2', mclist);
+    if (mclist) setMenuCategoryList(mclist);
+  }, [mclist]);
 
   const handleSubmit = () => {
     const addMenuCategory = async () => {
