@@ -7,7 +7,7 @@ import { Card } from '@geist-ui/react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import { useRouter } from 'next/router';
 import AddStore from '@/components/add-store';
-import { useMutation, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 
 export default function CMS() {
   const [storeList, setStoreList] = useState<StoreListProps[]>([]);
