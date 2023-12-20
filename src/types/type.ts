@@ -62,7 +62,7 @@ export interface Menu {
   description: string;
   price: object;
   photo?: string;
-  menuId?: number;
+  menuId: number;
 }
 
 export interface MenuCategory {

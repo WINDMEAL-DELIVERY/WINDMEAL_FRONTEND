@@ -30,6 +30,11 @@ export const createOption = async (menuId: number, optionData: object) => {
   return data;
 };
 
+export const getOption = async (menuId: number) => {
+  const { data } = await instance.get(`/menu/${menuId}/option`);
+  return data;
+};
+
 export const createMenuCategory = async ({
   storeId,
   category,

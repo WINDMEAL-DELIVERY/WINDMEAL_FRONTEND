@@ -2,7 +2,7 @@ import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
-import { createMenu } from '@/apis/store/store';
+import { createMenu, createOption } from '@/apis/store/store';
 import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import AddFile from '@/components/add-file';
@@ -11,16 +11,15 @@ import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { menuState } from '@/states/menu';
 
-export default function CMSMenuCategory() {
+export default function CMSMenu() {
   const router = useRouter();
-  const { id: storeId, cid: menuCategoryId } = router.query;
-  const [menuImg, setMenuImg] = useState<string | null>(null);
+  const { cid: menuCategoryId, mid: menuId } = router.query;
   const [menuContents, setMenuContents] = useRecoilState<Menu[]>(menuState);
   const [inputData, setInputData] = useState({
-    menuCategoryId,
     name: '',
-    description: '',
-    price: 0,
+    isEssentialOption: false,
+    isMultipleOption: true,
+    optionSpec: [{ name: '', price: 0 }],
   });
 
   useEffect(() => {
@@ -29,9 +28,9 @@ export default function CMSMenuCategory() {
   }, []);
 
   const inputFields = [
-    ['메뉴 이름', 'name'],
-    ['메뉴 설명', 'description'],
-    ['가격', 'price'],
+    ['옵션 이름', 'name'],
+    ['필수 여부', 'isEssentialOption'],
+    ['중복 가능', 'isMultipleOption'],
   ];
 
   const handleInputChange = (fieldName: string, value: string) => {
@@ -41,11 +40,7 @@ export default function CMSMenuCategory() {
     }));
   };
 
-  const handleAddFile = (img: string) => {
-    setMenuImg(img);
-  };
-
-  const mutateMenu = useMutation(createMenu, {
+  const mutateMenu = useMutation(createOption, {
     onSuccess: response => {
       console.log('createmenu', response);
       // setMenuContents(inputData); // response 물어보자
@@ -57,18 +52,6 @@ export default function CMSMenuCategory() {
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    const formData = new FormData();
-    const menuImgOptional = menuImg === null ? 'defaultImgUrl' : menuImg;
-    formData.append(
-      'request',
-      new Blob([JSON.stringify(inputData)], { type: 'application/json' }),
-    );
-    formData.append('file', menuImgOptional);
-    // eslint-disable-next-line no-restricted-syntax
-    for (const pair of formData.entries()) {
-      console.log(pair);
-    }
-    mutateMenu.mutate(formData);
   };
 
   const renderInputs = () => {
@@ -84,12 +67,6 @@ export default function CMSMenuCategory() {
     ));
   };
 
-  const handleClickStore = (menuID: number) => {
-    router.push({
-      pathname: `/cms/${storeId}/${menuCategoryId}/${menuID}`,
-    });
-  };
-
   return (
     <Wrapper>
       <Card>
@@ -97,7 +74,7 @@ export default function CMSMenuCategory() {
           {menuContents?.map((menu: Menu) => (
             <StyledText
               key={menu.menuId}
-              onClick={() => handleClickStore(menu.menuId)}
+              // onClick={() => handleClickStore(menu.menuCategoryId)}
             >
               {menu.name}
             </StyledText>
@@ -108,8 +85,6 @@ export default function CMSMenuCategory() {
         <Text h3>메뉴 생성</Text>
         <Spacer />
         {renderInputs()}
-        <Spacer />
-        <AddFile onImageUpload={handleAddFile} />
         <Spacer />
         <Button type="secondary" onClick={handleSubmit}>
           제출
