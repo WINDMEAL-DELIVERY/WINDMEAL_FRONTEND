@@ -7,6 +7,6 @@ export const instance = axios.create({
   baseURL: BACKEND_URL,
   withCredentials: true,
   headers: {
-    Authorization: `Bearer B9WCglL7eESaXHvrM64WlX8XS5mnrAhwB0ygkO3t9UiN+iICt1qBpLWLESt/wEqmjwLol8ZrGfs/KuJ1mUk1Za6ONNanls061yS0RrXBDdqPxc5LBvTtn3jjwC8JStN49Circ44uyJ/ndWIDGE6IR1FJDhsXty5y8Sap/gtfocOB7DyysXFEQ3gU0b8zLjQmeAeBNdUNG/mtSyHPPzA85li+v8x3H15G2Y8qWbaePDVNNlZDFMRDcatqEmYzpLKRsZsuGE9km1/jp4l0cZNGgnPTxhk39ecNLhFCaQZd8k8CRZnffwmcDdxpgjFQFlgf`,
+    Authorization: `Bearer B9WCglL7eESaXHvrM64WlX8XS5mnrAhwB0ygkO3t9UiN+iICt1qBpLWLESt/wEqmjwLol8ZrGfs/KuJ1mUk1Za6ONNanls061yS0RrXBDdqPxc5LBvTtn3jjwC8JStN49Circ44uyJ/ndWIDGE6IR40qE8giGqjXUDY5o2L2ufVW/pXPHcJVSX0eTeEnRG5YNb8+3z7HIGvpzcRqHuTsW2f1ZEWjP26sCzCyq+JpStU8JZK5jz+3vEXCxM79EgVc/Y+94NOiPJQzTedIRtscs+OFnJh5zhaCMyNrNavXvxHgSGBaBJPffdA283NWmiUQ`,
   },
 });

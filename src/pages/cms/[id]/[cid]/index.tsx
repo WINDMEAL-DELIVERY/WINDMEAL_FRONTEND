@@ -6,27 +6,27 @@ import { createMenu } from '@/apis/store/store';
 import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import AddFile from '@/components/add-file';
-import { Menu } from '@/types/type';
-
-interface RouterQuery {
-  sid?: string;
-  menus?: Menu[];
-}
+import { Menu, MenuCategory } from '@/types/type';
+import { useQuery } from 'react-query';
+import { useRecoilValue } from 'recoil';
+import { menuState } from '@/states/menu';
 
 export default function CMSMenuCategory() {
   const router = useRouter();
-  // const { sid: menuCategoryId, menus }: RouterQuery = router.query;
-  const q = router.query;
+  const { cid: menuCategoryId } = router.query;
   const [menuImg, setMenuImg] = useState<string | null>(null);
-  // const [inputData, setInputData] = useState({
-  //   menuCategoryId,
-  //   name: '',
-  //   description: '',
-  //   price: 0,
-  // });
+  const menuContents = useRecoilValue(menuState);
+  const [menus, setMenus] = useState(menuContents);
+  const [inputData, setInputData] = useState({
+    menuCategoryId,
+    name: '',
+    description: '',
+    price: { price: 0 },
+  });
 
   useEffect(() => {
-    console.log('params', q);
+    console.log('params', menuCategoryId);
+    console.log('menus', menuContents);
   }, []);
 
   const inputFields = [
@@ -81,12 +81,12 @@ export default function CMSMenuCategory() {
 
   return (
     <Wrapper>
-      {/* <Card>
+      <Card>
         <StoreContainer>
           {menus?.map((menu: Menu) => (
             <StyledText
               key={menu.menuId}
-            //   onClick={() => handleClickStore(category.menuCategoryId)}
+              onClick={() => handleClickStore(category.menuCategoryId)}
             >
               {menu.name}
             </StyledText>
@@ -104,7 +104,7 @@ export default function CMSMenuCategory() {
           제출
         </Button>
         <Spacer style={{ marginTop: '3rem' }} />
-      </Card> */}
+      </Card>
       <BottomTab />
     </Wrapper>
   );

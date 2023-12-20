@@ -1,5 +1,5 @@
 import { instance } from '@/apis';
-import { MenuCategory, MenuCategoryParameter } from '@/types/type';
+import { MenuCategoryParameter } from '@/types/type';
 
 export const getStoreList = async () => {
   const { data } = await instance.get('/store');
