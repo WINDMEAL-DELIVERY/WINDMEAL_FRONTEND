@@ -6,22 +6,21 @@ import { createMenu } from '@/apis/store/store';
 import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import AddFile from '@/components/add-file';
-import { Menu, MenuCategory } from '@/types/type';
-import { useQuery } from 'react-query';
-import { useRecoilValue } from 'recoil';
+import { Menu } from '@/types/type';
+import { useMutation } from 'react-query';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { menuState } from '@/states/menu';
 
 export default function CMSMenuCategory() {
   const router = useRouter();
   const { cid: menuCategoryId } = router.query;
   const [menuImg, setMenuImg] = useState<string | null>(null);
-  const menuContents = useRecoilValue(menuState);
-  const [menus, setMenus] = useState(menuContents);
+  const [menuContents, setMenuContents] = useRecoilState<Menu[]>(menuState);
   const [inputData, setInputData] = useState({
     menuCategoryId,
     name: '',
     description: '',
-    price: { price: 0 },
+    price: 0,
   });
 
   useEffect(() => {
@@ -46,24 +45,30 @@ export default function CMSMenuCategory() {
     setMenuImg(img);
   };
 
+  const mutateMenu = useMutation(createMenu, {
+    onSuccess: response => {
+      console.log('createmenu', response);
+      // setMenuContents(inputData); // response 물어보자
+    },
+    onError: error => {
+      console.log('error', error);
+    },
+  });
+
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const formData = new FormData();
     const menuImgOptional = menuImg === null ? 'defaultImgUrl' : menuImg;
-    formData.append('request', JSON.stringify(inputData));
+    formData.append(
+      'request',
+      new Blob([JSON.stringify(inputData)], { type: 'application/json' }),
+    );
     formData.append('file', menuImgOptional);
+    // eslint-disable-next-line no-restricted-syntax
     for (const pair of formData.entries()) {
       console.log(pair);
     }
-    const addMenu = async () => {
-      try {
-        const response = await createMenu(formData);
-        console.log('response', response);
-      } catch (error) {
-        console.error('Error fetching stores:', error);
-      }
-    };
-    addMenu();
+    mutateMenu.mutate(formData);
   };
 
   const renderInputs = () => {
@@ -83,10 +88,10 @@ export default function CMSMenuCategory() {
     <Wrapper>
       <Card>
         <StoreContainer>
-          {menus?.map((menu: Menu) => (
+          {menuContents?.map((menu: Menu) => (
             <StyledText
               key={menu.menuId}
-              onClick={() => handleClickStore(category.menuCategoryId)}
+              // onClick={() => handleClickStore(menu.menuCategoryId)}
             >
               {menu.name}
             </StyledText>

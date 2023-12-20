@@ -47,6 +47,7 @@ export default function AddStore({ handleAddStore }: AddStoreProps) {
       new Blob([JSON.stringify(inputData)], { type: 'application/json' }),
     );
     formData.append('file', storeImgOptional);
+    // eslint-disable-next-line no-restricted-syntax
     for (const pair of formData.entries()) {
       console.log(pair);
     }

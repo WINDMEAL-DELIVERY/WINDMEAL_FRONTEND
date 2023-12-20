@@ -17,7 +17,11 @@ export const createStore = async (storeData: FormData) => {
 };
 
 export const createMenu = async (menuData: object) => {
-  const { data } = await instance.post('/menu', menuData);
+  const { data } = await instance.post('/menu', menuData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
   return data;
 };
 
