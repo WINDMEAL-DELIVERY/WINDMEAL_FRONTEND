@@ -68,7 +68,7 @@ export interface Menu {
 export interface MenuCategory {
   menuCategoryId: number;
   name: string;
-  menus: Menu[];
+  menus?: Menu[];
 }
 
 export interface StoreProp {
@@ -85,4 +85,9 @@ export interface StoreProp {
   menuCategories?: MenuCategory[];
   open?: boolean;
   requests?: number;
+}
+
+export interface MenuCategoryParameter {
+  storeId: number;
+  category: object;
 }

@@ -6,13 +6,15 @@ import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import { MenuCategory } from '@/types/type';
 import { createMenuCategory, getStoreInfo } from '@/apis/store/store';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 
 export default function CMSStore() {
   const router = useRouter();
   const { id: storeId } = router.query;
   const [menuCategory, setMenuCategory] = useState<string>(''); // 새로운
   const [menuCategoryList, setMenuCategoryList] = useState<MenuCategory[]>([]); // 전체 리스트 관리
+
+  const queryClient = useQueryClient();
 
   const handleInputChange = (value: string) => {
     setMenuCategory(value);
@@ -41,21 +43,40 @@ export default function CMSStore() {
     if (mclist) setMenuCategoryList(mclist);
   }, [mclist]);
 
+  const mutateMenuCategory = useMutation(createMenuCategory, {
+    onSuccess: response => {
+      console.log('createMenuCategory', response);
+      queryClient.invalidateQueries('menuCategoryList');
+    },
+    onError: error => {
+      console.log('error', error);
+    },
+  });
+
   const handleSubmit = () => {
-    const addMenuCategory = async () => {
-      try {
-        const { data } = await createMenuCategory(Number(storeId), {
-          name: menuCategory,
-        });
-        console.log('createMenuCategory', data);
-        // 메뉴카테고리 리스트 업뎃
-        fetchStoreInfo();
-      } catch (error) {
-        console.error('Error fetching stores:', error);
-      }
-    };
-    addMenuCategory();
+    mutateMenuCategory.mutate({
+      storeId: Number(storeId),
+      category: { name: menuCategory },
+    });
   };
+
+  // const handleSubmit = () => {
+  //   const addMenuCategory = async () => {
+  //     try {
+  //       const { data } = await createMenuCategory(Number(storeId), {
+  //         name: menuCategory,
+  //       });
+  //       console.log('createMenuCategory', data);
+  //       // 메뉴카테고리 리스트 업뎃
+  //       setMenuCategoryList(prev => {
+  //         return [...prev, data];
+  //       });
+  //     } catch (error) {
+  //       console.error('Error fetching stores:', error);
+  //     }
+  //   };
+  //   addMenuCategory();
+  // };
 
   const handleClickStore = (menuCategoryId: number) => {
     router.push({
