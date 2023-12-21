@@ -2,18 +2,16 @@ import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button, Checkbox } from '@geist-ui/react';
-import { createOption } from '@/apis/store/store';
-import { useEffect, useState } from 'react';
+import { createOption, getOption } from '@/apis/store/store';
+import { useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
-import { Menu } from '@/types/type';
-import { useMutation } from 'react-query';
-import { useRecoilState } from 'recoil';
-import { menuState } from '@/states/menu';
+import { Option } from '@/types/type';
+import { useMutation, useQuery } from 'react-query';
 
 export default function CMSMenu() {
   const router = useRouter();
-  const { cid: menuCategoryId, mid: menuId } = router.query;
-  const [menuContents, setMenuContents] = useRecoilState<Menu[]>(menuState);
+  const { mid: menuId } = router.query;
+  const [optionList, setOptionList] = useState<Option[]>([]);
   const [inputData, setInputData] = useState({
     name: '',
     isEssentialOption: false,
@@ -21,10 +19,23 @@ export default function CMSMenu() {
     optionSpecs: [{ name: '', price: 0 }],
   });
 
-  useEffect(() => {
-    console.log('params', menuCategoryId);
-    console.log('menus', menuContents);
-  }, []);
+  useQuery(
+    ['option'],
+    async () => {
+      const { data } = await getOption(Number(menuId));
+      return data;
+    },
+    {
+      onSuccess: optionData => {
+        console.log('optionData11', optionData);
+        setOptionList(optionData.optionGroups);
+      },
+    },
+  );
+
+  //   useEffect(() => {
+  //     console.log('optionData', optionData);
+  //   }, [optionData]);
 
   const handleInputChange = (fieldName: string, value: string | boolean) => {
     setInputData(prevData => ({
@@ -60,7 +71,7 @@ export default function CMSMenu() {
     });
   };
 
-  const mutateMenu = useMutation(createOption, {
+  const mutateOption = useMutation(createOption, {
     onSuccess: response => {
       console.log('createOption', response);
     },
@@ -71,7 +82,11 @@ export default function CMSMenu() {
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    // 여기에서 mutateMenu 호출 등 필요한 로직 수행
+    console.log('inputData', inputData);
+    mutateOption.mutate({
+      menuId: Number(menuId),
+      optionData: inputData,
+    });
   };
 
   const renderInputs = () => {
@@ -124,7 +139,7 @@ export default function CMSMenu() {
             <Spacer h={0.5} />
             <Button
               auto
-              scale={0.5}
+              scale={0.75}
               type="error-light"
               onClick={() => handleRemoveOption(index)}
             >
@@ -144,8 +159,8 @@ export default function CMSMenu() {
     <Wrapper>
       <Card>
         <StoreContainer>
-          {menuContents?.map((menu: Menu) => (
-            <StyledText key={menu.menuId}>{menu.name}</StyledText>
+          {optionList.map((option: Option) => (
+            <StyledText key={option.name}>{option.name}</StyledText>
           ))}
         </StoreContainer>
       </Card>

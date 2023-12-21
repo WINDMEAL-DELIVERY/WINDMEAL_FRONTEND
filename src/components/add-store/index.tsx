@@ -3,7 +3,7 @@ import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import AddFile from '@components/add-file';
 import Select from 'react-select';
 import { createStore } from '@/apis/store/store';
-import { AddStoreProps, StoreListProps, Option } from '@/types/type';
+import { AddStoreProps, StoreListProps, StoreCategory } from '@/types/type';
 
 export default function AddStore({ handleAddStore }: AddStoreProps) {
   const [storeImg, setStoreImg] = useState<string | null>(null);
@@ -29,7 +29,7 @@ export default function AddStore({ handleAddStore }: AddStoreProps) {
     { value: '생필품', label: '생필품' },
   ];
 
-  const handleMultiChange = (updatedArray: Option[]) => {
+  const handleMultiChange = (updatedArray: StoreCategory[]) => {
     const newArray = updatedArray.map(element => element.value);
     setSelectedOptions(newArray);
     setInputData(prevData => ({

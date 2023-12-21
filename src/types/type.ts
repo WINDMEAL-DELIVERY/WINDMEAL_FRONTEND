@@ -47,7 +47,7 @@ export interface Delivery {
   status: string;
 }
 
-export interface Option {
+export interface StoreCategory {
   value: string;
   label: string;
 }
@@ -90,4 +90,16 @@ export interface StoreProp {
 export interface MenuCategoryParameter {
   storeId: number;
   category: object;
+}
+
+export interface OptionSpec {
+  menuId: number;
+  optionData: object;
+}
+
+export interface Option {
+  name: string;
+  isEssentialOption: boolean;
+  isMultipleOption: boolean;
+  optionSpec: OptionSpec;
 }

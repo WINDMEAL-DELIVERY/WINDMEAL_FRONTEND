@@ -1,5 +1,5 @@
 import { instance } from '@/apis';
-import { MenuCategoryParameter } from '@/types/type';
+import { MenuCategoryParameter, OptionSpec } from '@/types/type';
 
 export const getStoreList = async () => {
   const { data } = await instance.get('/store');
@@ -25,7 +25,7 @@ export const createMenu = async (menuData: object) => {
   return data;
 };
 
-export const createOption = async (menuId: number, optionData: object) => {
+export const createOption = async ({ menuId, optionData }: OptionSpec) => {
   const { data } = await instance.post(`/menu/${menuId}/option`, optionData);
   return data;
 };
