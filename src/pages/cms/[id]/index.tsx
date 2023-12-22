@@ -9,6 +9,7 @@ import { createMenuCategory, getStoreInfo } from '@/apis/store/store';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { menuState } from '@/states/menu';
+import HashTag from '@/components/hash-tag';
 
 export default function CMSStore() {
   const router = useRouter();
@@ -103,6 +104,8 @@ export default function CMSStore() {
         <Button type="secondary" onClick={handleSubmit}>
           제출
         </Button>
+        <Spacer />
+        <HashTag />
         <Spacer style={{ marginTop: '3rem' }} />
       </Card>
       <BottomTab />
