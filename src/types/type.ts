@@ -103,3 +103,10 @@ export interface Option {
   isMultipleOption: boolean;
   optionSpec: OptionSpec;
 }
+
+export type OptionTypeBase = { label: string; value: string };
+
+export type ValueType<
+  OptionType extends OptionTypeBase,
+  IsMulti extends boolean = false,
+> = IsMulti extends true ? OptionType[] : OptionType | null;

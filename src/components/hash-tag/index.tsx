@@ -1,12 +1,13 @@
 import { Input, Button, Spacer, Text } from '@geist-ui/core';
 import Select from 'react-select';
 import React, { useState } from 'react';
-import { StoreCategory } from '@/types/type';
+import { OptionTypeBase, StoreCategory, ValueType } from '@/types/type';
 import { Card } from '@geist-ui/react';
 
 export default function HashTag() {
   const [newTag, setNewTag] = useState<string>('');
   const [tags, setTags] = useState<StoreCategory[]>([]);
+  // 해당 store 가게 카테고리 get 해서 initial 값으로 setTags 지정
 
   const handleTagSubmit = () => {
     if (newTag.trim() !== '') {
