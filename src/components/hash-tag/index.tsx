@@ -1,15 +1,12 @@
-import { Input, Button, Spacer } from '@geist-ui/core';
-import Select, { OptionTypeBase, ValueType } from 'react-select';
+import { Input, Button, Spacer, Text } from '@geist-ui/core';
+import Select from 'react-select';
 import React, { useState } from 'react';
-
-interface HashTag {
-  value: string;
-  label: string;
-}
+import { StoreCategory } from '@/types/type';
+import { Card } from '@geist-ui/react';
 
 export default function HashTag() {
   const [newTag, setNewTag] = useState<string>('');
-  const [tags, setTags] = useState<HashTag[]>([]);
+  const [tags, setTags] = useState<StoreCategory[]>([]);
 
   const handleTagSubmit = () => {
     if (newTag.trim() !== '') {
@@ -21,23 +18,22 @@ export default function HashTag() {
     }
   };
 
-  const handleTagRemove = (removedTag: ValueType<OptionTypeBase, false>) => {
-    if (removedTag) {
-      setTags(tags.filter(tag => tag.value !== removedTag.value));
-    }
-  };
-
   return (
-    <div>
-      <Input
-        placeholder="가게 카테고리 입력"
-        value={newTag}
-        onChange={e => setNewTag(e.target.value)}
-        width="80%"
-        crossOrigin={undefined}
-      />
+    <Card>
+      <Text h3>가게 카테고리</Text>
       <Spacer />
-      <Button onClick={handleTagSubmit}>추가</Button>
+      <div style={{ display: 'flex', width: '80%' }}>
+        <Input
+          placeholder="가게 카테고리 입력"
+          value={newTag}
+          onChange={e => setNewTag(e.target.value)}
+          crossOrigin={undefined}
+        />
+        <Spacer w={0.5} />
+        <Button type="success-light" onClick={handleTagSubmit} auto scale={0.8}>
+          추가
+        </Button>
+      </div>
       <Spacer />
       <Select
         isMulti
@@ -57,6 +53,6 @@ export default function HashTag() {
         getOptionLabel={option => option.label}
         getOptionValue={option => option.value}
       />
-    </div>
+    </Card>
   );
 }

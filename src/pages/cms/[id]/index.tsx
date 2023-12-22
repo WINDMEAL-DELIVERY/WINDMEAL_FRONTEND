@@ -105,9 +105,8 @@ export default function CMSStore() {
           제출
         </Button>
         <Spacer />
-        <HashTag />
-        <Spacer style={{ marginTop: '3rem' }} />
       </Card>
+      <HashTag />
       <BottomTab />
     </Wrapper>
   );
