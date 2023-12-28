@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { getCookie, setCookie } from 'cookies-next';
+import { useRedirect } from '@hooks/routerHooks';
 
 export const GOOGLE_URL = process.env.NEXT_PUBLIC_LOGIN_URL as string;
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
@@ -30,10 +31,17 @@ instance.interceptors.response.use(
   (response: AxiosResponse) => response,
   async error => {
     const requestApi = error.config;
-    if (error.response.status === 401) {
-      const token: string = (await getCookie('token')) || '';
-      if (token !== '') {
-        try {
+
+    const isReissueRequest = error.config.url?.includes('auth/reissue');
+    const isUnauthorizedError = error.response.status === 401;
+    const redirectToLogin = useRedirect('login');
+
+    if (isUnauthorizedError && isReissueRequest) {
+      redirectToLogin();
+    } else if (isUnauthorizedError) {
+      try {
+        const token: string = (await getCookie('token')) || '';
+        if (token !== '') {
           const response = await instance.post(`${BACKEND_URL}/auth/reissue`);
           await setCookie('token', response.data.data.token);
           const newToken: string = (await getCookie('token')) || '';
@@ -41,9 +49,9 @@ instance.interceptors.response.use(
             Authorization: `Bearer ${newToken}`,
           };
           return await instance(requestApi);
-        } catch (refreshError) {
-          return Promise.reject(refreshError);
         }
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
       }
     }
     return Promise.reject(error);
