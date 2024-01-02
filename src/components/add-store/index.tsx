@@ -1,15 +1,13 @@
-import React, { CSSProperties, useState } from 'react';
+import React, { useState } from 'react';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import AddFile from '@components/add-file';
-import Select from 'react-select';
 import { createStore } from '@/apis/store/store';
-import { AddStoreProps, StoreListProps, StoreCategory } from '@/types/type';
+import { AddStoreProps, StoreListProps } from '@/types/type';
 
 export default function AddStore({ handleAddStore }: AddStoreProps) {
   const [storeImg, setStoreImg] = useState<string | null>(null);
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [inputData, setInputData] = useState({
-    memberId: 1, // 이후 멤버 아이디 받아 넣어줘야함
+    memberId: 4, // 이후 멤버 아이디 받아 넣어줘야함
     name: '',
     phoneNumber: '',
     openTime: '',
@@ -17,26 +15,10 @@ export default function AddStore({ handleAddStore }: AddStoreProps) {
     placeName: '',
     longitude: '',
     latitude: '',
-    categoryList: selectedOptions,
+    categoryList: [],
   });
   const defaultImgUrl =
     'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F67%2F41%2Fb9%2F6741b98b6e8f6754c16775da03334535.png&type=sc960_832';
-
-  // 이후 category get 해줘야
-  const options = [
-    { value: '카페', label: '카페' },
-    { value: '식당', label: '식당' },
-    { value: '생필품', label: '생필품' },
-  ];
-
-  const handleMultiChange = (updatedArray: StoreCategory[]) => {
-    const newArray = updatedArray.map(element => element.value);
-    setSelectedOptions(newArray);
-    setInputData(prevData => ({
-      ...prevData,
-      categoryList: newArray,
-    }));
-  };
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -61,7 +43,7 @@ export default function AddStore({ handleAddStore }: AddStoreProps) {
         };
         handleAddStore(storeInfo);
       } catch (error) {
-        console.error('Error fetching stores:', error);
+        console.error('Error add stores:', error);
       }
     };
     addStore();
@@ -88,13 +70,6 @@ export default function AddStore({ handleAddStore }: AddStoreProps) {
     ['경도', 'latitude'],
   ];
 
-  const customStyles = {
-    control: (provided: CSSProperties) => ({
-      ...provided,
-      width: '90%',
-    }),
-  };
-
   const renderInputs = () => {
     return inputFields.map(label => (
       <Input
@@ -113,12 +88,6 @@ export default function AddStore({ handleAddStore }: AddStoreProps) {
       <Text h3>가게 정보 입력</Text>
       <Spacer />
       {renderInputs()}
-      <Select
-        isMulti
-        options={options}
-        styles={customStyles}
-        onChange={handleMultiChange}
-      />
       <Spacer />
       <AddFile onImageUpload={handleAddFile} />
       <Spacer />
