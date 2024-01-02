@@ -47,7 +47,7 @@ export interface Delivery {
   status: string;
 }
 
-export interface StoreCategory {
+export interface StoreCategoryTag {
   value: string;
   label: string;
 }
@@ -110,3 +110,18 @@ export type ValueType<
   OptionType extends OptionTypeBase,
   IsMulti extends boolean = false,
 > = IsMulti extends true ? OptionType[] : OptionType | null;
+
+export interface StoreCategory {
+  categoryId: number;
+  name: string;
+  storeCategoryId: number;
+}
+
+export interface StoreIdProp {
+  storeId?: number;
+}
+
+export interface StoreCategorySpec {
+  category: string;
+  storeId: number;
+}

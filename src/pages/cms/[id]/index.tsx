@@ -13,7 +13,8 @@ import HashTag from '@/components/hash-tag';
 
 export default function CMSStore() {
   const router = useRouter();
-  const { id: storeId } = router.query;
+  const { id: storeIdString } = router.query;
+  const storeId = storeIdString ? Number(storeIdString) : undefined;
   const [menuCategory, setMenuCategory] = useState<string>(''); // 새로운
   const [menuCategoryList, setMenuCategoryList] = useState<MenuCategory[]>([]); // 전체 리스트 관리
   const [, setMenuContents] = useRecoilState<Menu[]>(menuState);
@@ -106,7 +107,7 @@ export default function CMSStore() {
         </Button>
         <Spacer />
       </Card>
-      <HashTag />
+      <HashTag storeId={storeId} />
       <BottomTab />
     </Wrapper>
   );

@@ -1,13 +1,42 @@
 import { Input, Button, Spacer, Text } from '@geist-ui/core';
 import Select from 'react-select';
 import React, { useState } from 'react';
-import { OptionTypeBase, StoreCategory, ValueType } from '@/types/type';
+import {
+  OptionTypeBase,
+  StoreCategory,
+  StoreCategoryTag,
+  StoreIdProp,
+  ValueType,
+} from '@/types/type';
 import { Card } from '@geist-ui/react';
+import { useMutation, useQuery } from 'react-query';
+import { createStoreCategory, getStoreInfo } from '@/apis/store/store';
 
-export default function HashTag() {
+export default function HashTag({ storeId }: StoreIdProp) {
   const [newTag, setNewTag] = useState<string>('');
-  const [tags, setTags] = useState<StoreCategory[]>([]);
+  const [tags, setTags] = useState<StoreCategoryTag[]>([]);
   // 해당 store 가게 카테고리 get 해서 initial 값으로 setTags 지정
+
+  const { data: sclist } = useQuery<StoreCategory[]>(
+    ['storeCategoryList'],
+    async () => {
+      const {
+        data: { storeCategoryResponse },
+      } = await getStoreInfo(Number(storeId));
+      return storeCategoryResponse;
+    },
+    {
+      onSuccess: resp => {
+        console.log('resp', resp);
+        // setTags()
+      },
+      onError: err => console.log('!!', err),
+    },
+  );
+
+  const mutateStoreCategory = useMutation(createStoreCategory, {
+    onSuccess: resp => console.log('success post', resp),
+  });
 
   const handleTagSubmit = () => {
     if (newTag.trim() !== '') {
@@ -15,6 +44,10 @@ export default function HashTag() {
       if (!tags.some(tag => tag.value === newTag)) {
         setTags([...tags, { value: newTag, label: newTag }]);
         setNewTag('');
+        mutateStoreCategory.mutate({
+          storeId: Number(storeId),
+          category: newTag,
+        });
       }
     }
   };
