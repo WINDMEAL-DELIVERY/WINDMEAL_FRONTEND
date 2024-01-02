@@ -17,7 +17,7 @@ export default function HashTag({ storeId }: StoreIdProp) {
   const [tags, setTags] = useState<StoreCategoryTag[]>([]);
   // 해당 store 가게 카테고리 get 해서 initial 값으로 setTags 지정
 
-  const { data: sclist } = useQuery<StoreCategory[]>(
+  useQuery<StoreCategory[]>(
     ['storeCategoryList'],
     async () => {
       const {
@@ -27,8 +27,14 @@ export default function HashTag({ storeId }: StoreIdProp) {
     },
     {
       onSuccess: resp => {
-        console.log('resp', resp);
-        // setTags()
+        console.log('storeCategoryResponse', resp);
+        setTags(prev => [
+          ...prev,
+          ...resp.map(category => ({
+            value: category.name,
+            label: category.name,
+          })),
+        ]);
       },
       onError: err => console.log('!!', err),
     },
