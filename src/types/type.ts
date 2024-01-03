@@ -132,3 +132,26 @@ export interface StoreCategorySpec {
   category: string;
   storeId: number;
 }
+
+export interface StoreInput {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [x: string]: any;
+  memberId: number;
+  name: string;
+  phoneNumber: string;
+  openTime: string;
+  closeTime: string;
+  placeName: string;
+  longitude: string;
+  latitude: string;
+  categoryList: string[];
+}
+
+export interface MenuInput {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [x: string]: any;
+  menuCategoryId: string;
+  name: string;
+  description: string;
+  price: number;
+}

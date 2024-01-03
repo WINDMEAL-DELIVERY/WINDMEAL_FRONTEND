@@ -6,19 +6,10 @@ import { createMenu } from '@/apis/store/store';
 import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import AddFile from '@/components/add-file';
-import { Menu } from '@/types/type';
+import { Menu, MenuInput } from '@/types/type';
 import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { menuState } from '@/states/menu';
-
-interface InputData {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  [x: string]: any;
-  menuCategoryId: string;
-  name: string;
-  description: string;
-  price: number;
-}
 
 export default function CMSMenuCategory() {
   const router = useRouter();
@@ -31,7 +22,7 @@ export default function CMSMenuCategory() {
     description: '',
     price: 0,
   };
-  const [inputData, setInputData] = useState<InputData>(initialInput);
+  const [inputData, setInputData] = useState<MenuInput>(initialInput);
 
   const handleInputChange = (fieldName: string, value: string) => {
     setInputData(prevData => ({

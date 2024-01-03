@@ -8,17 +8,16 @@ import { StoreContainer, StyledText } from '@pages/cms/styles';
 import { Option } from '@/types/type';
 import { useMutation, useQuery } from 'react-query';
 
-const initialInput = {
-  name: '',
-  isEssentialOption: false,
-  isMultipleOption: true,
-  optionSpecs: [{ name: '', price: 0 }],
-};
-
 export default function CMSMenu() {
   const router = useRouter();
   const { mid: menuId } = router.query;
   const [optionList, setOptionList] = useState<Option[]>([]);
+  const initialInput = {
+    name: '',
+    isEssentialOption: false,
+    isMultipleOption: true,
+    optionSpecs: [{ name: '', price: 0 }],
+  };
   const [inputData, setInputData] = useState(initialInput);
 
   useQuery(
