@@ -18,7 +18,7 @@ export default function HashTag({ storeId }: StoreIdProp) {
   // 해당 store 가게 카테고리 get 해서 initial 값으로 setTags 지정
 
   useQuery<StoreCategory[]>(
-    ['storeCategoryList'],
+    ['storeCategoryList', storeId],
     async () => {
       const {
         data: { storeCategoryResponse },
@@ -28,8 +28,7 @@ export default function HashTag({ storeId }: StoreIdProp) {
     {
       onSuccess: resp => {
         console.log('storeCategoryResponse', resp);
-        setTags(prev => [
-          ...prev,
+        setTags([
           ...resp.map(category => ({
             value: category.name,
             label: category.name,
