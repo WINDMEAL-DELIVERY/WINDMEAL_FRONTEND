@@ -106,6 +106,7 @@ export default function CMSStore() {
         <Spacer />
       </Card>
       <HashTag storeId={storeId} />
+      <Spacer style={{ marginTop: '3rem' }} />
       <BottomTab />
     </Wrapper>
   );

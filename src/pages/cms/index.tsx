@@ -3,7 +3,7 @@ import { StoreListProps } from '@/types/type';
 import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useState } from 'react';
-import { Card } from '@geist-ui/react';
+import { Card, Spacer } from '@geist-ui/react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import { useRouter } from 'next/router';
 import AddStore from '@/components/add-store';
@@ -49,6 +49,7 @@ export default function CMS() {
       </Card>
       <AddStore />
       <BottomTab />
+      <Spacer style={{ marginTop: '3rem' }} />
     </Wrapper>
   );
 }

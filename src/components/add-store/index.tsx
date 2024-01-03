@@ -94,7 +94,6 @@ export default function AddStore() {
       <Button type="secondary" onClick={handleSubmit}>
         제출
       </Button>
-      <Spacer style={{ marginTop: '3rem' }} />
     </Card>
   );
 }
