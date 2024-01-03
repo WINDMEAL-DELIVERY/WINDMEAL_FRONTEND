@@ -47,8 +47,9 @@ export default function CMSMenuCategory() {
 
   const mutateMenu = useMutation(createMenu, {
     onSuccess: response => {
-      console.log('createmenu', response);
-      // setMenuContents(inputData); // response 물어보자
+      console.log('createmenu', response.data);
+      setMenuContents(prev => [...prev, response.data]);
+      console.log('!!', menuContents);
     },
     onError: error => {
       console.log('error', error);

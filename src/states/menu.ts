@@ -9,6 +9,7 @@ const initialMenu: Menu = {
   name: '',
   description: '',
   price: { price: 0 },
+  menuId: 0,
 };
 
 export const menuState = atom({
