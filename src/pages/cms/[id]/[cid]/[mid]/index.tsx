@@ -33,10 +33,6 @@ export default function CMSMenu() {
     },
   );
 
-  //   useEffect(() => {
-  //     console.log('optionData', optionData);
-  //   }, [optionData]);
-
   const handleInputChange = (fieldName: string, value: string | boolean) => {
     setInputData(prevData => ({
       ...prevData,
@@ -74,6 +70,7 @@ export default function CMSMenu() {
   const mutateOption = useMutation(createOption, {
     onSuccess: response => {
       console.log('createOption', response);
+      setOptionList(prev => [...prev, inputData]);
     },
     onError: error => {
       console.log('error', error);
@@ -160,7 +157,12 @@ export default function CMSMenu() {
       <Card>
         <StoreContainer>
           {optionList.map((option: Option) => (
-            <StyledText key={option.name}>{option.name}</StyledText>
+            <StyledText key={option.name}>
+              {option.name}{' '}
+              {option.optionSpecs?.map(spec => (
+                <Text key={spec.optionSpecId}>{spec.name}</Text>
+              ))}
+            </StyledText>
           ))}
         </StoreContainer>
       </Card>

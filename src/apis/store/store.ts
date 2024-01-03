@@ -1,7 +1,7 @@
 import { instance } from '@/apis';
 import {
   MenuCategoryParameter,
-  OptionSpec,
+  OptionSpecParam,
   StoreCategorySpec,
 } from '@/types/type';
 
@@ -29,7 +29,7 @@ export const createMenu = async (menuData: object) => {
   return data;
 };
 
-export const createOption = async ({ menuId, optionData }: OptionSpec) => {
+export const createOption = async ({ menuId, optionData }: OptionSpecParam) => {
   const { data } = await instance.post(`/menu/${menuId}/option`, optionData);
   return data;
 };

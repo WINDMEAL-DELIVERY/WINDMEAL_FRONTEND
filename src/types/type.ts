@@ -92,16 +92,23 @@ export interface MenuCategoryParameter {
   category: object;
 }
 
-export interface OptionSpec {
+export interface OptionSpecParam {
   menuId: number;
   optionData: object;
+}
+
+export interface OptionSpec {
+  optionGroupId?: number;
+  optionSpecId?: number;
+  name: string;
+  price: number;
 }
 
 export interface Option {
   name: string;
   isEssentialOption: boolean;
   isMultipleOption: boolean;
-  optionSpec: OptionSpec;
+  optionSpecs: OptionSpec[];
 }
 
 export type OptionTypeBase = { label: string; value: string };
