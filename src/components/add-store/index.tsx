@@ -4,19 +4,35 @@ import AddFile from '@components/add-file';
 import { createStore } from '@/apis/store/store';
 import { useMutation, useQueryClient } from 'react-query';
 
+interface StoreInput {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [x: string]: any;
+  memberId: number;
+  name: string;
+  phoneNumber: string;
+  openTime: string;
+  closeTime: string;
+  placeName: string;
+  longitude: string;
+  latitude: string;
+  categoryList: string[];
+}
+
+const initialStoreInput: StoreInput = {
+  memberId: 4, // 이후 멤버 아이디 받아 넣어줘야함
+  name: '',
+  phoneNumber: '',
+  openTime: '',
+  closeTime: '',
+  placeName: '',
+  longitude: '',
+  latitude: '',
+  categoryList: [],
+};
+
 export default function AddStore() {
   const [storeImg, setStoreImg] = useState<string | null>(null);
-  const [inputData, setInputData] = useState({
-    memberId: 4, // 이후 멤버 아이디 받아 넣어줘야함
-    name: '',
-    phoneNumber: '',
-    openTime: '',
-    closeTime: '',
-    placeName: '',
-    longitude: '',
-    latitude: '',
-    categoryList: [],
-  });
+  const [inputData, setInputData] = useState<StoreInput>(initialStoreInput);
   const defaultImgUrl =
     'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F67%2F41%2Fb9%2F6741b98b6e8f6754c16775da03334535.png&type=sc960_832';
 
@@ -26,6 +42,8 @@ export default function AddStore() {
     onSuccess: response => {
       console.log('createStore', response);
       queryClient.invalidateQueries('storeList');
+      setInputData(initialStoreInput);
+      setStoreImg(null);
     },
     onError: error => {
       console.log('error', error);
@@ -73,6 +91,7 @@ export default function AddStore() {
         name={label[1]}
         width="95%"
         crossOrigin={undefined}
+        value={inputData[label[1]]}
         onChange={e => handleInputChange(label[1], e.target.value)}
       />
     ));

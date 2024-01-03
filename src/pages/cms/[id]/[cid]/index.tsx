@@ -11,28 +11,27 @@ import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { menuState } from '@/states/menu';
 
+interface InputData {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [x: string]: any;
+  menuCategoryId: string;
+  name: string;
+  description: string;
+  price: number;
+}
+
 export default function CMSMenuCategory() {
   const router = useRouter();
   const { id: storeId, cid: menuCategoryId } = router.query;
   const [menuImg, setMenuImg] = useState<string | null>(null);
   const [menuContents, setMenuContents] = useRecoilState<Menu[]>(menuState);
-  const [inputData, setInputData] = useState({
-    menuCategoryId,
+  const initialInput = {
+    menuCategoryId: menuCategoryId as string,
     name: '',
     description: '',
     price: 0,
-  });
-
-  useEffect(() => {
-    console.log('params', menuCategoryId);
-    console.log('menus', menuContents);
-  }, []);
-
-  const inputFields = [
-    ['메뉴 이름', 'name'],
-    ['메뉴 설명', 'description'],
-    ['가격', 'price'],
-  ];
+  };
+  const [inputData, setInputData] = useState<InputData>(initialInput);
 
   const handleInputChange = (fieldName: string, value: string) => {
     setInputData(prevData => ({
@@ -40,6 +39,31 @@ export default function CMSMenuCategory() {
       [fieldName]: value,
     }));
   };
+
+  const inputFields = [
+    ['메뉴 이름', 'name'],
+    ['메뉴 설명', 'description'],
+    ['가격', 'price'],
+  ];
+
+  const renderInputs = () => {
+    return inputFields.map(input => (
+      <Input
+        key={input[0]}
+        label={input[0]}
+        name={input[1]}
+        width="95%"
+        crossOrigin={undefined}
+        value={inputData[input[1]]}
+        onChange={e => handleInputChange(input[1], e.target.value)}
+      />
+    ));
+  };
+
+  useEffect(() => {
+    console.log('params', menuCategoryId);
+    console.log('menus', menuContents);
+  }, []);
 
   const handleAddFile = (img: string) => {
     setMenuImg(img);
@@ -49,7 +73,7 @@ export default function CMSMenuCategory() {
     onSuccess: response => {
       console.log('createmenu', response.data);
       setMenuContents(prev => [...prev, response.data]);
-      console.log('!!', menuContents);
+      setInputData(initialInput);
     },
     onError: error => {
       console.log('error', error);
@@ -66,19 +90,6 @@ export default function CMSMenuCategory() {
     );
     formData.append('file', menuImgOptional);
     mutateMenu.mutate(formData);
-  };
-
-  const renderInputs = () => {
-    return inputFields.map(label => (
-      <Input
-        key={label[0]}
-        label={label[0]}
-        name={label[1]}
-        width="95%"
-        crossOrigin={undefined}
-        onChange={e => handleInputChange(label[1], e.target.value)}
-      />
-    ));
   };
 
   const handleClickStore = (menuID: number) => {

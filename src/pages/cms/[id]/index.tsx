@@ -15,7 +15,7 @@ export default function CMSStore() {
   const router = useRouter();
   const { id: storeIdString } = router.query;
   const storeId = storeIdString ? Number(storeIdString) : undefined;
-  const [menuCategory, setMenuCategory] = useState<string>(''); // 새로운
+  const [menuCategory, setMenuCategory] = useState<string>('');
   const [menuCategoryList, setMenuCategoryList] = useState<MenuCategory[]>([]); // 전체 리스트 관리
   const [, setMenuContents] = useRecoilState<Menu[]>(menuState);
 
@@ -48,6 +48,7 @@ export default function CMSStore() {
     onSuccess: response => {
       console.log('createMenuCategory', response);
       queryClient.invalidateQueries('menuCategoryList');
+      setMenuCategory('');
     },
     onError: error => {
       console.log('error', error);
@@ -96,6 +97,7 @@ export default function CMSStore() {
           width="95%"
           crossOrigin={undefined}
           onChange={e => handleInputChange(e.target.value)}
+          value={menuCategory}
         />
         <Spacer />
         <Button type="secondary" onClick={handleSubmit}>

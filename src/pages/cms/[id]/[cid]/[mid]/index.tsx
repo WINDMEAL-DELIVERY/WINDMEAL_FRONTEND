@@ -8,16 +8,18 @@ import { StoreContainer, StyledText } from '@pages/cms/styles';
 import { Option } from '@/types/type';
 import { useMutation, useQuery } from 'react-query';
 
+const initialInput = {
+  name: '',
+  isEssentialOption: false,
+  isMultipleOption: true,
+  optionSpecs: [{ name: '', price: 0 }],
+};
+
 export default function CMSMenu() {
   const router = useRouter();
   const { mid: menuId } = router.query;
   const [optionList, setOptionList] = useState<Option[]>([]);
-  const [inputData, setInputData] = useState({
-    name: '',
-    isEssentialOption: false,
-    isMultipleOption: true,
-    optionSpecs: [{ name: '', price: 0 }],
-  });
+  const [inputData, setInputData] = useState(initialInput);
 
   useQuery(
     ['option'],
@@ -71,6 +73,7 @@ export default function CMSMenu() {
     onSuccess: response => {
       console.log('createOption', response);
       setOptionList(prev => [...prev, inputData]);
+      setInputData(initialInput);
     },
     onError: error => {
       console.log('error', error);
@@ -95,6 +98,7 @@ export default function CMSMenu() {
           width="95%"
           crossOrigin={undefined}
           onChange={e => handleInputChange('name', e.target.value)}
+          value={inputData.name}
         />
         <Spacer h={0.5} />
         <div style={{ margin: '0.5rem 0.3rem', display: 'flex' }}>
@@ -125,6 +129,7 @@ export default function CMSMenu() {
               width="95%"
               crossOrigin={undefined}
               onChange={e => handleOptionChange(index, 'name', e.target.value)}
+              value={inputData.optionSpecs[index].name}
             />
             <Input
               label={`가격 ${index + 1}`}
@@ -132,6 +137,7 @@ export default function CMSMenu() {
               width="95%"
               crossOrigin={undefined}
               onChange={e => handleOptionChange(index, 'price', e.target.value)}
+              value={String(inputData.optionSpecs[index].price)}
             />
             <Spacer h={0.5} />
             <Button
