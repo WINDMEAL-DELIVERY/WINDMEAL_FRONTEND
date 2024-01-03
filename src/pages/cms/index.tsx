@@ -2,7 +2,7 @@ import { getStoreList } from '@/apis/store/store';
 import { StoreListProps } from '@/types/type';
 import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Card } from '@geist-ui/react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import { useRouter } from 'next/router';
@@ -13,31 +13,23 @@ export default function CMS() {
   const [storeList, setStoreList] = useState<StoreListProps[]>([]);
   const router = useRouter();
 
-  const { data: stores } = useQuery<StoreListProps[]>(
+  useQuery<StoreListProps[]>(
     ['storeList'],
     async () => {
       const { data } = await getStoreList();
       return data.content;
     },
     {
-      onSuccess: () => {
+      onSuccess: stores => {
         console.log('response1', stores);
+        setStoreList(stores);
       },
       onError: err => console.log('!!', err),
     },
   );
 
-  useEffect(() => {
-    console.log('response2', stores);
-    if (stores) setStoreList(stores);
-  }, [stores]);
-
   const handleClickStore = (id: number) => {
     router.push(`/cms/${id}`);
-  };
-
-  const handleAddStore = (newStore: StoreListProps) => {
-    setStoreList(prev => [...prev, newStore]);
   };
 
   return (
@@ -55,7 +47,7 @@ export default function CMS() {
           ))}
         </StoreContainer>
       </Card>
-      <AddStore handleAddStore={handleAddStore} />
+      <AddStore />
       <BottomTab />
     </Wrapper>
   );

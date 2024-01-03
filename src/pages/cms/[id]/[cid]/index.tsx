@@ -65,10 +65,6 @@ export default function CMSMenuCategory() {
       new Blob([JSON.stringify(inputData)], { type: 'application/json' }),
     );
     formData.append('file', menuImgOptional);
-    // eslint-disable-next-line no-restricted-syntax
-    for (const pair of formData.entries()) {
-      console.log(pair);
-    }
     mutateMenu.mutate(formData);
   };
 

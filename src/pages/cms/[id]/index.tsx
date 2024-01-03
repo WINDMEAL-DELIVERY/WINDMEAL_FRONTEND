@@ -2,7 +2,7 @@ import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { StoreContainer, StyledText } from '@pages/cms/styles';
 import { Menu, MenuCategory } from '@/types/type';
 import { createMenuCategory, getStoreInfo } from '@/apis/store/store';
@@ -25,7 +25,7 @@ export default function CMSStore() {
     setMenuCategory(value);
   };
 
-  const { data: mclist } = useQuery<MenuCategory[]>(
+  useQuery<MenuCategory[]>(
     ['menuCategoryList'],
     async () => {
       const {
@@ -36,17 +36,13 @@ export default function CMSStore() {
       return menuCategories;
     },
     {
-      onSuccess: () => {
+      onSuccess: mclist => {
         console.log('response1', mclist);
+        setMenuCategoryList(mclist);
       },
       onError: err => console.log('!!', err),
     },
   );
-
-  useEffect(() => {
-    console.log('response2', mclist);
-    if (mclist) setMenuCategoryList(mclist);
-  }, [mclist]);
 
   const mutateMenuCategory = useMutation(createMenuCategory, {
     onSuccess: response => {

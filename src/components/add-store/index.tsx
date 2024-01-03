@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import AddFile from '@components/add-file';
 import { createStore } from '@/apis/store/store';
-import { AddStoreProps, StoreListProps } from '@/types/type';
+import { useMutation, useQueryClient } from 'react-query';
 
-export default function AddStore({ handleAddStore }: AddStoreProps) {
+export default function AddStore() {
   const [storeImg, setStoreImg] = useState<string | null>(null);
   const [inputData, setInputData] = useState({
     memberId: 4, // 이후 멤버 아이디 받아 넣어줘야함
@@ -20,6 +20,18 @@ export default function AddStore({ handleAddStore }: AddStoreProps) {
   const defaultImgUrl =
     'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F67%2F41%2Fb9%2F6741b98b6e8f6754c16775da03334535.png&type=sc960_832';
 
+  const queryClient = useQueryClient();
+
+  const mutateStore = useMutation(createStore, {
+    onSuccess: response => {
+      console.log('createStore', response);
+      queryClient.invalidateQueries('storeList');
+    },
+    onError: error => {
+      console.log('error', error);
+    },
+  });
+
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const formData = new FormData();
@@ -29,24 +41,7 @@ export default function AddStore({ handleAddStore }: AddStoreProps) {
       new Blob([JSON.stringify(inputData)], { type: 'application/json' }),
     );
     formData.append('file', storeImgOptional);
-    // eslint-disable-next-line no-restricted-syntax
-    for (const pair of formData.entries()) {
-      console.log(pair);
-    }
-    const addStore = async () => {
-      try {
-        const response = await createStore(formData);
-        console.log('response', response);
-        const storeInfo: StoreListProps = {
-          name: response.name,
-          storeId: response.storeId,
-        };
-        handleAddStore(storeInfo);
-      } catch (error) {
-        console.error('Error add stores:', error);
-      }
-    };
-    addStore();
+    mutateStore.mutate(formData);
   };
 
   const handleInputChange = (fieldName: string, value: string) => {
