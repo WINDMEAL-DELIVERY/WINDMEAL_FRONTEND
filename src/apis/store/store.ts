@@ -61,12 +61,20 @@ export const createStoreCategory = async ({
   return data;
 };
 
-export const getMemberReport = async () => {
-  const { data } = await instance.get(`/api/member/report`);
+export const getMemberReport = async (
+  nickname?: string,
+  email?: string,
+  isReported?: string,
+) => {
+  const { data } = await instance.get(
+    `/api/member/report?nickname=${nickname}&email=${email}&isReported=${isReported}`,
+  );
   return data;
 };
 
-export const getSuggestReport = async () => {
-  const { data } = await instance.get(`/report`);
+export const getSuggestReport = async (nickname?: string, email?: string) => {
+  const { data } = await instance.get(
+    `/report?nickname=${nickname}&email=${email}`,
+  );
   return data;
 };

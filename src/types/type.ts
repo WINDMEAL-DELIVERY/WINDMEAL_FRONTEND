@@ -155,3 +155,11 @@ export interface MenuInput {
   description: string;
   price: number;
 }
+
+export interface ReportContent {
+  title: string;
+  content: string;
+  reportedEmail?: string;
+  reporterEmail?: string;
+  email?: string;
+}

@@ -48,6 +48,7 @@ export default function CMS() {
         </StoreContainer>
       </Card>
       <AddStore />
+      <text onClick={() => router.push(`/cms/report`)}>REPORT</text>
       <BottomTab />
       <Spacer style={{ marginTop: '3rem' }} />
     </Wrapper>
