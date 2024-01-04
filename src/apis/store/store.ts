@@ -60,3 +60,13 @@ export const createStoreCategory = async ({
   });
   return data;
 };
+
+export const getMemberReport = async () => {
+  const { data } = await instance.get(`/api/member/report`);
+  return data;
+};
+
+export const getSuggestReport = async () => {
+  const { data } = await instance.get(`/report`);
+  return data;
+};
