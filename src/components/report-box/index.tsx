@@ -13,7 +13,9 @@ export default function ReportBox() {
   const handleInputChange = (fieldName: string, value: string) => {
     if (fieldName === 'nickname') setNickname(value);
     else if (fieldName === 'email') setEmail(value);
-    else setIsReported(value);
+    else {
+      setIsReported(value ? 'true' : 'false');
+    }
   };
 
   const suggestReport = async () => {
@@ -40,11 +42,15 @@ export default function ReportBox() {
     } else {
       suggestReport();
     }
+    setEmail('');
+    setNickname('');
   };
 
   const handleToggle = () => {
     setIsMemberReport(prevState => !prevState);
     setResult([]);
+    setEmail('');
+    setNickname('');
   };
 
   return (
