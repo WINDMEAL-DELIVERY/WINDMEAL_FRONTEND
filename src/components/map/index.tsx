@@ -204,49 +204,17 @@
 //   const [selectFlag, setSelectFlag] = useState<number>(0);
 //   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
 
-//   const handleSelect = (selectedValue: string) => {
-//     setSelected(selectedValue);
-//     setSelectFlag(selectFlag + 1);
-//     setIsDialogVisible(true);
-//   };
+import {
+  OptionButtonContainer,
+  OptionButton,
+  TopContainer,
+} from '@components/map/styles';
+import { useEffect, useState } from 'react';
+import AutoCompleteBox from '@/components/auto-complete-box';
+import Dialog from '@/components/dialog';
+import { makeMarkerClustering } from '@/components/map/marker-cluster';
+import { MyMapProps, storeProp } from '@/types/type';
 
-//   const hideDialog = () => {
-//     setIsDialogVisible(false); // 다이얼로그를 숨김 설정
-//   };
-
-//   return (
-//     <MapDiv
-//       style={{
-//         width: '100%',
-//         height: '100vh',
-//         display: 'flex',
-//         justifyContent: 'center',
-//       }}
-//     >
-//       <TopContainer>
-//         <AutoCompleteBox handleSelect={handleSelect} />
-//         <OptionButtonContainer>
-//           <OptionButton>출발</OptionButton>
-//           <OptionButton>도착</OptionButton>
-//           <OptionButton>도착시간</OptionButton>
-//           <OptionButton>음식종류</OptionButton>
-//           <OptionButton>영업중</OptionButton>
-//         </OptionButtonContainer>
-//       </TopContainer>
-//       <MyMap
-//         selected={selected}
-//         selectFlag={selectFlag}
-//         handleSelect={handleSelect}
-//       />
-//       <Dialog
-//         size={30}
-//         visible={isDialogVisible}
-//         title="임시 모달"
-//         description="상점의 기본 사항들이 뜰 것"
-//         onCancel={hideDialog}
-//         onConfirm={hideDialog}
-//         confirmTitle="Close"
-//       />
-//     </MapDiv>
-//   );
-// }
+export default function Map() {
+  return <div>gd</div>;
+}
