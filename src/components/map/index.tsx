@@ -216,5 +216,5 @@ import { makeMarkerClustering } from '@/components/map/marker-cluster';
 import { MyMapProps, storeProp } from '@/types/type';
 
 export default function Map() {
-  return <div>gd</div>;
+  return <div>빌드 테스트</div>;
 }
