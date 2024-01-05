@@ -18,6 +18,7 @@ export interface InputNickNameProps {
   $focused: boolean;
   $special: boolean;
   $duplicated: boolean;
+  $validated: boolean;
   $error: boolean;
 }
 

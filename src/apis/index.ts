@@ -1,4 +1,6 @@
-import axios from 'axios';
+import axios, { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import { getCookie, setCookie } from 'cookies-next';
+import { useRedirect } from '@hooks/routerHooks';
 
 export const GOOGLE_URL = process.env.NEXT_PUBLIC_LOGIN_URL as string;
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
@@ -6,7 +8,52 @@ export const BACKEND_URL = process.env.NEXT_PUBLIC_BASE_URL as string;
 export const instance = axios.create({
   baseURL: BACKEND_URL,
   withCredentials: true,
-  headers: {
-    Authorization: `Bearer B9WCglL7eESaXHvrM64WlX8XS5mnrAhwB0ygkO3t9UhU9Vud860S3KL2husnbJpMEdSO61zSM4eJdJD0f+A3YhAcFzhRFXRikEt6h9CzXRuA194FyNKuO3sgxOdqowxP5rTeHyLZAaK0cVY2A8rQKpoznGigf/PvHqQh7DRgNf8ki9OSTLmLiMDXkbGZm7LUp/Ya+LWRZcCl1SUAE8Idlhwm5zcxQ4GvGoCzpi9tbG8MY5Eyf4xfTPWLvalJ+D9yqD9lUwWsl/7ht9VvO9pH0UWIMkv28K4FHqLiYuhwsqrnp5smB+HyZcQVTEAACAQ0`,
-  },
 });
+
+// 요청 전에 토큰 확인해서 보내기
+instance.interceptors.request.use(
+  async (config: InternalAxiosRequestConfig) => {
+    try {
+      const token: string = (await getCookie('token')) || '';
+      if (token) {
+        config.headers.set('Authorization', `Bearer ${token}`);
+      }
+      return config;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  },
+  error => Promise.reject(error),
+);
+
+// 토큰 만료시 갱신
+instance.interceptors.response.use(
+  (response: AxiosResponse) => response,
+  async error => {
+    const requestApi = error.config;
+
+    const isReissueRequest = error.config.url?.includes('auth/reissue');
+    const isUnauthorizedError = error.response.status === 401;
+    const redirectToLogin = useRedirect('login');
+
+    if (isUnauthorizedError && isReissueRequest) {
+      redirectToLogin();
+    } else if (isUnauthorizedError) {
+      try {
+        const token: string = (await getCookie('token')) || '';
+        if (token !== '') {
+          const response = await instance.post(`${BACKEND_URL}/auth/reissue`);
+          await setCookie('token', response.data.data.token);
+          const newToken: string = (await getCookie('token')) || '';
+          requestApi.headers = {
+            Authorization: `Bearer ${newToken}`,
+          };
+          return await instance(requestApi);
+        }
+      } catch (refreshError) {
+        return Promise.reject(refreshError);
+      }
+    }
+    return Promise.reject(error);
+  },
+);
