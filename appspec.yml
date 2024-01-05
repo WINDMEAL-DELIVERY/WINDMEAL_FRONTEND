@@ -3,10 +3,10 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/deploy-fe
+    destination: /home/ubuntu/WINDMEAL_FRONTEND
     overwrite: yes
 permissions:
-  - object: /home/ubuntu/deploy-fe
+  - object: /home/ubuntu/WINDMEAL_FRONTEND
     owner: ubuntu
     group: ubuntu
     mode: 755
