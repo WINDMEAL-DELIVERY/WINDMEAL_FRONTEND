@@ -3,7 +3,7 @@ import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import { useState } from 'react';
-import { StoreContainer, StyledText } from '@pages/cms/styles';
+import { StoreContainer, StyledText } from '@/styles/cmsStyles';
 import { Menu, MenuCategory } from '@/types/type';
 import { createMenuCategory, getStoreInfo } from '@/apis/store/store';
 import { useMutation, useQuery, useQueryClient } from 'react-query';

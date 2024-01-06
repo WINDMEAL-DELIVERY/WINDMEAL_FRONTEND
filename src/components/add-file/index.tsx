@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import {
   AddButton,
   AddContainer,
-  DeleteButton,
   LogoContainer,
 } from '@/components/add-file/styles';
 import { AddfileProps } from '@/types/type';
@@ -31,10 +31,6 @@ export default function AddFile({ imageUrl, onImageUpload }: AddfileProps) {
         resolve();
       };
     });
-  };
-
-  const onDelete = () => {
-    setIsDialogVisible(true);
   };
 
   const handleModalConfirm = () => {

@@ -4,7 +4,7 @@ import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useState } from 'react';
 import { Card, Spacer } from '@geist-ui/react';
-import { StoreContainer, StyledText } from '@pages/cms/styles';
+import { StoreContainer, StyledText } from '@/styles/cmsStyles';
 import { useRouter } from 'next/router';
 import AddStore from '@/components/add-store';
 import { useQuery } from 'react-query';

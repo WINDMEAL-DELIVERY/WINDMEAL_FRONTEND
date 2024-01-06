@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import { createMenu } from '@/apis/store/store';
 import { useEffect, useState } from 'react';
-import { StoreContainer, StyledText } from '@pages/cms/styles';
+import { StoreContainer, StyledText } from '@/styles/cmsStyles';
 import AddFile from '@/components/add-file';
 import { Menu, MenuInput } from '@/types/type';
 import { useMutation } from 'react-query';

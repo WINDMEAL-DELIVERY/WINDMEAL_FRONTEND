@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button, Checkbox } from '@geist-ui/react';
 import { createOption, getOption } from '@/apis/store/store';
 import { useState } from 'react';
-import { StoreContainer, StyledText } from '@pages/cms/styles';
+import { StoreContainer, StyledText } from '@/styles/cmsStyles';
 import { Option } from '@/types/type';
 import { useMutation, useQuery } from 'react-query';
 

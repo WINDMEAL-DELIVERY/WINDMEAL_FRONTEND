@@ -22,7 +22,7 @@ import {
 } from '@components/card-view/styles';
 
 export default function CardView() {
-  const [deliveries, setDeliveries] = useState<Delivery[]>([
+  const [deliveries] = useState<Delivery[]>([
     {
       id: 1,
       menus: [
