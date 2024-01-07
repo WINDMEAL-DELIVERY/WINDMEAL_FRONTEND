@@ -32,6 +32,10 @@ export default function App({ Component, pageProps }: AppProps) {
   instance.interceptors.response.use(
     (response: AxiosResponse) => response,
     async error => {
+      if (!error.config || !error.response) {
+        alert('일시적인 네트워크 오류입니다. 잠시 후에 다시 시도해주세요.');
+        console.log(error);
+      }
       const requestApi = error.config;
 
       const isReissueRequest = error.config.url?.includes('auth/reissue');
