@@ -97,7 +97,7 @@ export default function Register() {
       }
     },
     onError: err => {
-      alert(err); // 추후에 다른 방식으로 대체
+      console.log(err); // 추후에 다른 방식으로 대체
     },
   });
 
