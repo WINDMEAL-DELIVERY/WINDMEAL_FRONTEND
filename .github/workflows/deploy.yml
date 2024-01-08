@@ -13,6 +13,19 @@ jobs:
       - name: Check Node v # Node v 확인
         run: node -v
 
+      - name: Create .env file
+        run: |
+            echo "NEXT_PUBLIC_API_KEY: ${{  secretes.NEXT_PUBLIC_API_KEY  }}" >> .env
+            echo "NEXT_PUBLIC_AUTH_DOMAIN: ${{  secretes.NEXT_PUBLIC_AUTH_DOMAIN  }}" >> .env
+            echo "NEXT_PUBLIC_STORAGE_BUCKET: ${{  secretes.NEXT_PUBLIC_STORAGE_BUCKET  }}" >> .env
+            echo "NEXT_PUBLIC_APP_ID: ${{  secretes.NEXT_PUBLIC_APP_ID  }}" >> .env
+            echo "NEXT_PUBLIC_MEASUREMENT_ID: ${{  secretes.NEXT_PUBLIC_MEASUREMENT_ID  }}" >> .env
+            echo "NEXT_PUBLIC_PROJECT_ID: ${{  secretes.NEXT_PUBLIC_PROJECT_ID  }}" >> .env
+            echo "NEXT_PUBLIC_VAPID_KEY: ${{  secretes.NEXT_PUBLIC_VAPID_KEY  }}" >> .env
+            echo "NEXT_PUBLIC_BASE_URL: ${{  secretes.NEXT_PUBLIC_BASE_URL  }}" >> .env
+            echo "NEXT_PUBLIC_LOGIN_URL: ${{  secretes.NEXT_PUBLIC_LOGIN_URL  }}" >> .env
+            cat .env
+
       - name: Install Dependencies # 의존 파일 설치
         run: yarn install
 
