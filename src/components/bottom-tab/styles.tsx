@@ -27,7 +27,6 @@ export const Wrapper = styled.div`
   }
 `;
 
-
 export const NavItem = styled.a<{ $isActive: boolean }>`
   color: ${props => (props.$isActive ? 'green' : 'black')};
   text-decoration: none;
