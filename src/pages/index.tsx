@@ -1,19 +1,13 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import SplashScreen from '@components/splash';
-import { getCookie } from 'cookies-next';
 
 function Home() {
   const router = useRouter();
-  const token: string = getCookie('token') || '';
 
   useEffect(() => {
     setTimeout(() => {
-      if (token !== '') {
-        router.replace('/main');
-      } else {
-        router.replace('/login');
-      }
+      router.replace('/main');
     }, 2000);
   }, []);
 

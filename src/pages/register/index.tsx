@@ -30,6 +30,7 @@ import { checkDuplicatedNickname, setUserNickname } from '@apis/user/register';
 import { useRouter } from 'next/router';
 import { useSearchParams } from 'next/navigation';
 import { setCookie } from 'cookies-next';
+import { useTokenInitialization } from '@hooks/useTokenInitialization';
 
 export default function Register() {
   const guideMessage: GuideMessageType = {
@@ -46,17 +47,9 @@ export default function Register() {
     $error: false,
   });
   const router = useRouter();
-  const params = useSearchParams();
-  const code = params.get('code')?.replace(/ /g, '+');
 
-  useEffect(() => {
-    if (code) {
-      setCookie('token', code, {
-        expires: new Date(Number(new Date()) + 7776000000), // 3개월
-      });
-      // router.replace('/register');
-    }
-  }, [code]);
+  // 토큰 재할당 및 FCM 구독
+  useTokenInitialization();
 
   const executeErrorAnimation = () => {
     setNickNameState(prevState => ({
@@ -97,7 +90,7 @@ export default function Register() {
       }
     },
     onError: err => {
-      alert(err); // 추후에 다른 방식으로 대체
+      console.log(err); // 추후에 다른 방식으로 대체
     },
   });
 
