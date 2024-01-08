@@ -5,7 +5,7 @@ files:
   - source: /
     destination: /home/ubuntu/WINDMEAL_FRONTEND
     overwrite: yes
-file_exists_behavior: OVERWRITE
+#file_exists_behavior: OVERWRITE
 permissions:
   - object: /home/ubuntu/WINDMEAL_FRONTEND
     owner: ubuntu
