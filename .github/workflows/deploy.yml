@@ -15,29 +15,18 @@ jobs:
 
       - name: Create .env file
         run: |
-          echo "NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY" >> .env
-          echo "NEXT_PUBLIC_AUTH_DOMAIN=$NEXT_PUBLIC_AUTH_DOMAIN" >> .env
-          echo "NEXT_PUBLIC_STORAGE_BUCKET=$NEXT_PUBLIC_STORAGE_BUCKET" >> .env
-          echo "NEXT_PUBLIC_APP_ID=$NEXT_PUBLIC_APP_ID" >> .env
-          echo "NEXT_PUBLIC_MESSAGING_SENDER_ID=$NEXT_PUBLIC_MESSAGING_SENDER_ID" >> .env
-          echo "NEXT_PUBLIC_MEASUREMENT_ID=$secrets.NEXT_PUBLIC_MEASUREMENT_ID" >> .env
-          echo "NEXT_PUBLIC_PROJECT_ID=$secrets.NEXT_PUBLIC_PROJECT_ID" >> .env
-          echo "NEXT_PUBLIC_VAPID_KEY=$secrets.NEXT_PUBLIC_VAPID_KEY" >> .env
-          echo "NEXT_PUBLIC_BASE_URL=$secrets.NEXT_PUBLIC_BASE_URL" >> .env
-          echo "NEXT_PUBLIC_LOGIN_URL=$secrets.NEXT_PUBLIC_LOGIN_URL" >> .env
+          echo "NEXT_PUBLIC_API_KEY: ${{ secrets.NEXT_PUBLIC_API_KEY }}" >> .env
+          echo "NEXT_PUBLIC_AUTH_DOMAIN: ${{ secrets.NEXT_PUBLIC_AUTH_DOMAIN }}" >> .env
+          echo "NEXT_PUBLIC_STORAGE_BUCKET: ${{ secrets.NEXT_PUBLIC_STORAGE_BUCKET }}" >> .env
+          echo "NEXT_PUBLIC_APP_ID: ${{ secrets.NEXT_PUBLIC_APP_ID }}" >> .env
+          echo "NEXT_PUBLIC_MESSAGING_SENDER_ID: ${{ secrets.NEXT_PUBLIC_MESSAGING_SENDER_ID }}" >> .env
+          echo "NEXT_PUBLIC_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_MEASUREMENT_ID }}" >> .env
+          echo "NEXT_PUBLIC_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_PROJECT_ID }}" >> .env
+          echo "NEXT_PUBLIC_VAPID_KEY: ${{ secrets.NEXT_PUBLIC_VAPID_KEY }}" >> .env
+          echo "NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}" >> .env
+          echo "NEXT_PUBLIC_LOGIN_URL: ${{ secrets.NEXT_PUBLIC_LOGIN_URL }}" >> .env
           cat .env
-        env:
-          NEXT_PUBLIC_API_KEY: ${{  secrets.NEXT_PUBLIC_API_KEY  }}
-          NEXT_PUBLIC_AUTH_DOMAIN: ${{  secrets.NEXT_PUBLIC_AUTH_DOMAIN  }}
-          NEXT_PUBLIC_STORAGE_BUCKET: ${{  secrets.NEXT_PUBLIC_STORAGE_BUCKET  }}
-          NEXT_PUBLIC_APP_ID: ${{  secrets.NEXT_PUBLIC_APP_ID  }}
-          NEXT_PUBLIC_MESSAGING_SENDER_ID: ${{  secrets.NEXT_PUBLIC_MESSAGING_SENDER_ID  }}
-          NEXT_PUBLIC_MEASUREMENT_ID: ${{  secrets.NEXT_PUBLIC_MEASUREMENT_ID  }}
-          NEXT_PUBLIC_PROJECT_ID: ${{  secrets.NEXT_PUBLIC_PROJECT_ID  }}
-          NEXT_PUBLIC_VAPID_KEY: ${{  secrets.NEXT_PUBLIC_VAPID_KEY  }}
-          NEXT_PUBLIC_BASE_URL: ${{  secrets.NEXT_PUBLIC_BASE_URL  }}
-          NEXT_PUBLIC_LOGIN_URL: ${{  secrets.NEXT_PUBLIC_LOGIN_URL  }}
-
+          
 
       - name: Install Dependencies # 의존 파일 설치
         run: yarn install
