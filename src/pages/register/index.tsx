@@ -17,7 +17,7 @@ import {
   SmallText,
   TextDiv,
   ValidateNickName,
-} from '@/styles/registerStyles';
+} from '@styles/registerStyles';
 import Image from 'next/image';
 
 import Vector from '@images/Vector 2.svg';

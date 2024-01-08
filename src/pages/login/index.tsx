@@ -13,7 +13,7 @@ import {
   MainLogoImgDiv,
   SmallText,
   TextDiv,
-} from '@/styles/loginStyles';
+} from '@styles/loginStyles';
 
 export default function Login() {
   const router = useRouter();
