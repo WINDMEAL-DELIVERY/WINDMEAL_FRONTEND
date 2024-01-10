@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
     async (config: InternalAxiosRequestConfig) => {
       try {
         const token: string = (await getCookie('token')) || '';
-        if (token) {
+        if (token !== '') {
           config.headers.set('Authorization', `Bearer ${token}`);
         }
         return config;
@@ -46,16 +46,13 @@ export default function App({ Component, pageProps }: AppProps) {
         redirectToLogin();
       } else if (isUnauthorizedError) {
         try {
-          const token: string = (await getCookie('token')) || '';
-          if (token !== '') {
-            const response = await instance.post(`${BACKEND_URL}/auth/reissue`);
-            await setCookie('token', response.data.data.token);
-            const newToken: string = (await getCookie('token')) || '';
-            requestApi.headers = {
-              Authorization: `Bearer ${newToken}`,
-            };
-            return await instance(requestApi);
-          }
+          const response = await instance.post(`${BACKEND_URL}/auth/reissue`);
+          await setCookie('token', response.data.data.token);
+          const newToken: string = (await getCookie('token')) || '';
+          requestApi.headers = {
+            Authorization: `Bearer ${newToken}`,
+          };
+          return await instance(requestApi);
         } catch (refreshError) {
           return Promise.reject(refreshError);
         }

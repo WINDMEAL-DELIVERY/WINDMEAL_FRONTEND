@@ -28,9 +28,8 @@ import { NicknameRequest, RegisterResponse } from '@type/userType';
 import { AxiosError } from 'axios';
 import { checkDuplicatedNickname, setUserNickname } from '@apis/user/register';
 import { useRouter } from 'next/router';
-import { useSearchParams } from 'next/navigation';
-import { setCookie } from 'cookies-next';
 import { useTokenInitialization } from '@hooks/useTokenInitialization';
+import { useSetFCM } from '@hooks/useSetFCM';
 
 export default function Register() {
   const guideMessage: GuideMessageType = {
@@ -50,6 +49,8 @@ export default function Register() {
 
   // 토큰 재할당 및 FCM 구독
   useTokenInitialization();
+  // 유저 알람 토큰 요청 및 서버 발송
+  useSetFCM();
 
   const executeErrorAnimation = () => {
     setNickNameState(prevState => ({
