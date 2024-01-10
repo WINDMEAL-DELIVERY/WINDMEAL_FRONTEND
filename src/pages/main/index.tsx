@@ -9,6 +9,7 @@ export default function main() {
     <Wrapper>
       <CardView />
       {/* <Map /> */}
+      <span>CI/CD 테스트</span>
       <Link href="/cms">CMS</Link>
       <BottomTab />
     </Wrapper>
