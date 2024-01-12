@@ -1,14 +1,5 @@
-import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { useEffect, useRef } from 'react';
-import Header from './Header';
-import Content from './Content';
-
-import { MIN_Y, MAX_Y, BOTTOM_SHEET_HEIGHT } from './BottomSheetOption';
-
-// const MIN_Y = 60;
-// const MAX_Y = window.innerHeight - 160;
-// const BOTTOM_SHEET_HEIGHT = window.innerHeight - MIN_Y;
+import { MIN_Y, MAX_Y } from './BottomSheetOption';
 
 interface BottomSheetMetrics {
   touchStart: {
@@ -22,7 +13,7 @@ interface BottomSheetMetrics {
   isContentAreaTouched: boolean;
 }
 
-function useBottomSheet() {
+export default function useBottomSheet() {
   const sheet = useRef<HTMLDivElement>(null);
 
   const content = useRef<HTMLDivElement>(null);
@@ -41,28 +32,34 @@ function useBottomSheet() {
 
   useEffect(() => {
     const canUserMoveBottomSheet = () => {
+      // 바텀 시트가 움직일 수 있는지 판별
       const { touchMove, isContentAreaTouched } = metrics.current;
 
       if (!isContentAreaTouched) {
+        // 컨텐츠 영역 밖에 터치
         return true;
       }
 
       if (sheet.current!.getBoundingClientRect().y !== MIN_Y) {
+        // 바텀 시트가 최대로 올라온 상태 아니면
         return true;
       }
 
       if (touchMove.movingDirection === 'down') {
+        // 위에서 아래로 스크롤하는데 컨첸트 내용 없다면
         return content.current!.scrollTop <= 0;
       }
       return false;
     };
 
+    // 터치가 시작될 때 불려지는 함수
     const handleTouchStart = (e: TouchEvent) => {
       const { touchStart } = metrics.current;
       touchStart.sheetY = sheet.current!.getBoundingClientRect().y;
       touchStart.touchY = e.touches[0].clientY;
     };
 
+    // 터치를 유지한 채로 움직일 때(=드레그 할 때)
     const handleTouchMove = (e: TouchEvent) => {
       const { touchStart, touchMove } = metrics.current;
       const currentTouch = e.touches[0];
@@ -107,6 +104,7 @@ function useBottomSheet() {
       }
     };
 
+    // 드래그가 끝이 났을 때
     const handleTouchEnd = () => {
       document.body.style.overflowY = 'auto';
       const { touchMove } = metrics.current;
@@ -155,49 +153,3 @@ function useBottomSheet() {
 
   return { sheet, content };
 }
-
-const Wrapper = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-
-  position: fixed;
-  z-index: 1;
-  top: calc(100% - 90px); /*시트가 얼마나 높이 위치할지*/
-  left: 0;
-  right: 0;
-
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
-  height: ${BOTTOM_SHEET_HEIGHT}px;
-
-  background: linear-gradient(
-    359.26deg,
-    #3c41c7 0.02%,
-    #3742b2 83.23%,
-    #3642ae 98.76%
-  );
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-  transition: transform 650ms ease-out; /*바텀시트 애니메이션 속도*/
-`;
-
-const BottomSheetContent = styled.div`
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
-`;
-
-function BottomSheet() {
-  const { sheet, content } = useBottomSheet();
-
-  return (
-    <Wrapper ref={sheet}>
-      <Header />
-      <BottomSheetContent ref={content}>
-        <Content />
-      </BottomSheetContent>
-    </Wrapper>
-  );
-}
-
-export default BottomSheet;
