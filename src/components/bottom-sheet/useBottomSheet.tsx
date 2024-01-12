@@ -1,5 +1,4 @@
 import { useEffect, useRef } from 'react';
-import { MIN_Y, MAX_Y } from './BottomSheetOption';
 
 interface BottomSheetMetrics {
   touchStart: {
@@ -31,6 +30,9 @@ export default function useBottomSheet() {
 
   useEffect(() => {
     // 바텀 시트가 움직일 수 있는지 판별
+    const MIN_Y = 60;
+    const MAX_Y = window.innerHeight - 160;
+
     const canUserMoveBottomSheet = () => {
       const { touchMove, isContentAreaTouched } = metrics.current;
 

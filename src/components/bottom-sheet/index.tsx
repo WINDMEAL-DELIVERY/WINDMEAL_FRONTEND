@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import Header from './Header';
 import Content from './Content';
 
-import { BOTTOM_SHEET_HEIGHT } from './BottomSheetOption';
 import useBottomSheet from './useBottomSheet';
 
-const Wrapper = styled(motion.div)`
+const Wrapper = styled(motion.div)<{ bottomSheetHeight: number }>`
   display: flex;
   flex-direction: column;
 
@@ -19,7 +19,7 @@ const Wrapper = styled(motion.div)`
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
-  height: ${BOTTOM_SHEET_HEIGHT}px;
+  height: ${props => props.bottomSheetHeight}px;
 
   background: linear-gradient(
     359.26deg,
@@ -39,14 +39,14 @@ const BottomSheetContent = styled.div`
 
 export default function BottomSheet() {
   const { sheet, content } = useBottomSheet();
+  const [BOTTOM_SHEET_HEIGHT, setBottomSheetHeight] = useState(0);
 
-  // 윈도우 받아오는 것 확인
-  if (typeof window !== 'undefined')
-    console.log('window.innerHeight', window.innerHeight);
-  else console.log('!!', typeof window);
+  useEffect(() => {
+    setBottomSheetHeight(window.innerHeight - 60);
+  }, []);
 
   return (
-    <Wrapper ref={sheet}>
+    <Wrapper ref={sheet} bottomSheetHeight={BOTTOM_SHEET_HEIGHT}>
       <Header />
       <BottomSheetContent ref={content}>
         <Content />
