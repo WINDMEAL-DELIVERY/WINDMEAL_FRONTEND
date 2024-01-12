@@ -15,7 +15,6 @@ interface BottomSheetMetrics {
 
 export default function useBottomSheet() {
   const sheet = useRef<HTMLDivElement>(null);
-
   const content = useRef<HTMLDivElement>(null);
 
   const metrics = useRef<BottomSheetMetrics>({
@@ -31,8 +30,8 @@ export default function useBottomSheet() {
   });
 
   useEffect(() => {
+    // 바텀 시트가 움직일 수 있는지 판별
     const canUserMoveBottomSheet = () => {
-      // 바텀 시트가 움직일 수 있는지 판별
       const { touchMove, isContentAreaTouched } = metrics.current;
 
       if (!isContentAreaTouched) {
@@ -46,20 +45,18 @@ export default function useBottomSheet() {
       }
 
       if (touchMove.movingDirection === 'down') {
-        // 위에서 아래로 스크롤하는데 컨첸트 내용 없다면
+        // 위에서 아래로 스크롤하는데 컨텐트 내용 없다면
         return content.current!.scrollTop <= 0;
       }
       return false;
     };
 
-    // 터치가 시작될 때 불려지는 함수
     const handleTouchStart = (e: TouchEvent) => {
       const { touchStart } = metrics.current;
       touchStart.sheetY = sheet.current!.getBoundingClientRect().y;
       touchStart.touchY = e.touches[0].clientY;
     };
 
-    // 터치를 유지한 채로 움직일 때(=드레그 할 때)
     const handleTouchMove = (e: TouchEvent) => {
       const { touchStart, touchMove } = metrics.current;
       const currentTouch = e.touches[0];
@@ -69,7 +66,6 @@ export default function useBottomSheet() {
       }
 
       if (touchMove.prevTouchY === 0) {
-        // 맨 처음 앱 시작하고 시작시
         touchMove.prevTouchY = touchStart.touchY;
       }
 
@@ -102,14 +98,14 @@ export default function useBottomSheet() {
       } else {
         document.body.style.overflowY = 'hidden';
       }
+
+      touchMove.prevTouchY = currentTouch.clientY;
     };
 
-    // 드래그가 끝이 났을 때
     const handleTouchEnd = () => {
       document.body.style.overflowY = 'auto';
       const { touchMove } = metrics.current;
 
-      // Snap Animation
       const currentSheetY = sheet.current!.getBoundingClientRect().y;
 
       if (currentSheetY !== MIN_Y) {
@@ -125,7 +121,6 @@ export default function useBottomSheet() {
         }
       }
 
-      // metrics 초기화.
       metrics.current = {
         touchStart: {
           sheetY: 0,
@@ -139,9 +134,108 @@ export default function useBottomSheet() {
       };
     };
 
+    const handleMouseMove = (e: MouseEvent) => {
+      const { touchStart, touchMove } = metrics.current;
+
+      if (touchMove.prevTouchY === undefined) {
+        touchMove.prevTouchY = touchStart.touchY;
+      }
+
+      if (touchMove.prevTouchY === 0) {
+        touchMove.prevTouchY = touchStart.touchY;
+      }
+
+      if (touchMove.prevTouchY < e.clientY) {
+        touchMove.movingDirection = 'down';
+      }
+
+      if (touchMove.prevTouchY > e.clientY) {
+        touchMove.movingDirection = 'up';
+      }
+
+      if (canUserMoveBottomSheet()) {
+        e.preventDefault();
+
+        const touchOffset = e.clientY - touchStart.touchY;
+        let nextSheetY = touchStart.sheetY + touchOffset;
+
+        if (nextSheetY <= MIN_Y) {
+          nextSheetY = MIN_Y;
+        }
+
+        if (nextSheetY >= MAX_Y) {
+          nextSheetY = MAX_Y;
+        }
+
+        sheet.current!.style.setProperty(
+          'transform',
+          `translateY(${nextSheetY - MAX_Y}px)`,
+        );
+      } else {
+        document.body.style.overflowY = 'hidden';
+      }
+
+      touchMove.prevTouchY = e.clientY;
+    };
+
+    const handleMouseUp = () => {
+      document.body.style.overflowY = 'auto';
+      const { touchMove } = metrics.current;
+
+      const currentSheetY = sheet.current!.getBoundingClientRect().y;
+
+      if (currentSheetY !== MIN_Y) {
+        if (touchMove.movingDirection === 'down') {
+          sheet.current!.style.setProperty('transform', 'translateY(0)');
+        }
+
+        if (touchMove.movingDirection === 'up') {
+          sheet.current!.style.setProperty(
+            'transform',
+            `translateY(${MIN_Y - MAX_Y}px)`,
+          );
+        }
+      }
+
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+
+      metrics.current = {
+        touchStart: {
+          sheetY: 0,
+          touchY: 0,
+        },
+        touchMove: {
+          prevTouchY: 0,
+          movingDirection: 'none',
+        },
+        isContentAreaTouched: false,
+      };
+    };
+
+    const handleMouseDown = (e: MouseEvent) => {
+      const { touchStart } = metrics.current;
+      touchStart.sheetY = sheet.current!.getBoundingClientRect().y;
+      touchStart.touchY = e.clientY;
+
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    };
+
     sheet.current!.addEventListener('touchstart', handleTouchStart);
     sheet.current!.addEventListener('touchmove', handleTouchMove);
     sheet.current!.addEventListener('touchend', handleTouchEnd);
+    sheet.current!.addEventListener('mousedown', handleMouseDown);
+
+    return () => {
+      sheet.current!.removeEventListener('touchstart', handleTouchStart);
+      sheet.current!.removeEventListener('touchmove', handleTouchMove);
+      sheet.current!.removeEventListener('touchend', handleTouchEnd);
+      sheet.current!.removeEventListener('mousedown', handleMouseDown);
+
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
   }, []);
 
   useEffect(() => {
@@ -149,6 +243,10 @@ export default function useBottomSheet() {
       metrics.current!.isContentAreaTouched = true;
     };
     content.current!.addEventListener('touchstart', handleTouchStart);
+
+    return () => {
+      content.current!.removeEventListener('touchstart', handleTouchStart);
+    };
   }, []);
 
   return { sheet, content };
