@@ -33,8 +33,6 @@ jobs:
           echo "NEXT_PUBLIC_LOGIN_URL: ${{ secrets.NEXT_PUBLIC_LOGIN_URL }}" >> .env
           echo "NEXT_PUBLIC_CHATTING_URL: ${{ secrets.NEXT_PUBLIC_CHATTING_URL }}" >> .env
           echo "${{ secrets.NEXT_ENV }}" >> .env
-          cat .env
-
 
       - name: Install Dependencies # 의존 파일 설치
         run: yarn install
