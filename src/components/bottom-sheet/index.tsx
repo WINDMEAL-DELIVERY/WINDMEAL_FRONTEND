@@ -12,8 +12,8 @@ const Wrapper = styled(motion.div)<{ bottomSheetHeight: number }>`
 
   position: fixed;
   width: inherit;
-  z-index: 18;
-  top: calc(100% - 90px); /*시트가 얼마나 높이 위치할지*/
+  z-index: 1;
+  top: calc(100% - 5rem); /*시트가 얼마나 높이 위치할지 1단계*/
 
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -34,6 +34,7 @@ const Wrapper = styled(motion.div)<{ bottomSheetHeight: number }>`
 const BottomSheetContent = styled.div`
   overflow: auto;
   -webkit-overflow-scrolling: touch;
+  margin-bottom: 56px; // 이후 bottom-tab 높이 확정 시 값 수정 (content가 바텀탭에 가리지 않도록)
 `;
 
 export default function BottomSheet() {
