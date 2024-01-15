@@ -11,10 +11,9 @@ const Wrapper = styled(motion.div)<{ bottomSheetHeight: number }>`
   flex-direction: column;
 
   position: fixed;
+  width: inherit;
   z-index: 18;
   top: calc(100% - 90px); /*시트가 얼마나 높이 위치할지*/
-  left: 0;
-  right: 0;
 
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
