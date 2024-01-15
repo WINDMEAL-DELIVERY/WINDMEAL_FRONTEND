@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
+    "downlevelIteration": true,
     "lib": [
       "dom",
       "dom.iterable",
@@ -27,6 +28,9 @@
       "@/*": [
         "./src/*"
       ],
+      "@apis/*": [
+        "./src/apis/*"
+      ],
       "@components/*": [
         "./src/components/*"
       ],
@@ -42,7 +46,7 @@
       "@styles/*": [
         "./src/styles/*"
       ],
-      "@types/*": [
+      "@type/*": [
         "./src/types/*"
       ],
       "@images/*": [

@@ -3,7 +3,11 @@ import { AutoComplete } from '@geist-ui/core';
 import { Wrapper } from '@components/auto-complete-box/styles';
 import { AutoCompleteOption } from '@geist-ui/core/esm/auto-complete';
 
-export default function AutoCompleteBox({ handleSelect }: MyMapProps) {
+export default function AutoCompleteBox({
+  handleSelect,
+}: {
+  handleSelect: (selectedValue: string) => void;
+}) {
   // 경우에 따라 파라미터로 style이나 options를 받아 사용하도록 변경 예정
   const allOptions = [
     { value: '신의 한컵', label: '신의 한컵' },
@@ -22,7 +26,7 @@ export default function AutoCompleteBox({ handleSelect }: MyMapProps) {
   return (
     <Wrapper>
       <AutoComplete
-        placeholder="검색해보세요!"
+        placeholder="식당을 검색해주세요"
         options={options}
         crossOrigin="anonymous"
         onSearch={handleSearch}
@@ -31,6 +35,7 @@ export default function AutoCompleteBox({ handleSelect }: MyMapProps) {
           zIndex: '999',
           backgroundColor: 'white',
           height: '40px',
+          width: '15rem',
         }}
       />
     </Wrapper>

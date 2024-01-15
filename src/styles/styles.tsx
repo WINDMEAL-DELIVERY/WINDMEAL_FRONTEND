@@ -10,7 +10,7 @@ export const Container = styled.div`
 
 export const Wrapper = styled.div`
   /* 전체 적용 스타일 */
-  background-color: #f5f8faff;
+  background-color: white;
   min-height: 100dvh;
 
   /* 핸드폰 */

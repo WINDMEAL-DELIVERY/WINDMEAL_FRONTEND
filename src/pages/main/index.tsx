@@ -1,11 +1,15 @@
-import BottomTab from 'src/components/bottom-tab';
+import BottomTab from '@/components/bottom-tab';
 import { Wrapper } from '@styles/styles';
-import Map from '../../components/map';
+import Link from 'next/link';
+import CardView from '@/components/card-view';
+// import Map from '@/components/map';
 
 export default function main() {
   return (
     <Wrapper>
-      <Map />
+      <CardView />
+      {/* <Map /> */}
+      <Link href="/cms">CMS</Link>
       <BottomTab />
     </Wrapper>
   );
