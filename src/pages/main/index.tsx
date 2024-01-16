@@ -2,7 +2,7 @@ import BottomTab from '@/components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import Link from 'next/link';
 import CardView from '@/components/card-view';
-import Map from '@/components/map';
+// import Map from '@/components/map';
 import { useTokenInitialization } from '@hooks/useTokenInitialization';
 import { useSetFCM } from '@hooks/useSetFCM';
 
