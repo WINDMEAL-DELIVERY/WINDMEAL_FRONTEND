@@ -1,7 +1,7 @@
 import BottomTab from '@/components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import CardView from '@/components/card-view';
-import Map from '@/components/map';
+// import Map from '@/components/map';
 import { useTokenInitialization } from '@hooks/useTokenInitialization';
 import { useSetFCM } from '@hooks/useSetFCM';
 
@@ -13,7 +13,7 @@ export default function Main() {
   return (
     <Wrapper>
       <CardView />
-      <Map />
+      {/* <Map /> */}
       <BottomTab />
     </Wrapper>
   );
