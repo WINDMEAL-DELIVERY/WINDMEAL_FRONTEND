@@ -14,6 +14,9 @@
     "react-hooks",
     "jest-dom"
   ],
+  "globals": {
+    "importScripts": true
+  },
   "env": {
     "browser": true,
     "node": true,
