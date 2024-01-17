@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Container as MapDiv,
   NaverMap,
@@ -13,7 +14,7 @@ import {
   OptionButton,
   TopContainer,
 } from '@components/map/styles';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import Dialog from '@/components/dialog';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
@@ -147,34 +148,32 @@ function MarkerCluster() {
     return clusters;
   });
 
-  return <Overlay element={cluster} />;
+  return (
+    <Overlay element={{ ...cluster, setMap: () => null, getMap: () => null }} />
+  );
 }
 
 function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
   const navermaps = useNavermaps();
-  const [map, setMap] = useState();
+  const mapRef = useRef<naver.maps.Map>(null);
 
-  // select 이벤트 발생 시 포커싱 하기 위함
   useEffect(() => {
-    const store = stores.filter(e => e.name === selected);
-    if (store.length > 0) {
-      const loc = new navermaps.LatLng(
-        store[0].location.x,
-        store[0].location.y,
-      );
-      if (map) {
-        map.setCenter(loc);
-        map.setZoom(18);
+    if (mapRef.current) {
+      const store = stores.find(e => e.name === selected);
+      if (store) {
+        const loc = new navermaps.LatLng(store.location.x, store.location.y);
+        mapRef.current.setCenter(loc);
+        mapRef.current.setZoom(18);
       }
     }
-  }, [selected, selectFlag]);
+  }, [selected, navermaps, selectFlag]);
 
   return (
     <NaverMap
       defaultCenter={new navermaps.LatLng(37.450795, 127.128816)}
       defaultZoom={16}
       zoomControl
-      ref={setMap}
+      ref={mapRef}
       zoomControlOptions={{
         position: navermaps.Position.TOP_LEFT,
         style: navermaps.ZoomControlStyle.SMALL,
