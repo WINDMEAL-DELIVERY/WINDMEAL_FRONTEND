@@ -15,17 +15,11 @@ const Wrapper = styled(motion.div)<{ bottomSheetHeight: number }>`
   z-index: 1;
   top: calc(100% - 5rem); /*시트가 얼마나 높이 위치할지 1단계*/
 
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  border-radius: 1.875rem;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
   height: ${props => props.bottomSheetHeight}px;
 
-  background: linear-gradient(
-    359.26deg,
-    #3c41c7 0.02%,
-    #3742b2 83.23%,
-    #3642ae 98.76%
-  );
+  background-color: white;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
   transition: transform 650ms ease-out; /*바텀시트 애니메이션 속도*/
@@ -54,6 +48,3 @@ export default function BottomSheet() {
     </Wrapper>
   );
 }
-
-// sheet은 시트가 깔리는 배경을 가리킴
-// content는 시트 안에 공간
