@@ -41,15 +41,3 @@ export const HeaderBar = styled.div`
   background-color: #f5f8faff;
   padding: 0 1.5% 0 1.5%;
 `;
-
-export const HeaderBarWithTwoComponents = styled.div`
-  display: flex;
-  box-sizing: border-box;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 55%;
-  height: 5rem;
-  background-color: #f5f8faff;
-  padding: 0 1.5% 0 1.5%;
-`;

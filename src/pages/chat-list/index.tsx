@@ -1,5 +1,5 @@
 import BottomTab from '@components/bottom-tab';
-import { HeaderBarWithTwoComponents, Wrapper } from '@styles/styles';
+import { Wrapper } from '@styles/styles';
 import {
   Chat,
   ChattingList,
@@ -14,15 +14,21 @@ import {
   ChattingNUpdate,
   Update,
   ChattingInfoFrame,
+  Header,
+  UpdateNums,
+  LastMessage,
 } from '@pages/chat-list/styles';
+import { LeftOutlined } from '@ant-design/icons';
 
 export default function ChatList() {
   return (
     <Wrapper>
-      <HeaderBarWithTwoComponents>
-        <GoBack type="button">뒤로가기</GoBack>
+      <Header>
+        <GoBack>
+          <LeftOutlined />
+        </GoBack>
         <Title>채팅</Title>
-      </HeaderBarWithTwoComponents>
+      </Header>
       <ChattingList>
         <Chat>
           <ProfileImageFrame>
@@ -32,11 +38,13 @@ export default function ChatList() {
             <ShopNDest>신의한컵, AI공학관</ShopNDest>
             <NickNameNTime>
               <NickName>닉네임1</NickName>
-              <Time>몇 분 전</Time>
+              <Time>2분 전</Time>
             </NickNameNTime>
             <ChattingNUpdate>
-              <span>채팅 내용</span>
-              <Update number={2}>2</Update>
+              <LastMessage>채팅 내용</LastMessage>
+              <Update number={2}>
+                <UpdateNums>2</UpdateNums>
+              </Update>
             </ChattingNUpdate>
           </ChattingInfoFrame>
         </Chat>
@@ -45,14 +53,16 @@ export default function ChatList() {
             <ProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
           </ProfileImageFrame>
           <ChattingInfoFrame>
-            <ShopNDest>만두, 3기숙사</ShopNDest>
+            <ShopNDest>신의한컵, AI공학관</ShopNDest>
             <NickNameNTime>
-              <NickName>닉네임2</NickName>
-              <Time>몇 분 전</Time>
+              <NickName>닉네임1</NickName>
+              <Time>2분 전</Time>
             </NickNameNTime>
             <ChattingNUpdate>
-              <span>채팅 내용</span>
-              <Update number={30}>30</Update>
+              <LastMessage>채팅 내용</LastMessage>
+              <Update number={20}>
+                <UpdateNums>20</UpdateNums>
+              </Update>
             </ChattingNUpdate>
           </ChattingInfoFrame>
         </Chat>
@@ -61,78 +71,16 @@ export default function ChatList() {
             <ProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
           </ProfileImageFrame>
           <ChattingInfoFrame>
-            <ShopNDest>만두, 3기숙사</ShopNDest>
+            <ShopNDest>신의한컵, AI공학관</ShopNDest>
             <NickNameNTime>
-              <NickName>닉네임2</NickName>
-              <Time>몇 분 전</Time>
+              <NickName>닉네임1</NickName>
+              <Time>2분 전</Time>
             </NickNameNTime>
             <ChattingNUpdate>
-              <span>채팅 내용</span>
-              <Update number={200}>200</Update>
-            </ChattingNUpdate>
-          </ChattingInfoFrame>
-        </Chat>
-        <Chat>
-          <ProfileImageFrame>
-            <ProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
-          </ProfileImageFrame>
-          <ChattingInfoFrame>
-            <ShopNDest>만두, 3기숙사</ShopNDest>
-            <NickNameNTime>
-              <NickName>닉네임2</NickName>
-              <Time>몇 분 전</Time>
-            </NickNameNTime>
-            <ChattingNUpdate>
-              <span>채팅 내용</span>
-              <Update number={200}>200</Update>
-            </ChattingNUpdate>
-          </ChattingInfoFrame>
-        </Chat>
-        <Chat>
-          <ProfileImageFrame>
-            <ProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
-          </ProfileImageFrame>
-          <ChattingInfoFrame>
-            <ShopNDest>만두, 3기숙사</ShopNDest>
-            <NickNameNTime>
-              <NickName>닉네임2</NickName>
-              <Time>몇 분 전</Time>
-            </NickNameNTime>
-            <ChattingNUpdate>
-              <span>채팅 내용</span>
-              <Update number={200}>200</Update>
-            </ChattingNUpdate>
-          </ChattingInfoFrame>
-        </Chat>
-        <Chat>
-          <ProfileImageFrame>
-            <ProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
-          </ProfileImageFrame>
-          <ChattingInfoFrame>
-            <ShopNDest>만두, 3기숙사</ShopNDest>
-            <NickNameNTime>
-              <NickName>닉네임2</NickName>
-              <Time>몇 분 전</Time>
-            </NickNameNTime>
-            <ChattingNUpdate>
-              <span>채팅 내용</span>
-              <Update number={200}>200</Update>
-            </ChattingNUpdate>
-          </ChattingInfoFrame>
-        </Chat>
-        <Chat>
-          <ProfileImageFrame>
-            <ProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
-          </ProfileImageFrame>
-          <ChattingInfoFrame>
-            <ShopNDest>만두, 3기숙사</ShopNDest>
-            <NickNameNTime>
-              <NickName>닉네임2</NickName>
-              <Time>몇 분 전</Time>
-            </NickNameNTime>
-            <ChattingNUpdate>
-              <span>채팅 내용</span>
-              <Update number={200}>200</Update>
+              <LastMessage>채팅 내용</LastMessage>
+              <Update number={100}>
+                <UpdateNums>100</UpdateNums>
+              </Update>
             </ChattingNUpdate>
           </ChattingInfoFrame>
         </Chat>

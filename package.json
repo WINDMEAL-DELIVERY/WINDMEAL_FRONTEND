@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.2.6",
     "@geist-ui/core": "^2.3.8",
     "@geist-ui/react": "^2.2.5",
     "@types/navermaps": "^3.7.1",
