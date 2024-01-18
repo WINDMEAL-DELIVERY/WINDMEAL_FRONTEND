@@ -13,12 +13,13 @@ import {
   MainLogoImgDiv,
   SmallText,
   TextDiv,
-} from '@/styles/loginStyles';
+} from '@styles/loginStyles';
 
 export default function Login() {
   const router = useRouter();
 
   const handleButtonClick = () => {
+    console.log(GOOGLE_URL);
     router.push(GOOGLE_URL);
   };
   return (
