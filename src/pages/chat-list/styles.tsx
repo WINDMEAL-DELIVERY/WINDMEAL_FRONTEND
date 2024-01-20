@@ -26,13 +26,17 @@ export const ChattingList = styled.div`
   justify-content: center;
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
-export const Chat = styled.div`
+export const Chat = styled.button`
   width: 90%;
   flex-direction: row;
   display: flex;
-  padding: 1rem;
+  padding: 1rem 0;
+  border: none;
+  margin: 0;
+  font: inherit;
 `;
 
 export const ProfileImageFrame = styled.div`
@@ -57,6 +61,7 @@ export const ChattingInfoFrame = styled.div`
   padding: 3.3% 0 3.3% 3%;
   font-weight: bold;
   width: 80%;
+  align-items: start;
 `;
 
 export const ShopNDest = styled.div`
