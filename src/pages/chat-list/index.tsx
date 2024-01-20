@@ -23,8 +23,11 @@ import { useQuery } from 'react-query';
 import { getChattingList } from '@apis/chatting/chatting';
 import { useState } from 'react';
 import { ChattingListProps } from '@type/chattingType';
+import { useRouter } from 'next/router';
 
 export default function ChatList() {
+  const router = useRouter();
+
   const [chattingRooms, setChattingRooms] = useState<ChattingListProps[]>([]);
 
   // useQuery<ChattingListProps[]>(
@@ -51,7 +54,7 @@ export default function ChatList() {
         <Title>채팅</Title>
       </Header>
       <ChattingList>
-        <Chat>
+        <Chat href={`/chat-list/${1}`}>
           <ProfileImageFrame>
             <ProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
           </ProfileImageFrame>

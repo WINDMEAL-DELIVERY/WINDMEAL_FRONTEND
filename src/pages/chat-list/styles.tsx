@@ -29,7 +29,7 @@ export const ChattingList = styled.div`
   align-items: center;
 `;
 
-export const Chat = styled.button`
+export const Chat = styled.a`
   width: 90%;
   flex-direction: row;
   display: flex;
@@ -37,6 +37,8 @@ export const Chat = styled.button`
   border: none;
   margin: 0;
   font: inherit;
+  text-decoration: none;
+  color: black;
 `;
 
 export const ProfileImageFrame = styled.div`
