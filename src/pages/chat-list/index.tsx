@@ -19,8 +19,29 @@ import {
   LastMessage,
 } from '@pages/chat-list/styles';
 import { LeftOutlined } from '@ant-design/icons';
+import { useQuery } from 'react-query';
+import { getChattingList } from '@apis/chatting/chatting';
+import { useState } from 'react';
+import { ChattingListProps } from '@type/chattingType';
 
 export default function ChatList() {
+  const [chattingRooms, setChattingRooms] = useState<ChattingListProps[]>([]);
+
+  // useQuery<ChattingListProps[]>(
+  //   ['chattingList'],
+  //   async () => {
+  //     const { data } = await getChattingList();
+  //     return data.content;
+  //   },
+  //   {
+  //     onSuccess: chattingList => {
+  //       console.log(chattingList);
+  //       setChattingRooms(chattingList);
+  //     },
+  //     onError: err => console.log('!!', err),
+  //   },
+  // );
+
   return (
     <Wrapper>
       <Header>
