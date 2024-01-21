@@ -126,18 +126,29 @@ export default function useBottomSheet() {
       const currentSheetY = sheet.current!.getBoundingClientRect().y;
 
       // 최상단 모서리가 올라갈 수 있는 최대치가 아니라면
+      // 중간 단계 sheety = 280, 1단계 sheety = 648
       if (currentSheetY !== MIN_Y) {
-        // 아래로 드래그 시 바텀 시트 1단계로 축소
         if (touchMove.movingDirection === 'down') {
-          sheet.current!.style.setProperty('transform', 'translateY(0)');
+          if (currentSheetY > MIN_Y && currentSheetY < MIDDLE_Y + 50) {
+            sheet.current!.style.setProperty(
+              'transform',
+              `translateY(${MIDDLE_Y - MAX_Y}px)`,
+            );
+          } else sheet.current!.style.setProperty('transform', 'translateY(0)');
         }
 
-        // 위로 드래그 시 3단계로 확대
         if (touchMove.movingDirection === 'up') {
-          sheet.current!.style.setProperty(
-            'transform',
-            `translateY(${MIN_Y - MAX_Y}px)`,
-          );
+          if (currentSheetY >= 280 && currentSheetY <= 800) {
+            sheet.current!.style.setProperty(
+              'transform',
+              `translateY(${MIDDLE_Y - MAX_Y}px)`,
+            );
+          } else {
+            sheet.current!.style.setProperty(
+              'transform',
+              `translateY(${MIN_Y - MAX_Y}px)`,
+            );
+          }
         }
       }
 
@@ -216,7 +227,7 @@ export default function useBottomSheet() {
         }
 
         if (touchMove.movingDirection === 'up') {
-          if (currentSheetY >= 280 && currentSheetY <= 648) {
+          if (currentSheetY >= 280 && currentSheetY <= 800) {
             sheet.current!.style.setProperty(
               'transform',
               `translateY(${MIDDLE_Y - MAX_Y}px)`,
