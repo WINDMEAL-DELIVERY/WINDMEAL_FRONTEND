@@ -61,7 +61,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   ChatInstance.interceptors.response.use(
     (response: AxiosResponse) => response,
-    async error => handleErrorResponse(error, instance),
+    async error => handleErrorResponse(error, ChatInstance),
   );
 
   return (
