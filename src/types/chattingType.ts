@@ -2,7 +2,7 @@ export interface ChattingListProps {
   chatroomId: string;
   lastMessage: string;
   messageType: string;
-  createdDate: Date;
+  lastMessageTime: string;
   uncheckedMessageCount: number;
   oppositeAlarmToken: string;
 }
