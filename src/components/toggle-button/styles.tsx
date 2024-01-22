@@ -20,6 +20,7 @@ export const ButtonLabel = styled.label<ToggleType>`
   height: 2.625rem;
   border-radius: 1.875em;
   background: var(--SubColor, #f2f4ff);
+  font-family: 'Noto Sans KR';
 
   // 무조건 after가 선택된 것, state가 true면 진행 선택, false면 요청 선택
 
@@ -60,6 +61,8 @@ export const ButtonLabel = styled.label<ToggleType>`
     background: white;
     box-shadow: 1px 2px 8px rgba(0, 0, 0, 0.16);
     transition: all 0.2s ease-in-out;
+    border: 1px solid var(--MainColor, #5776b9);
+    color: var(--MainColor, #5776b9);
   }
 
   /* state가 true = 진행일 때 배달 진행 중*/
@@ -80,6 +83,8 @@ export const ButtonLabel = styled.label<ToggleType>`
       height: 2.625rem;
        /* true일 때는 좌측에 있어야함 */
       left: 0rem;
+      border: 1px solid var(--MainColor, #5776B9);
+      color: var(--MainColor, #5776B9);
     }
   `}
 `;
