@@ -6,7 +6,7 @@ import Content from './Content';
 
 import useBottomSheet from './useBottomSheet';
 
-const Wrapper = styled(motion.div)<{ bottomSheetHeight: number }>`
+const Wrapper = styled(motion.div)<{ bottomsheetheight: number }>`
   display: flex;
   flex-direction: column;
 
@@ -17,7 +17,7 @@ const Wrapper = styled(motion.div)<{ bottomSheetHeight: number }>`
 
   border-radius: 1.875rem;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
-  height: ${props => props.bottomSheetHeight}px;
+  height: ${props => props.bottomsheetheight}px;
 
   background-color: white;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -40,7 +40,7 @@ export default function BottomSheet() {
   }, []);
 
   return (
-    <Wrapper ref={sheet} bottomSheetHeight={BOTTOM_SHEET_HEIGHT}>
+    <Wrapper ref={sheet} bottomsheetheight={BOTTOM_SHEET_HEIGHT}>
       <Header />
       <BottomSheetContent ref={content}>
         <Content />
