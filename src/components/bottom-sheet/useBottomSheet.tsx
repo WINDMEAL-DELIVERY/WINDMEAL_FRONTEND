@@ -213,7 +213,7 @@ export default function useBottomSheet() {
       document.body.style.overflowY = 'auto';
       const { touchMove } = metrics.current;
       const currentSheetY = sheet.current!.getBoundingClientRect().y;
-      console.log('currentSheetY', currentSheetY);
+      // console.log('currentSheetY', currentSheetY);
 
       // 중간 단계 sheety = 280, 1단계 sheety = 648
       if (currentSheetY !== MIN_Y) {
@@ -239,13 +239,6 @@ export default function useBottomSheet() {
             );
           }
         }
-
-        // if (currentSheetY > MIN_Y && currentSheetY < MIDDLE_Y) {
-        //   sheet.current!.style.setProperty(
-        //     'transform',
-        //     `translateY(${MIDDLE_Y - MAX_Y}px)`,
-        //   );
-        // }
       }
 
       document.removeEventListener('mousemove', handleMouseMove);

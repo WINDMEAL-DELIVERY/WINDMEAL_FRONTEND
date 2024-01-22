@@ -1,26 +1,25 @@
 import styled from 'styled-components';
 
-const Wrapper = styled.div`
-  height: 24px;
-  border-top-left-radius: 12px;
-  border-bottom-right-radius: 12px;
+const HeaderWrapper = styled.div`
+  height: 1.94rem;
   position: relative;
-  padding-top: 12px;
-  padding-bottom: 4px;
+  padding-top: 0.56rem;
+  // padding-bottom: 1.13rem;
 `;
 
 const Handle = styled.div`
-  width: 40px;
-  height: 4px;
-  border-radius: 2px;
-  background-color: #dee2e6;
+  width: 2rem;
+  height: 0.25rem;
+  flex-shrink: 0;
+  border-radius: 0.25rem;
+  background: var(--SubColor, #a8b1ce);
   margin: auto;
 `;
 
 export default function Header() {
   return (
-    <Wrapper>
+    <HeaderWrapper>
       <Handle />
-    </Wrapper>
+    </HeaderWrapper>
   );
 }
