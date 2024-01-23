@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const HeaderWrapper = styled.div`
-  height: 1.94rem;
+  height: 1.13rem;
   position: relative;
   padding-top: 0.56rem;
   // padding-bottom: 1.13rem;

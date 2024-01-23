@@ -1,17 +1,16 @@
-import ToggleButton from '@components/toggle-button';
 import styled from 'styled-components';
+import CardView from '@components/card-view';
 
 const CardContainer = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  height: 25rem;
+  flex-direction: column;
+  align-items: center;
 `;
 
 export default function Content() {
   return (
     <CardContainer>
-      <ToggleButton />
+      <CardView />
     </CardContainer>
   );
 }
