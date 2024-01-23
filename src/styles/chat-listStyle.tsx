@@ -39,6 +39,7 @@ export const Chat = styled.a`
   font: inherit;
   text-decoration: none;
   color: black;
+  cursor: default;
 `;
 
 export const ProfileImageFrame = styled.div`
