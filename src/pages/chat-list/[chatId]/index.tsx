@@ -10,19 +10,19 @@ import {
 } from '@styles/chatIdStyles';
 import { BellOutlined, LeftOutlined, MoreOutlined } from '@ant-design/icons';
 import { Wrapper } from '@styles/styles';
-import { useRecoilValue } from 'recoil';
-import { chatRoomInfoState } from '@/states/chatting';
+import { useRouter } from 'next/router';
 
 function ChatRoom() {
-  const chatRoomInfo = useRecoilValue(chatRoomInfoState);
+  const router = useRouter();
+  const { chatroomId, opponentNickname, orderId } = router.query;
 
   return (
     <Wrapper>
       <Header>
-        <GoBack>
+        <GoBack onClick={router.back}>
           <LeftOutlined />
         </GoBack>
-        <OppositeNickName>{chatRoomInfo.opponentNickname}</OppositeNickName>
+        <OppositeNickName>{opponentNickname}</OppositeNickName>
         <Icons>
           <Alarm>
             <BellOutlined />{' '}
@@ -33,7 +33,8 @@ function ChatRoom() {
         </Icons>
       </Header>
       <ChattingHistory>
-        {chatRoomInfo.chatroomId}
+        {chatroomId}
+        {orderId}
         <TimeStamp>2024. 01. 07 일요일</TimeStamp>
       </ChattingHistory>
     </Wrapper>
