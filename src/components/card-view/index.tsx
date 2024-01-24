@@ -6,9 +6,6 @@ import {
   DeliveryCard,
   DeliveryCardContent,
   DeliveryMenu,
-  DeliveryStart,
-  DeliveryState,
-  DeliveryEnd,
   DeliveryCustomerWrapper,
   DeliveryCustomerImg,
   DeliveryCustomer,
@@ -16,13 +13,13 @@ import {
   ListNumberText,
   UpperContainer,
   CustomerMenuWrapper,
-  TempImg,
   DeliveryPlaceWrapper,
   DeliveryPlace,
   DeliveryPlaceText,
   DeliveryPlaceTextWrapper,
 } from '@components/card-view/styles';
 import ToggleButton from '@components/toggle-button';
+import { IconChatting, IconMiddle, IconPlace, IconRight } from 'public/svgs';
 import { useState } from 'react';
 
 export default function CardView() {
@@ -59,13 +56,15 @@ export default function CardView() {
     },
   ]);
 
-  const handleClickMenu = () => {};
+  const handleClickMenu = () => {}; // 게시글 상세로 이동
+
+  const handleClickChatting = () => {}; // 해당 채팅창으로 이동
 
   return (
     <CardContainer>
       <UpperContainer>
         <ToggleButton />
-        <ListNumberText>전체 리스트 1</ListNumberText>
+        <ListNumberText>전체 리스트 {deliveries.length}</ListNumberText>
       </UpperContainer>
       <DeliveryContainer>
         {deliveries.length > 0 ? (
@@ -73,23 +72,30 @@ export default function CardView() {
             <DeliveryCard key={delivery.deliveryId}>
               <DeliveryCardContent>
                 <DeliveryCustomerWrapper>
-                  <DeliveryCustomerImg alt="사용자 프로필" src="./kakao.png" />
+                  <DeliveryCustomerImg
+                    src="./kakao.png"
+                    onClick={handleClickChatting}
+                  />
                   <CustomerMenuWrapper>
-                    <DeliveryCustomer>{delivery.nickName}</DeliveryCustomer>
+                    <DeliveryCustomer>
+                      {delivery.nickName}&nbsp;{' '}
+                      <IconChatting onClick={handleClickChatting} />
+                    </DeliveryCustomer>
                     <DeliveryMenu onClick={handleClickMenu}>
-                      {delivery.summary} &gt;
+                      {delivery.summary}&nbsp; <IconRight />
                     </DeliveryMenu>
                   </CustomerMenuWrapper>
                 </DeliveryCustomerWrapper>
                 <DeliveryPlaceWrapper>
-                  <TempImg alt="사용자 프로필" src="./kakao.png" />
+                  <IconPlace />
                   <DeliveryPlaceTextWrapper>
                     <DeliveryPlaceText>출발지</DeliveryPlaceText>
                     <DeliveryPlace>{delivery.storeName}</DeliveryPlace>
                   </DeliveryPlaceTextWrapper>
                 </DeliveryPlaceWrapper>
+                <IconMiddle style={{ marginLeft: '1rem' }} />
                 <DeliveryPlaceWrapper>
-                  <TempImg alt="사용자 프로필" src="./kakao.png" />
+                  <IconPlace />
                   <DeliveryPlaceTextWrapper>
                     <DeliveryPlaceText>도착지</DeliveryPlaceText>
                     <DeliveryPlace>{delivery.destinationName}</DeliveryPlace>
