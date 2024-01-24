@@ -4,5 +4,7 @@ export interface ChattingListProps {
   messageType: string;
   lastMessageTime: string;
   uncheckedMessageCount: number;
-  oppositeAlarmToken: string;
+  opponentAlarmToken: string;
+  opponentNickname: string;
+  orderId: string;
 }
