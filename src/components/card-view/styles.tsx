@@ -5,6 +5,7 @@ export const CardContainer = styled.div`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  width: 90%;
 `;
 
 export const UpperContainer = styled.div`
@@ -41,26 +42,17 @@ export const DeliveryContainer = styled.div`
   max-height: 50vh; //차후 변경
 `;
 
-export const DeliveryTitle = styled.h2`
-  color: white;
-  margin-bottom: 0.6rem;
-  margin-left: 1rem;
-  font-weight: bold;
-`;
-
 export const NoDeliveryText = styled.h2`
   font-weight: bold;
 `;
 
 export const DeliveryCard = styled.div`
   margin-bottom: 1rem;
-  background-color: rgb(200, 200, 200);
   display: flex;
   flex-direction: column;
   height: 18rem;
-  border-radius: 2rem;
-  justify-content: center;
-  align-items: center;
+  // align-items: center;
+  border-top: 2px solid #f2f4ff;
 `;
 
 export const DeliveryCardContent = styled.div`
@@ -76,9 +68,58 @@ export const DeliveryCardContent = styled.div`
   }
 `;
 
-export const DeliveryMenu = styled.p``;
+export const DeliveryMenu = styled.p`
+  color: var(--SubText, #696e82);
 
-export const DeliveryStart = styled.p``;
+  /* Sub */
+  font-family: 'Noto Sans KR';
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%; /* 1.09375rem */
+  letter-spacing: -0.02188rem;
+  cursor: pointer;
+`;
+
+export const DeliveryPlaceWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const DeliveryPlaceTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.7rem;
+  line-height: normal;
+`;
+
+export const DeliveryPlaceText = styled.p`
+  color: var(--MainColor, #5776b9);
+  font-family: 'Open Sans';
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+export const DeliveryPlace = styled.p`
+  color: var(--Grey, #061737);
+
+  /* SubMain */
+  font-family: 'Noto Sans KR';
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.025rem;
+`;
+
+export const TempImg = styled.img`
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+`;
 
 export const DeliveryEnd = styled.p``;
 
@@ -93,16 +134,30 @@ export const DeliveryCustomerWrapper = styled.div`
   align-items: center;
 `;
 
+export const CustomerMenuWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 0.7rem;
+  line-height: normal;
+`;
+
 export const DeliveryCustomer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-left: 0.4rem;
+  color: var(--Grey, #061737);
+
+  /* SubMain */
+  font-family: 'Noto Sans KR';
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: -0.025rem;
 `;
 
 export const DeliveryCustomerImg = styled.img`
   border-radius: 50%;
-  width: 3rem;
-  height: 3rem;
+  width: 3.125rem;
+  height: 3.125rem;
 `;
 
 export const ButtonContainer = styled.div`

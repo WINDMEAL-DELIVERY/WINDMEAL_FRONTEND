@@ -1,3 +1,4 @@
+// import { getMyDelivery, getMyOrder } from '@/apis/delievery/delievery';
 import { Delivery } from '@/types/type';
 import {
   CardContainer,
@@ -14,6 +15,12 @@ import {
   NoDeliveryText,
   ListNumberText,
   UpperContainer,
+  CustomerMenuWrapper,
+  TempImg,
+  DeliveryPlaceWrapper,
+  DeliveryPlace,
+  DeliveryPlaceText,
+  DeliveryPlaceTextWrapper,
 } from '@components/card-view/styles';
 import ToggleButton from '@components/toggle-button';
 import { useState } from 'react';
@@ -52,6 +59,8 @@ export default function CardView() {
     },
   ]);
 
+  const handleClickMenu = () => {};
+
   return (
     <CardContainer>
       <UpperContainer>
@@ -63,16 +72,29 @@ export default function CardView() {
           deliveries.map(delivery => (
             <DeliveryCard key={delivery.deliveryId}>
               <DeliveryCardContent>
-                <DeliveryMenu>{delivery.summary}</DeliveryMenu>
-                <DeliveryStart>{delivery.storeName}</DeliveryStart>
-                <DeliveryState>
-                  <p>⇣ {delivery.deliveryStatus}</p>
-                </DeliveryState>
-                <DeliveryEnd>{delivery.destinationName}</DeliveryEnd>
                 <DeliveryCustomerWrapper>
                   <DeliveryCustomerImg alt="사용자 프로필" src="./kakao.png" />
-                  <DeliveryCustomer>{delivery.nickName}</DeliveryCustomer>
+                  <CustomerMenuWrapper>
+                    <DeliveryCustomer>{delivery.nickName}</DeliveryCustomer>
+                    <DeliveryMenu onClick={handleClickMenu}>
+                      {delivery.summary} &gt;
+                    </DeliveryMenu>
+                  </CustomerMenuWrapper>
                 </DeliveryCustomerWrapper>
+                <DeliveryPlaceWrapper>
+                  <TempImg alt="사용자 프로필" src="./kakao.png" />
+                  <DeliveryPlaceTextWrapper>
+                    <DeliveryPlaceText>출발지</DeliveryPlaceText>
+                    <DeliveryPlace>{delivery.storeName}</DeliveryPlace>
+                  </DeliveryPlaceTextWrapper>
+                </DeliveryPlaceWrapper>
+                <DeliveryPlaceWrapper>
+                  <TempImg alt="사용자 프로필" src="./kakao.png" />
+                  <DeliveryPlaceTextWrapper>
+                    <DeliveryPlaceText>도착지</DeliveryPlaceText>
+                    <DeliveryPlace>{delivery.destinationName}</DeliveryPlace>
+                  </DeliveryPlaceTextWrapper>
+                </DeliveryPlaceWrapper>
               </DeliveryCardContent>
             </DeliveryCard>
           ))
