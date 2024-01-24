@@ -43,8 +43,15 @@ export default function ChatList() {
     },
   );
 
-  function formatDateTime(dateTimeString: string) {
-    const inputDate = new Date(dateTimeString);
+  function formatDateTime(dateTimeArray: number[]) {
+    const inputDate = new Date(
+      dateTimeArray[0],
+      dateTimeArray[1] - 1,
+      dateTimeArray[2],
+      dateTimeArray[3],
+      dateTimeArray[4],
+      dateTimeArray[5],
+    );
     const currentDate = new Date();
 
     if (
