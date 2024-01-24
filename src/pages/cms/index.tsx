@@ -8,6 +8,7 @@ import { StoreContainer, StyledText } from '@/styles/cmsStyles';
 import { useRouter } from 'next/router';
 import AddStore from '@/components/add-store';
 import { useQuery } from 'react-query';
+import { IconPlace } from 'public/svgs';
 
 export default function CMS() {
   const [storeList, setStoreList] = useState<StoreListProps[]>([]);
@@ -48,6 +49,7 @@ export default function CMS() {
         </StoreContainer>
       </Card>
       <AddStore />
+      <IconPlace />
       <text onClick={() => router.push(`/cms/report`)}>REPORT</text>
       <BottomTab />
       <Spacer style={{ marginTop: '3rem' }} />
