@@ -17,15 +17,17 @@ import {
   Header,
   UpdateNums,
   LastMessage,
-} from '@pages/chat-list/styles';
+} from '@styles/chat-listStyle';
 import { LeftOutlined } from '@ant-design/icons';
 import { useQuery } from 'react-query';
 import { getChattingList } from '@apis/chatting/chatting';
 import { useState } from 'react';
 import { ChattingListProps } from '@type/chattingType';
+import { useRouter } from 'next/router';
 
 export default function ChatList() {
   const [chattingRooms, setChattingRooms] = useState<ChattingListProps[]>([]);
+  const router = useRouter();
 
   useQuery<ChattingListProps[]>(
     ['chattingList'],
@@ -77,10 +79,24 @@ export default function ChatList() {
     }${day}`;
   }
 
+  const handleChatClick = (chatRoom: ChattingListProps) => {
+    router.push(
+      {
+        pathname: `/chat-list/${chatRoom.chatroomId}`,
+        query: {
+          chatroomId: chatRoom.chatroomId,
+          opponentNickname: chatRoom.opponentNickname,
+          orderId: chatRoom.orderId,
+        },
+      },
+      `/chat-list/${chatRoom.chatroomId}`,
+    );
+  };
+
   return (
     <Wrapper>
       <Header>
-        <GoBack>
+        <GoBack onClick={router.back}>
           <LeftOutlined />
         </GoBack>
         <Title>채팅</Title>
@@ -93,7 +109,7 @@ export default function ChatList() {
             {chattingRooms.map(chatRoom => (
               <Chat
                 key={chatRoom.chatroomId}
-                href={`/chat-list/${chatRoom.chatroomId}`}
+                onClick={() => handleChatClick(chatRoom)}
               >
                 <ProfileImageFrame>
                   <ProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
@@ -101,17 +117,25 @@ export default function ChatList() {
                 <ChattingInfoFrame>
                   <ShopNDest>신의한컵, AI공학관</ShopNDest>
                   <NickNameNTime>
-                    <NickName>닉네임1</NickName>
+                    <NickName>{chatRoom.opponentNickname}</NickName>
                     <Time>{formatDateTime(chatRoom.lastMessageTime)}</Time>
                   </NickNameNTime>
                   <ChattingNUpdate>
                     <LastMessage>
-                      {chatRoom.messageType === 'TEXT'
-                        ? chatRoom.lastMessage.substring(0, 10)
+                      {chatRoom.messageType === 'TEXT' && chatRoom.lastMessage
+                        ? chatRoom.lastMessage.length >= 20
+                          ? `${chatRoom.lastMessage.substring(0, 20)}...`
+                          : chatRoom.lastMessage
                         : '사진'}
                     </LastMessage>
                     <Update number={chatRoom.uncheckedMessageCount}>
-                      <UpdateNums>{chatRoom.uncheckedMessageCount}</UpdateNums>
+                      {chatRoom.uncheckedMessageCount !== 0 ? (
+                        <UpdateNums>
+                          {chatRoom.uncheckedMessageCount}
+                        </UpdateNums>
+                      ) : (
+                        <div />
+                      )}
                     </Update>
                   </ChattingNUpdate>
                 </ChattingInfoFrame>
