@@ -37,50 +37,48 @@ export default function ChatList() {
     },
     {
       onSuccess: chattingList => {
+        console.log(chattingList);
         setChattingRooms(chattingList);
       },
       onError: err => console.log('!!', err),
     },
   );
 
-  function formatDateTime(dateTimeArray: number[]) {
-    const inputDate = new Date(
-      dateTimeArray[0],
-      dateTimeArray[1] - 1,
-      dateTimeArray[2],
-      dateTimeArray[3],
-      dateTimeArray[4],
-      dateTimeArray[5],
-    );
+  function formatDateTime(dateTimeString: string) {
+    const inputDate = new Date(dateTimeString);
     const currentDate = new Date();
 
+    const inputDateWithTimeZone = new Date(
+      inputDate.getTime() + 9 * 60 * 60 * 1000,
+    );
+
     if (
-      inputDate.getDate() === currentDate.getDate() &&
-      inputDate.getMonth() === currentDate.getMonth() &&
-      inputDate.getFullYear() === currentDate.getFullYear()
+      inputDateWithTimeZone.getDate() === currentDate.getDate() &&
+      inputDateWithTimeZone.getMonth() === currentDate.getMonth() &&
+      inputDateWithTimeZone.getFullYear() === currentDate.getFullYear()
     ) {
-      const hours = inputDate.getHours() % 12 || 12;
-      const minutes = inputDate.getMinutes();
-      const ampm = inputDate.getHours() >= 12 ? '오후' : '오전';
+      const hours = inputDateWithTimeZone.getHours() % 12 || 12;
+      const minutes = inputDateWithTimeZone.getMinutes();
+      const ampm = inputDateWithTimeZone.getHours() >= 12 ? '오후' : '오전';
       return `${ampm} ${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
     }
 
     const yesterday = new Date(currentDate);
     yesterday.setDate(currentDate.getDate() - 1);
     if (
-      inputDate.getDate() === yesterday.getDate() &&
-      inputDate.getMonth() === yesterday.getMonth() &&
-      inputDate.getFullYear() === yesterday.getFullYear()
+      inputDateWithTimeZone.getDate() === yesterday.getDate() &&
+      inputDateWithTimeZone.getMonth() === yesterday.getMonth() &&
+      inputDateWithTimeZone.getFullYear() === yesterday.getFullYear()
     ) {
       return '어제';
     }
 
     const year =
-      inputDate.getFullYear() !== currentDate.getFullYear()
-        ? `${inputDate.getFullYear()}.`
+      inputDateWithTimeZone.getFullYear() !== currentDate.getFullYear()
+        ? `${inputDateWithTimeZone.getFullYear()}.`
         : '';
-    const month = inputDate.getMonth() + 1;
-    const day = inputDate.getDate();
+    const month = inputDateWithTimeZone.getMonth() + 1;
+    const day = inputDateWithTimeZone.getDate();
     return `${year}${month < 10 ? '0' : ''}${month}.${
       day < 10 ? '0' : ''
     }${day}`;
