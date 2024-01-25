@@ -33,14 +33,14 @@ export default function ChatList() {
     ['chattingList'],
     async () => {
       const { data } = await getChattingList();
-      return data.chatroomSpecResponses.content;
+      return data;
     },
     {
       onSuccess: chattingList => {
         console.log(chattingList);
         setChattingRooms(chattingList);
       },
-      onError: err => console.log('!!', err),
+      onError: err => console.log('chattingList Error', err),
     },
   );
 
