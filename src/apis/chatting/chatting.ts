@@ -17,12 +17,8 @@ export const getChattingList = async () => {
   );
   const orderInfoList = await Promise.all(orderInfoPromises);
 
-  const updatedChattingList = chattingList.map(
-    (chat: ChattingListProps, index: number) => ({
-      ...chat,
-      orderInfo: orderInfoList[index].data,
-    }),
-  );
-
-  return updatedChattingList;
+  return chattingList.map((chat: ChattingListProps, index: number) => ({
+    ...chat,
+    orderInfo: orderInfoList[index].data,
+  }));
 };
