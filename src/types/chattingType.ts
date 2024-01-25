@@ -1,3 +1,10 @@
+export interface ChattingOrderProps {
+  storeName: string;
+  placeName: string;
+  orderStatus: string;
+  orderMenu: [];
+}
+
 export interface ChattingListProps {
   chatroomId: string;
   lastMessage: string;
@@ -7,4 +14,5 @@ export interface ChattingListProps {
   opponentAlarmToken: string;
   opponentNickname: string;
   orderId: string;
+  orderInfo?: ChattingOrderProps;
 }
