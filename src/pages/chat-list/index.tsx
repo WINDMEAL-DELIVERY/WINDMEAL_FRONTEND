@@ -31,13 +31,11 @@ export default function ChatList() {
 
   useQuery<ChattingListProps[]>(
     ['chattingList'],
-    async () => {
-      const { data } = await getChattingList();
-      return data;
+    () => {
+      return getChattingList();
     },
     {
       onSuccess: chattingList => {
-        console.log(chattingList);
         setChattingRooms(chattingList);
       },
       onError: err => console.log('chattingList Error', err),
@@ -120,7 +118,7 @@ export default function ChatList() {
                   <ProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
                 </ProfileImageFrame>
                 <ChattingInfoFrame>
-                  <ShopNDest>신의한컵, AI공학관</ShopNDest>
+                  <ShopNDest>{`${chatRoom.orderInfo?.storeName}/${chatRoom.orderInfo?.placeName}`}</ShopNDest>
                   <NickNameNTime>
                     <NickName>{chatRoom.opponentNickname}</NickName>
                     <Time>{formatDateTime(chatRoom.lastMessageTime)}</Time>

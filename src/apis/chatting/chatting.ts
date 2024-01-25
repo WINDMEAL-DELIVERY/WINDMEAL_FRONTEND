@@ -20,7 +20,7 @@ export const getChattingList = async () => {
   const updatedChattingList = chattingList.map(
     (chat: ChattingListProps, index: number) => ({
       ...chat,
-      orderInfo: orderInfoList[index],
+      orderInfo: orderInfoList[index].data,
     }),
   );
 
