@@ -14,7 +14,7 @@ import {
   OptionButton,
   TopContainer,
 } from '@components/map/styles';
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, createRef, useEffect, useRef, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import Dialog from '@/components/dialog';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
@@ -68,7 +68,11 @@ const stores: StoreProp[] = [
   },
 ];
 
-function MarkerCluster() {
+function MarkerCluster({
+  markers,
+}: {
+  markers: RefObject<naver.maps.Marker>[];
+}) {
   const navermaps = useNavermaps();
   const map1 = useMap();
 
@@ -105,31 +109,16 @@ function MarkerCluster() {
     anchor: new navermaps.Point(20, 20),
   };
 
-  // Customize Overlay 참고
-  // https://zeakd.github.io/react-naver-maps/guides/customize-overlays/
-  const [cluster] = useState(() => {
-    const markers = [];
+  const getCluster = () => {
+    const markerList = markers.map(_marker => {
+      return _marker.current;
+    });
 
-    for (let i = 0; i < stores.length; i += 1) {
-      const storeData: StoreProp = stores[i];
-      const marker = new window.naver.maps.Marker({
-        position: new window.naver.maps.LatLng(
-          storeData.location.x,
-          storeData.location.y,
-        ),
-        map1,
-        requests: storeData.requests,
-        title: storeData.name,
-      });
-
-      markers.push(marker);
-    }
-
-    const clusters = new MarkerClustering({
+    const cluster = new MarkerClustering({
       minClusterSize: 2,
-      maxZoom: 17,
-      map1,
-      markers,
+      maxZoom: 17, // 조절하면 클러스터링이 되는 기준이 달라짐 (map zoom level)
+      map: map1,
+      markers: markerList.filter(marker => marker),
       disableClickZoom: false,
       gridSize: 120,
       icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
@@ -145,8 +134,15 @@ function MarkerCluster() {
       },
     });
 
-    return clusters;
-  });
+    return cluster;
+  };
+
+  const [cluster, setCluster] = useState(getCluster());
+
+  useEffect(() => {
+    // 클러스트 객체 생성해서, 상태에 저장
+    setCluster(getCluster());
+  }, []);
 
   return (
     <Overlay element={{ ...cluster, setMap: () => null, getMap: () => null }} />
@@ -156,6 +152,18 @@ function MarkerCluster() {
 function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
   const navermaps = useNavermaps();
   const mapRef = useRef<naver.maps.Map>(null);
+  const [map, setMap] = useState<naver.maps.Map | null>(null);
+  const totalMakerList = ['marker1', 'marker2'];
+  const [elRefs, setElRefs] = useState<RefObject<naver.maps.Marker>[]>([]);
+  const arrLength = stores.length; // 받아온 store 개수
+
+  useEffect(() => {
+    setElRefs(refs =>
+      Array(arrLength)
+        .fill('')
+        .map((_, i) => refs[i] || createRef()),
+    );
+  }, [arrLength]);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -173,26 +181,27 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
       defaultCenter={new navermaps.LatLng(37.450795, 127.128816)}
       defaultZoom={16}
       zoomControl
-      ref={mapRef}
+      ref={setMap} //
       zoomControlOptions={{
         position: navermaps.Position.TOP_LEFT,
         style: navermaps.ZoomControlStyle.SMALL,
       }}
     >
-      {stores.map(store => (
+      <MarkerCluster markers={elRefs} markerInfo={totalMakerList} />
+      {stores.map((store, idx) => (
         <Marker
+          ref={elRefs[idx]}
           key={store.name}
           position={
             new window.naver.maps.LatLng(store.location.x, store.location.y)
           }
           title={store.name}
           icon={{
-            content: `<button><div>${store.name}</div></button>`,
+            content: `<button style="cursor:pointer;border: 1px solid red;"><div>${store.name} ${store.requests}</div></button>`,
           }}
           onClick={() => handleSelect(store.name)}
         />
       ))}
-      <MarkerCluster />
     </NaverMap>
   );
 }
