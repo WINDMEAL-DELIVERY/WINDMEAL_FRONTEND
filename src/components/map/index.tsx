@@ -111,6 +111,7 @@ function MarkerCluster({
 
   const getCluster = () => {
     const markerList = markers.map(_marker => {
+      console.log('!', _marker);
       return _marker.current;
     });
 
@@ -141,8 +142,9 @@ function MarkerCluster({
 
   useEffect(() => {
     // 클러스트 객체 생성해서, 상태에 저장
+    console.log('markers', markers);
     setCluster(getCluster());
-  }, []);
+  }, [markers]);
 
   return (
     <Overlay element={{ ...cluster, setMap: () => null, getMap: () => null }} />
@@ -152,8 +154,7 @@ function MarkerCluster({
 function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
   const navermaps = useNavermaps();
   const mapRef = useRef<naver.maps.Map>(null);
-  const [map, setMap] = useState<naver.maps.Map | null>(null);
-  const totalMakerList = ['marker1', 'marker2'];
+  const [, setMap] = useState<naver.maps.Map | null>(null);
   const [elRefs, setElRefs] = useState<RefObject<naver.maps.Marker>[]>([]);
   const arrLength = stores.length; // 받아온 store 개수
 
@@ -163,6 +164,7 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
         .fill('')
         .map((_, i) => refs[i] || createRef()),
     );
+    console.log('arrLength', arrLength);
   }, [arrLength]);
 
   useEffect(() => {
@@ -174,7 +176,7 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
         mapRef.current.setZoom(18);
       }
     }
-  }, [selected, navermaps, selectFlag]);
+  }, [selected, selectFlag]);
 
   return (
     <NaverMap
@@ -187,7 +189,7 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
         style: navermaps.ZoomControlStyle.SMALL,
       }}
     >
-      <MarkerCluster markers={elRefs} markerInfo={totalMakerList} />
+      <MarkerCluster markers={elRefs} />
       {stores.map((store, idx) => (
         <Marker
           ref={elRefs[idx]}
