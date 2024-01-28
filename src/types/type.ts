@@ -161,3 +161,8 @@ export interface ReportContent {
   reporterEmail?: string;
   email?: string;
 }
+
+export interface MarkerIcon {
+  name: string;
+  requests: number | undefined;
+}

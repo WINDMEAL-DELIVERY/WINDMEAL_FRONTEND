@@ -19,6 +19,7 @@ import AutoCompleteBox from '@/components/auto-complete-box';
 import Dialog from '@/components/dialog';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
 import { MyMapProps, StoreProp } from '@/types/type';
+import MapMarker from '@components/map-marker';
 
 const stores: StoreProp[] = [
   {
@@ -111,7 +112,6 @@ function MarkerCluster({
 
   const getCluster = () => {
     const markerList = markers.map(_marker => {
-      console.log('!', _marker);
       return _marker.current;
     });
 
@@ -142,7 +142,6 @@ function MarkerCluster({
 
   useEffect(() => {
     // 클러스트 객체 생성해서, 상태에 저장
-    console.log('markers', markers);
     setCluster(getCluster());
   }, [markers]);
 
@@ -164,7 +163,6 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
         .fill('')
         .map((_, i) => refs[i] || createRef()),
     );
-    console.log('arrLength', arrLength);
   }, [arrLength]);
 
   useEffect(() => {
@@ -183,7 +181,7 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
       defaultCenter={new navermaps.LatLng(37.450795, 127.128816)}
       defaultZoom={16}
       zoomControl
-      ref={setMap} //
+      ref={setMap}
       zoomControlOptions={{
         position: navermaps.Position.TOP_LEFT,
         style: navermaps.ZoomControlStyle.SMALL,
@@ -199,7 +197,7 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
           }
           title={store.name}
           icon={{
-            content: `<button style="cursor:pointer;border: 1px solid red;"><div>${store.name} ${store.requests}</div></button>`,
+            content: MapMarker({ name: store.name, requests: store.requests }),
           }}
           onClick={() => handleSelect(store.name)}
         />
