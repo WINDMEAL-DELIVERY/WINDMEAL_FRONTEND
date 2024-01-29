@@ -16,3 +16,10 @@ export interface ChattingListProps {
   orderId: string;
   orderInfo?: ChattingOrderProps;
 }
+
+export interface ChattingProps {
+  message: string;
+  messageType: string;
+  senderId: number;
+  createdTime: string;
+}

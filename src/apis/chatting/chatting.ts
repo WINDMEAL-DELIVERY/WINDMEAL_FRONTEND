@@ -22,3 +22,8 @@ export const getChattingList = async () => {
     orderInfo: orderInfoList[index].data,
   }));
 };
+
+export const getChatting = async (chatroomId: string) => {
+  const { data } = await ChatInstance.get(`/chat/${chatroomId}`);
+  return data.data.chatMessageSpecResponses.content;
+};
