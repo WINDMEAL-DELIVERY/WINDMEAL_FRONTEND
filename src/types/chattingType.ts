@@ -18,8 +18,9 @@ export interface ChattingListProps {
 }
 
 export interface ChattingProps {
+  fromMe: boolean;
   message: string;
   messageType: string;
   senderId: number;
-  createdTime: string;
+  sendTime: string;
 }
