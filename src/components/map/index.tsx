@@ -182,12 +182,7 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
     <NaverMap
       defaultCenter={new navermaps.LatLng(37.450795, 127.128816)}
       defaultZoom={16}
-      zoomControl
       ref={setMap}
-      zoomControlOptions={{
-        position: navermaps.Position.TOP_LEFT,
-        style: navermaps.ZoomControlStyle.SMALL,
-      }}
     >
       <MarkerCluster markers={elRefs} />
       {stores.map((store, idx) => (
