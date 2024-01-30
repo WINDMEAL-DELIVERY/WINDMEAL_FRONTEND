@@ -6,6 +6,7 @@ import IconMarker from './marker.svg';
 import IconRefresh from './refresh.svg';
 import IconDown from './down.svg';
 import IconFind from './find.svg';
+import IconCart from './cart.svg';
 
 export {
   IconMiddle,
@@ -16,4 +17,5 @@ export {
   IconRefresh,
   IconDown,
   IconFind,
+  IconCart,
 };

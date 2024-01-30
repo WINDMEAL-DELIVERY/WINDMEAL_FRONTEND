@@ -14,6 +14,8 @@ import {
   OptionButton,
   TopContainer,
   OptionText,
+  FirstContainer,
+  CartButton,
 } from '@components/map/styles';
 import { RefObject, createRef, useEffect, useRef, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
@@ -28,7 +30,7 @@ import {
   MapCluster4,
   MapCluster5,
 } from '@/components/map-cluster';
-import { IconDown, IconRefresh } from 'public/svgs';
+import { IconCart, IconDown, IconRefresh } from 'public/svgs';
 
 const stores: StoreProp[] = [
   {
@@ -231,15 +233,16 @@ export default function Map() {
       }}
     >
       <TopContainer>
-        <AutoCompleteBox handleSelect={handleSelect} />
+        <FirstContainer>
+          <AutoCompleteBox handleSelect={handleSelect} />
+          <CartButton>
+            <IconCart />
+          </CartButton>
+        </FirstContainer>
         <OptionButtonContainer>
           <OptionButton>
             <OptionText>초기화</OptionText>
             <IconRefresh />
-          </OptionButton>
-          <OptionButton>
-            <OptionText>출발시간</OptionText>
-            <IconDown />
           </OptionButton>
           <OptionButton>
             <OptionText>도착시간</OptionText>
