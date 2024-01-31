@@ -23,6 +23,7 @@ export default function CMSMenuCategory() {
     price: 0,
   };
   const [inputData, setInputData] = useState<MenuInput>(initialInput);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleInputChange = (fieldName: string, value: string) => {
     setInputData(prevData => ({
@@ -81,6 +82,7 @@ export default function CMSMenuCategory() {
     );
     formData.append('file', menuImgOptional);
     mutateMenu.mutate(formData);
+    setIsSubmit(true);
   };
 
   const handleClickStore = (menuID: number) => {
@@ -108,7 +110,7 @@ export default function CMSMenuCategory() {
         <Spacer />
         {renderInputs()}
         <Spacer />
-        <AddFile onImageUpload={handleAddFile} />
+        <AddFile onImageUpload={handleAddFile} onSubmit={isSubmit} />
         <Spacer />
         <Button type="secondary" onClick={handleSubmit}>
           제출

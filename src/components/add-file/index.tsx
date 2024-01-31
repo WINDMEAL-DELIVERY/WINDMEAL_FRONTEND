@@ -1,16 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   AddButton,
   AddContainer,
   LogoContainer,
 } from '@/components/add-file/styles';
 import { AddfileProps } from '@/types/type';
-import Dialog from '../dialog';
 
-export default function AddFile({ imageUrl, onImageUpload }: AddfileProps) {
+export default function AddFile({
+  imageUrl,
+  onImageUpload,
+  onSubmit,
+}: AddfileProps) {
   const [imageSrc, setImageSrc]: any = useState(null);
-  const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     if (imageUrl) setImageSrc(imageUrl);
@@ -33,33 +36,28 @@ export default function AddFile({ imageUrl, onImageUpload }: AddfileProps) {
     });
   };
 
-  const handleModalConfirm = () => {
-    setImageSrc(null);
-    setIsDialogVisible(false);
+  const resetFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+      setImageSrc(null);
+    }
   };
 
-  const handleModalCancel = () => {
-    setIsDialogVisible(false);
-  };
+  useEffect(() => {
+    if (onSubmit) {
+      resetFileInput();
+    }
+  }, [onSubmit]);
 
   return (
-    <>
-      <LogoContainer>
-        <AddButton type="file" accept="image/*" onChange={onUpload} />
-        {imageSrc && <AddContainer src={imageSrc} />}
-        {/* {imageSrc && (
-          <DeleteButton onClick={onDelete}>이미지 삭제</DeleteButton>
-        )} */}
-      </LogoContainer>
-
-      <Dialog
-        size={20}
-        onConfirm={handleModalConfirm}
-        onCancel={handleModalCancel}
-        visible={isDialogVisible}
-        title="임시 모달"
-        description="이미지를 삭제하시겠습니까?"
+    <LogoContainer>
+      <AddButton
+        type="file"
+        accept="image/*"
+        onChange={onUpload}
+        ref={fileInputRef}
       />
-    </>
+      {imageSrc && <AddContainer src={imageSrc} />}
+    </LogoContainer>
   );
 }
