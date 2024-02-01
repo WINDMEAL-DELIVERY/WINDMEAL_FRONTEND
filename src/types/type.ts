@@ -7,6 +7,7 @@ export interface MyMapProps {
 export interface AddfileProps {
   onImageUpload?: (imageFile: string) => void;
   imageUrl?: string;
+  onSubmit?: boolean;
 }
 
 export interface StoreListProps {
