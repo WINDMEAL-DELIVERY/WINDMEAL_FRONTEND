@@ -42,11 +42,11 @@ export const ChattingHistory = styled.div`
   cursor: default;
 `;
 
-export const OpponentMessage = styled.div`
+export const OpponentMessageDiv = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  align-items: start;
+  justify-content: start;
   margin-bottom: 1rem;
 `;
 
@@ -71,7 +71,7 @@ export const OpponentNickName = styled.div`
   font-weight: bold;
 `;
 
-export const Message = styled.div`
+export const OpponentMessage = styled.div`
   padding: 1rem;
   background-color: #f2f4ff;
   border-radius: 0 1rem 1rem 1rem;
@@ -83,4 +83,22 @@ export const OpponentTimeStamp = styled.div`
   display: flex;
 `;
 
-export const MyMessage = styled.div``;
+export const MyMessageDiv = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+  margin-bottom: 1rem;
+`;
+
+export const MyMessage = styled.div`
+  padding: 1rem;
+  background-color: #f2f4ff;
+  border-radius: 1rem 0 1rem 1rem;
+`;
+
+export const MyTimeStamp = styled.div`
+  color: #a8b1ce;
+  margin-left: 0.5rem;
+  margin-top: 0.3rem;
+`;

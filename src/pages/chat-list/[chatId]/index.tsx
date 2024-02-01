@@ -13,6 +13,9 @@ import {
   OpponentNickName,
   Message,
   OpponentNicknameNMessageInfo,
+  MyMessageDiv,
+  OpponentMessageDiv,
+  MyTimeStamp,
 } from '@styles/chatIdStyles';
 import { BellOutlined, LeftOutlined, MoreOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
@@ -76,23 +79,27 @@ function ChatRoom() {
           chatMessages.map((message, index) => {
             if (message.fromMe) {
               return (
-                <MyMessage key={index}>
-                  <div>dd</div>
-                  {message.message}
-                </MyMessage>
+                <MyMessageDiv key={index}>
+                  <div>
+                    <MyMessage>{message.message}</MyMessage>
+                    <MyTimeStamp>
+                      {formatDateTime(message.sendTime)}
+                    </MyTimeStamp>
+                  </div>
+                </MyMessageDiv>
               );
             }
             return (
-              <OpponentMessage key={index}>
+              <OpponentMessageDiv key={index}>
                 <OpponentProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
                 <OpponentNicknameNMessageInfo>
                   <OpponentNickName>{opponentNickname}</OpponentNickName>
-                  <Message>{message.message}</Message>
+                  <OpponentMessage>{message.message}</OpponentMessage>
                   <OpponentTimeStamp>
                     {formatDateTime(message.sendTime)}
                   </OpponentTimeStamp>
                 </OpponentNicknameNMessageInfo>
-              </OpponentMessage>
+              </OpponentMessageDiv>
             );
           })
         ) : (
