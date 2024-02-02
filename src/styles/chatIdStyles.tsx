@@ -1,5 +1,29 @@
 import styled from 'styled-components';
 
+export const ChatWrapper = styled.div`
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  /* 태블릿 */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    width: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* 데스크탑 */
+  @media screen and (min-width: 1025px) {
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+`;
+
 export const Header = styled.div`
   display: flex;
   box-sizing: border-box;
@@ -10,6 +34,22 @@ export const Header = styled.div`
   gap: 3rem;
   font-size: large;
   justify-content: space-between;
+  position: fixed;
+  background-color: white;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  /* 태블릿 */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    width: 50%;
+  }
+
+  /* 데스크탑 */
+  @media screen and (min-width: 1025px) {
+    width: 30%;
+  }
 `;
 
 export const GoBack = styled.button`
@@ -33,13 +73,14 @@ export const Plus = styled.div``;
 
 export const ChattingHistory = styled.div`
   width: 90%;
-  flex-direction: column;
   display: flex;
-  padding: 1rem;
+  padding: 4rem 1rem 1rem 1rem;
   font: inherit;
   text-decoration: none;
   color: black;
-  cursor: default;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
 `;
 
 export const OpponentMessageDiv = styled.div`
@@ -93,7 +134,8 @@ export const MyMessageDiv = styled.div`
 
 export const MyMessage = styled.div`
   padding: 1rem;
-  background-color: #f2f4ff;
+  background-color: #5776b9;
+  color: white;
   border-radius: 1rem 0 1rem 1rem;
 `;
 

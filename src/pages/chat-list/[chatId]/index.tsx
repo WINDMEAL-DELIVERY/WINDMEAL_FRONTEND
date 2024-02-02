@@ -1,4 +1,5 @@
 import {
+  ChatWrapper,
   Header,
   GoBack,
   OppositeNickName,
@@ -11,7 +12,6 @@ import {
   OpponentProfileImage,
   OpponentTimeStamp,
   OpponentNickName,
-  Message,
   OpponentNicknameNMessageInfo,
   MyMessageDiv,
   OpponentMessageDiv,
@@ -22,8 +22,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { ChattingProps } from '@type/chattingType';
 import { getChatting } from '@apis/chatting/chatting';
-import { useState } from 'react';
-import { Wrapper } from '@styles/styles';
+import { useEffect, useRef, useState } from 'react';
 
 function ChatRoom() {
   const router = useRouter();
@@ -33,6 +32,14 @@ function ChatRoom() {
     orderId: string;
   };
   const [chatMessages, setChatMessages] = useState<ChattingProps[]>();
+  const [flag, setFlag] = useState(false);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current && flag) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [flag]);
 
   useQuery<ChattingProps[]>(
     ['chatting'],
@@ -41,6 +48,7 @@ function ChatRoom() {
     },
     {
       onSuccess: chatMessage => {
+        if (!chatMessages) setFlag(true);
         setChatMessages(chatMessage);
       },
       onError: err => console.log('chatMessage Error', err),
@@ -59,7 +67,7 @@ function ChatRoom() {
   }
 
   return (
-    <Wrapper>
+    <ChatWrapper>
       <Header>
         <GoBack onClick={router.back}>
           <LeftOutlined />
@@ -74,9 +82,9 @@ function ChatRoom() {
           </Plus>
         </Icons>
       </Header>
-      <ChattingHistory>
+      <ChattingHistory ref={scrollRef}>
         {chatMessages ? (
-          chatMessages.map((message, index) => {
+          chatMessages.reverse().map((message, index) => {
             if (message.fromMe) {
               return (
                 <MyMessageDiv key={index}>
@@ -106,7 +114,7 @@ function ChatRoom() {
           <div />
         )}
       </ChattingHistory>
-    </Wrapper>
+    </ChatWrapper>
   );
 }
 
