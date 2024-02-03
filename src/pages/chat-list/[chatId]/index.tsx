@@ -16,6 +16,12 @@ import {
   MyMessageDiv,
   OpponentMessageDiv,
   MyTimeStamp,
+  ChatBottomDiv,
+  ImageButton,
+  ChatInput,
+  SendButton,
+  ChatInputDiv,
+  chatInput,
 } from '@styles/chatIdStyles';
 import { BellOutlined, LeftOutlined, MoreOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
@@ -114,6 +120,11 @@ function ChatRoom() {
           <div />
         )}
       </ChattingHistory>
+      <ChatBottomDiv>
+        <ImageButton>dd</ImageButton>
+        <ChatInputDiv placeholder="메시지 보내기" />
+        <SendButton>dd</SendButton>
+      </ChatBottomDiv>
     </ChatWrapper>
   );
 }

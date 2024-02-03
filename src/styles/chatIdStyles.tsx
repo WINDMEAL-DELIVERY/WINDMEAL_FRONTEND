@@ -144,3 +144,21 @@ export const MyTimeStamp = styled.div`
   margin-left: 0.5rem;
   margin-top: 0.3rem;
 `;
+
+export const ChatBottomDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 1vh;
+`;
+
+export const ImageButton = styled.button``;
+
+export const ChatInputDiv = styled.input`
+  background-color: #f2f4ff;
+  width: 248px;
+  border-radius: 30px;
+  padding: 0.5rem 1rem;
+`;
+
+export const SendButton = styled.button``;
