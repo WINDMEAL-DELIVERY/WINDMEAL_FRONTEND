@@ -54,7 +54,6 @@ function ChatRoom() {
     },
     {
       onSuccess: chatMessage => {
-        console.log(chatMessage);
         if (!chatMessages) setFlag(true);
         setChatMessages(chatMessage);
       },
@@ -87,10 +86,10 @@ function ChatRoom() {
       </Header>
       <ChattingHistory ref={scrollRef}>
         {chatMessages ? (
-          chatMessages.reverse().map((message, index) => {
+          chatMessages.reverse().map(message => {
             if (message.fromMe) {
               return (
-                <MyMessageDiv key={index}>
+                <MyMessageDiv key={message.messageId}>
                   <div>
                     <MyMessage>{message.message}</MyMessage>
                     <MyTimeStamp>
@@ -101,7 +100,7 @@ function ChatRoom() {
               );
             }
             return (
-              <OpponentMessageDiv key={index}>
+              <OpponentMessageDiv key={message.messageId}>
                 <OpponentProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
                 <OpponentNicknameNMessageInfo>
                   <OpponentNickName>{opponentNickname}</OpponentNickName>
