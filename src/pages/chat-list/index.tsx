@@ -18,12 +18,12 @@ import {
   UpdateNums,
   LastMessage,
 } from '@styles/chat-listStyle';
-import { LeftOutlined } from '@ant-design/icons';
 import { useQuery } from 'react-query';
 import { getChattingList } from '@apis/chatting/chatting';
 import { useState } from 'react';
 import { ChattingListProps } from '@type/chattingType';
 import { useRouter } from 'next/router';
+import { IconLt } from '../../../public/svgs';
 
 export default function ChatList() {
   const [chattingRooms, setChattingRooms] = useState<ChattingListProps[]>([]);
@@ -100,7 +100,7 @@ export default function ChatList() {
     <Wrapper>
       <Header>
         <GoBack onClick={router.back}>
-          <LeftOutlined />
+          <IconLt />
         </GoBack>
         <Title>채팅</Title>
       </Header>

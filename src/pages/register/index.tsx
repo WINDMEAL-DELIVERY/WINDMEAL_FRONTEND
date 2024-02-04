@@ -20,7 +20,6 @@ import {
 } from '@styles/registerStyles';
 import Image from 'next/image';
 
-import Vector from '@images/Vector 2.svg';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { GuideMessageType, InputNickNameProps } from '@type/type';
 import { useMutation } from 'react-query';
@@ -30,6 +29,7 @@ import { checkDuplicatedNickname, setUserNickname } from '@apis/user/register';
 import { useRouter } from 'next/router';
 import { useTokenInitialization } from '@hooks/useTokenInitialization';
 import { useSetFCM } from '@hooks/useSetFCM';
+import Vector from '../../../public/svgs/lt.svg';
 
 export default function Register() {
   const guideMessage: GuideMessageType = {

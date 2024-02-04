@@ -53,7 +53,6 @@ export const Header = styled.div`
 `;
 
 export const GoBack = styled.button`
-  border: 0;
   cursor: pointer;
 `;
 
@@ -65,11 +64,8 @@ export const OppositeNickName = styled.span`
 export const Icons = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 30%;
+  gap: 2vw;
 `;
-export const Alarm = styled.div``;
-
-export const Plus = styled.div``;
 
 export const ChattingHistory = styled.div`
   width: 90%;
@@ -149,10 +145,10 @@ export const ChatBottomDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  align-items: center;
   padding: 1vh;
+  background-color: yellow;
 `;
-
-export const ImageButton = styled.button``;
 
 export const ChatInputDiv = styled.input`
   background-color: #f2f4ff;
@@ -160,5 +156,3 @@ export const ChatInputDiv = styled.input`
   border-radius: 30px;
   padding: 0.5rem 1rem;
 `;
-
-export const SendButton = styled.button``;

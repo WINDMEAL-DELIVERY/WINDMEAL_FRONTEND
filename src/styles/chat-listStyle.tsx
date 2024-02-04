@@ -13,7 +13,6 @@ export const Header = styled.div`
 `;
 
 export const GoBack = styled.button`
-  border: 0;
   cursor: pointer;
 `;
 

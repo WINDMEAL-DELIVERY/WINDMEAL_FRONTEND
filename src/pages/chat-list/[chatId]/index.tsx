@@ -3,8 +3,6 @@ import {
   Header,
   GoBack,
   OppositeNickName,
-  Alarm,
-  Plus,
   Icons,
   ChattingHistory,
   OpponentMessage,
@@ -17,18 +15,20 @@ import {
   OpponentMessageDiv,
   MyTimeStamp,
   ChatBottomDiv,
-  ImageButton,
-  ChatInput,
-  SendButton,
   ChatInputDiv,
-  chatInput,
 } from '@styles/chatIdStyles';
-import { BellOutlined, LeftOutlined, MoreOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { ChattingProps } from '@type/chattingType';
 import { getChatting } from '@apis/chatting/chatting';
 import { useEffect, useRef, useState } from 'react';
+import {
+  IconAlarm,
+  IconDots,
+  IconImage,
+  IconLt,
+  IconSend,
+} from '../../../../public/svgs';
 
 function ChatRoom() {
   const router = useRouter();
@@ -54,6 +54,7 @@ function ChatRoom() {
     },
     {
       onSuccess: chatMessage => {
+        console.log(chatMessage);
         if (!chatMessages) setFlag(true);
         setChatMessages(chatMessage);
       },
@@ -76,16 +77,12 @@ function ChatRoom() {
     <ChatWrapper>
       <Header>
         <GoBack onClick={router.back}>
-          <LeftOutlined />
+          <IconLt />
         </GoBack>
         <OppositeNickName>{opponentNickname}</OppositeNickName>
         <Icons>
-          <Alarm>
-            <BellOutlined />{' '}
-          </Alarm>
-          <Plus>
-            <MoreOutlined />
-          </Plus>
+          <IconAlarm />
+          <IconDots />
         </Icons>
       </Header>
       <ChattingHistory ref={scrollRef}>
@@ -121,9 +118,9 @@ function ChatRoom() {
         )}
       </ChattingHistory>
       <ChatBottomDiv>
-        <ImageButton>dd</ImageButton>
+        <IconImage />
         <ChatInputDiv placeholder="메시지 보내기" />
-        <SendButton>dd</SendButton>
+        <IconSend />
       </ChatBottomDiv>
     </ChatWrapper>
   );
