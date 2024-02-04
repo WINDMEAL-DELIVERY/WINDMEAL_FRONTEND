@@ -84,7 +84,10 @@ export const OpponentMessageDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: start;
-  margin-bottom: 1rem;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
 `;
 
 export const OpponentProfileImage = styled.div<{ src: string }>`
@@ -125,7 +128,10 @@ export const MyMessageDiv = styled.div`
   display: flex;
   flex-direction: column;
   align-items: end;
-  margin-bottom: 1rem;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
 `;
 
 export const MyMessage = styled.div`
@@ -147,7 +153,6 @@ export const ChatBottomDiv = styled.div`
   justify-content: space-evenly;
   align-items: center;
   padding: 1vh;
-  background-color: yellow;
 `;
 
 export const ChatInputDiv = styled.input`
