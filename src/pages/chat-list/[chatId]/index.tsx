@@ -32,11 +32,13 @@ import {
 
 function ChatRoom() {
   const router = useRouter();
-  const { chatroomId, opponentNickname, orderId } = router.query as {
-    chatroomId: string;
-    opponentNickname: string;
-    orderId: string;
-  };
+  const { chatroomId, opponentNickname, opponentProfileImage, orderId } =
+    router.query as {
+      chatroomId: string;
+      opponentNickname: string;
+      opponentProfileImage: string;
+      orderId: string;
+    };
   const [chatMessages, setChatMessages] = useState<ChattingProps[]>();
   const [flag, setFlag] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -101,7 +103,7 @@ function ChatRoom() {
             }
             return (
               <OpponentMessageDiv key={message.messageId}>
-                <OpponentProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
+                <OpponentProfileImage src={opponentProfileImage} />
                 <OpponentNicknameNMessageInfo>
                   <OpponentNickName>{opponentNickname}</OpponentNickName>
                   <OpponentMessage>{message.message}</OpponentMessage>

@@ -36,6 +36,7 @@ export default function ChatList() {
     },
     {
       onSuccess: chattingList => {
+        console.log(chattingList);
         setChattingRooms(chattingList);
       },
       onError: err => console.log('chattingList Error', err),
@@ -89,6 +90,7 @@ export default function ChatList() {
         query: {
           chatroomId: chatRoom.chatroomId,
           opponentNickname: chatRoom.opponentNickname,
+          opponentProfileImage: chatRoom.opponentProfileImage,
           orderId: chatRoom.orderId,
         },
       },
@@ -115,7 +117,7 @@ export default function ChatList() {
                 onClick={() => handleChatClick(chatRoom)}
               >
                 <ProfileImageFrame>
-                  <ProfileImage src="https://images.pexels.com/photos/853168/pexels-photo-853168.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260" />
+                  <ProfileImage src={chatRoom.opponentProfileImage} />
                 </ProfileImageFrame>
                 <ChattingInfoFrame>
                   <ShopNDest>{`${chatRoom.orderInfo?.storeName}/${chatRoom.orderInfo?.placeName}`}</ShopNDest>

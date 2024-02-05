@@ -11,6 +11,7 @@ export interface ChattingListProps {
   messageType: string;
   lastMessageTime: string;
   uncheckedMessageCount: number;
+  opponentProfileImage: string;
   opponentAlarmToken: string;
   opponentNickname: string;
   orderId: string;

@@ -97,7 +97,6 @@ export const OpponentProfileImage = styled.div<{ src: string }>`
   border-radius: 100%;
   width: 40px;
   height: 40px;
-  background-color: black;
 `;
 
 export const OpponentNicknameNMessageInfo = styled.div`

@@ -1,6 +1,8 @@
 import { ChatInstance, instance } from '@/apis';
 import { ChattingListProps } from '@type/chattingType';
 
+const imageURL = process.env.NEXT_PUBLIC_IMAGE_URL as string;
+
 // 추후 해당 API 구현 되면 삭제 예정
 export const getOrderInfo = async (orderId: number) => {
   const { data } = await instance.get(`/order/${orderId}`);
@@ -19,6 +21,7 @@ export const getChattingList = async () => {
 
   return chattingList.map((chat: ChattingListProps, index: number) => ({
     ...chat,
+    opponentProfileImage: `${imageURL}${chat.opponentProfileImage}`,
     orderInfo: orderInfoList[index].data,
   }));
 };
