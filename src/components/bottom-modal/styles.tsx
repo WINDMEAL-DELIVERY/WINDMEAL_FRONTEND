@@ -5,7 +5,6 @@ export const Wrapper = styled.div`
   flex-direction: column;
 
   position: fixed;
-  width: inherit;
   z-index: 2;
   top: 50vh; //전체 화면의 3/8
   height: 100%;
@@ -15,6 +14,21 @@ export const Wrapper = styled.div`
 
   background: var(--BG, #fff);
   box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.05);
+
+  /* 핸드폰 */
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  /* 태블릿 */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    width: 50%;
+  }
+
+  /* 데스크탑 */
+  @media screen and (min-width: 1025px) {
+    width: 30%;
+  }
 `;
 
 export const ContentWrapper = styled.div`
@@ -33,6 +47,21 @@ export const Overlay = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
   z-index: 1;
+
+  /* 핸드폰 */
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  /* 태블릿 */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    width: 50%;
+  }
+
+  /* 데스크탑 */
+  @media screen and (min-width: 1025px) {
+    width: 30%;
+  }
 `;
 
 export const MapOptionContainer = styled.div`
