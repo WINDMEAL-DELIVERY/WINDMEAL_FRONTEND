@@ -12,10 +12,6 @@ export default function BottomModal({ content }: BottomModalProps) {
   const [isOpen, setIsOpen] = useState(true);
   const modalBackground = useRef(null);
 
-  // const openModal = () => {
-  //   setIsOpen(true);
-  // };
-
   const closeModal = () => {
     setIsOpen(false);
   };

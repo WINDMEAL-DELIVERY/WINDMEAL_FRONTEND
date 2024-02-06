@@ -33,6 +33,8 @@ import {
 import { IconCart, IconDown, IconRefresh } from 'public/svgs';
 import BottomModal from '@/components/bottom-modal';
 import Destination from '@/components/bottom-modal/Destination';
+import ETA from '@/components/bottom-modal/ETA';
+import StoreType from '@/components/bottom-modal/Storetype';
 
 const stores: StoreProp[] = [
   {
@@ -214,6 +216,7 @@ export default function Map() {
   const [selected, setSelected] = useState<string>();
   const [selectFlag, setSelectFlag] = useState<number>(0);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+  const [openBottomModal, setOpenBottomModal] = useState<number>(0);
 
   const handleSelect = (selectedValue: string) => {
     setSelected(selectedValue);
@@ -224,6 +227,7 @@ export default function Map() {
   const hideDialog = () => {
     setIsDialogVisible(false); // 다이얼로그를 숨김 설정
   };
+  console.log("!", openBottomModal)
 
   return (
     <MapDiv
@@ -247,14 +251,16 @@ export default function Map() {
             <IconRefresh />
           </OptionButton>
           <OptionButton>
-            <OptionText>도착시간</OptionText>
+            <OptionText onClick={() => setOpenBottomModal(1)}>
+              도착시간
+            </OptionText>
             <IconDown />
           </OptionButton>
-          <OptionButton>
+          <OptionButton onClick={() => setOpenBottomModal(2)}>
             <OptionText>배달지</OptionText>
             <IconDown />
           </OptionButton>
-          <OptionButton>
+          <OptionButton onClick={() => setOpenBottomModal(3)}>
             <OptionText>음식종류</OptionText>
             <IconDown />
           </OptionButton>
@@ -277,7 +283,9 @@ export default function Map() {
         onConfirm={hideDialog}
         confirmTitle="Close"
       />
-      <BottomModal content={<Destination />} />
+      {openBottomModal === 1 && <BottomModal content={<ETA />} />}
+      {openBottomModal === 2 && <BottomModal content={<Destination />} />}
+      {openBottomModal === 3 && <BottomModal content={<StoreType />} />}
     </MapDiv>
   );
 }
