@@ -217,6 +217,7 @@ export default function Map() {
   const [selectFlag, setSelectFlag] = useState<number>(0);
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
   const [openBottomModal, setOpenBottomModal] = useState<number>(0);
+  const [modalKey, setModalKey] = useState<number>(1);
 
   const handleSelect = (selectedValue: string) => {
     setSelected(selectedValue);
@@ -227,7 +228,11 @@ export default function Map() {
   const hideDialog = () => {
     setIsDialogVisible(false); // 다이얼로그를 숨김 설정
   };
-  console.log("!", openBottomModal)
+
+  const handleClickOption = (optionId: number) => {
+    setOpenBottomModal(optionId);
+    setModalKey(prev => prev + 1);
+  };
 
   return (
     <MapDiv
@@ -251,16 +256,16 @@ export default function Map() {
             <IconRefresh />
           </OptionButton>
           <OptionButton>
-            <OptionText onClick={() => setOpenBottomModal(1)}>
+            <OptionText onClick={() => handleClickOption(1)}>
               도착시간
             </OptionText>
             <IconDown />
           </OptionButton>
-          <OptionButton onClick={() => setOpenBottomModal(2)}>
+          <OptionButton onClick={() => handleClickOption(2)}>
             <OptionText>배달지</OptionText>
             <IconDown />
           </OptionButton>
-          <OptionButton onClick={() => setOpenBottomModal(3)}>
+          <OptionButton onClick={() => handleClickOption(3)}>
             <OptionText>음식종류</OptionText>
             <IconDown />
           </OptionButton>
@@ -283,9 +288,15 @@ export default function Map() {
         onConfirm={hideDialog}
         confirmTitle="Close"
       />
-      {openBottomModal === 1 && <BottomModal content={<ETA />} />}
-      {openBottomModal === 2 && <BottomModal content={<Destination />} />}
-      {openBottomModal === 3 && <BottomModal content={<StoreType />} />}
+      {openBottomModal === 1 && (
+        <BottomModal key={modalKey} content={<ETA />} />
+      )}
+      {openBottomModal === 2 && (
+        <BottomModal key={modalKey} content={<Destination />} />
+      )}
+      {openBottomModal === 3 && (
+        <BottomModal key={modalKey} content={<StoreType />} />
+      )}
     </MapDiv>
   );
 }
