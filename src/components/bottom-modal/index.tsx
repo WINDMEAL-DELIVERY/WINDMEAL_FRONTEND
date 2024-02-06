@@ -6,20 +6,21 @@ import {
   Wrapper,
 } from '@components/bottom-modal/styles';
 import { useRef, useState } from 'react';
+import { BottomModalProps } from '@/types/type';
 
-export default function BottomModal() {
+export default function BottomModal({ content }: BottomModalProps) {
   const [isOpen, setIsOpen] = useState(true);
   const modalBackground = useRef(null);
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
+  // const openModal = () => {
+  //   setIsOpen(true);
+  // };
 
   const closeModal = () => {
     setIsOpen(false);
   };
 
-  const handleClickOut = e => {
+  const handleClickOut = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (e.target === e.currentTarget) {
       closeModal();
     }
@@ -31,7 +32,7 @@ export default function BottomModal() {
         <Wrapper>
           <Header />
           <ContentWrapper>
-            <Content />
+            <Content>{content}</Content>
           </ContentWrapper>
         </Wrapper>
       )}

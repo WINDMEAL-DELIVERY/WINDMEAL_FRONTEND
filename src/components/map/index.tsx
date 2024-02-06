@@ -31,6 +31,8 @@ import {
   MapCluster5,
 } from '@/components/map-cluster';
 import { IconCart, IconDown, IconRefresh } from 'public/svgs';
+import BottomModal from '@/components/bottom-modal';
+import Destination from '@/components/bottom-modal/Destination';
 
 const stores: StoreProp[] = [
   {
@@ -275,6 +277,7 @@ export default function Map() {
         onConfirm={hideDialog}
         confirmTitle="Close"
       />
+      <BottomModal content={<Destination />} />
     </MapDiv>
   );
 }

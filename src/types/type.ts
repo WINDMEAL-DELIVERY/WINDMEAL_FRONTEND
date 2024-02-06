@@ -167,3 +167,7 @@ export interface MarkerIcon {
   name: string;
   requests: number | undefined;
 }
+
+export interface BottomModalProps {
+  content: React.ReactNode;
+}

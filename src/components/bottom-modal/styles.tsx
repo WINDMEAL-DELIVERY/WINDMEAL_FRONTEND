@@ -7,7 +7,7 @@ export const Wrapper = styled.div`
   position: fixed;
   width: inherit;
   z-index: 2;
-  top: 62.5vh; //전체 화면의 3/8
+  top: 50vh; //전체 화면의 3/8
   height: 100%;
 
   border-radius: 1.875rem;
@@ -23,7 +23,6 @@ export const ContentWrapper = styled.div`
 
 export const Content = styled.div`
   display: flex;
-  background-color: red;
   height: 100%;
 `;
 
@@ -34,4 +33,23 @@ export const Overlay = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.3);
   z-index: 1;
+`;
+
+export const MapOptionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+`;
+
+export const MapOptionTitle = styled.p`
+  font-size: 1.56rem;
+  font-style: bold;
+  font-family: 'Noto Sans KR';
+  line-height: normal;
+`;
+
+export const MapOptionDescription = styled.p`
+  font-size: 0.88rem;
+  font-style: regular;
+  font-family: 'Noto Sans KR';
 `;
