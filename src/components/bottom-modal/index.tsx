@@ -5,10 +5,11 @@ import {
   Overlay,
   Wrapper,
 } from '@components/bottom-modal/styles';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 export default function BottomModal() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
+  const modalBackground = useRef(null);
 
   const openModal = () => {
     setIsOpen(true);
@@ -26,13 +27,15 @@ export default function BottomModal() {
 
   return (
     <>
-      <Wrapper>
-        <Header />
-        <ContentWrapper>
-          <Content />
-        </ContentWrapper>
-      </Wrapper>
-      <Overlay onClick={handleClickOut} />
+      {isOpen && (
+        <Wrapper>
+          <Header />
+          <ContentWrapper>
+            <Content />
+          </ContentWrapper>
+        </Wrapper>
+      )}
+      {isOpen && <Overlay onClick={handleClickOut} ref={modalBackground} />}
     </>
   );
 }
