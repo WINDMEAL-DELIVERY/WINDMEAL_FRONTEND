@@ -69,6 +69,7 @@ export const Content = styled.div`
 export const MapOptionContainer = styled.div`
   display: flex;
   flex-direction: column;
+  margin-bottom: 1rem;
 `;
 
 export const MapOptionTitle = styled.p`
@@ -93,11 +94,15 @@ export const MapOptionListContainer = styled.div`
   font-style: regular;
   font-family: 'Noto Sans KR';
   line-height: 3.5rem;
-  margin-top: 1rem;
 `;
 
 export const MapOptionList = styled.p`
   font-size: 0.88rem;
   font-family: 'Noto Sans KR';
   font-weight: 600;
+`;
+
+export const TimePickerContainer = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
