@@ -35,11 +35,6 @@ export const ContentWrapper = styled.div`
   margin-bottom: 56px; //바텀탭만큼
 `;
 
-export const Content = styled.div`
-  display: flex;
-  height: 100%;
-`;
-
 export const Overlay = styled.div`
   position: fixed;
   top: 0;
@@ -64,15 +59,21 @@ export const Overlay = styled.div`
   }
 `;
 
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem 2rem 2rem 2.5rem;
+`;
+
 export const MapOptionContainer = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 1rem;
 `;
 
 export const MapOptionTitle = styled.p`
   font-size: 1.56rem;
-  font-style: bold;
+  font-weight: 700;
   font-family: 'Noto Sans KR';
   line-height: normal;
 `;
@@ -81,4 +82,22 @@ export const MapOptionDescription = styled.p`
   font-size: 0.88rem;
   font-style: regular;
   font-family: 'Noto Sans KR';
+  font-weight: 400;
+  margin-top: 1rem;
+`;
+
+export const MapOptionListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 0.88rem;
+  font-style: regular;
+  font-family: 'Noto Sans KR';
+  line-height: 3.5rem;
+  margin-top: 1rem;
+`;
+
+export const MapOptionList = styled.p`
+  font-size: 0.88rem;
+  font-family: 'Noto Sans KR';
+  font-weight: 600;
 `;
