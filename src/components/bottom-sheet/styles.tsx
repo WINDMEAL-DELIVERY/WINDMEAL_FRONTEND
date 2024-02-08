@@ -20,7 +20,7 @@ export const Wrapper = styled(motion.div)<{ bottomsheetheight: number }>`
 `;
 
 export const BottomSheetContent = styled.div`
-  overflow: auto;
+  // overflow: auto;
   -webkit-overflow-scrolling: touch;
   margin-bottom: 56px; // 이후 bottom-tab 높이 확정 시 값 수정 (content가 바텀탭에 가리지 않도록)
 `;

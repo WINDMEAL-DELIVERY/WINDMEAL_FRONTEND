@@ -4,7 +4,6 @@ import Map from '@/components/map';
 import { useTokenInitialization } from '@hooks/useTokenInitialization';
 import { useSetFCM } from '@hooks/useSetFCM';
 import BottomSheet from '@/components/bottom-sheet';
-import Link from 'next/link';
 
 export default function Main() {
   // 토큰 재할당 및 FCM 구독
@@ -15,7 +14,6 @@ export default function Main() {
     <Wrapper>
       <Map />
       <BottomSheet />
-      <Link href="/cms">CMS</Link>
       <BottomTab />
     </Wrapper>
   );
