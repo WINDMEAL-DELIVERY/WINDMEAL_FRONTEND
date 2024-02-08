@@ -22,6 +22,9 @@ import { useQuery } from 'react-query';
 import { ChattingProps } from '@type/chattingType';
 import { getChatting } from '@apis/chatting/chatting';
 import { useEffect, useRef, useState } from 'react';
+import { getCookie } from 'cookies-next';
+import { useLocation } from 'react-use';
+import * as StompJs from '@stomp/stompjs';
 import {
   IconAlarm,
   IconDots,
@@ -30,18 +33,46 @@ import {
   IconSend,
 } from '../../../../public/svgs';
 
+interface ChatClient {
+  activate: () => void;
+  connected: boolean;
+  publish: (params: StompJs.IPublishParams) => void;
+  subscribe: (
+    destination: string,
+    callback: (message: StompJs.Message) => void,
+    headers?: Record<string, never>,
+  ) => void;
+}
+
 function ChatRoom() {
   const router = useRouter();
-  const { chatroomId, opponentNickname, opponentProfileImage, orderId } =
-    router.query as {
-      chatroomId: string;
-      opponentNickname: string;
-      opponentProfileImage: string;
-      orderId: string;
-    };
+  const client = useRef<ChatClient>({
+    activate: () => {
+      client.current.connected = true;
+    },
+    connected: false,
+    publish: () => {},
+    subscribe: () => {},
+  });
+  const { pathname } = useLocation();
+  const [messageType, setType] = useState('TEXT');
+  const {
+    chatroomId,
+    opponentNickname,
+    opponentProfileImage,
+    opponentAlarmToken,
+    orderId,
+  } = router.query as {
+    chatroomId: string;
+    opponentNickname: string;
+    opponentProfileImage: string;
+    opponentAlarmToken: string;
+    orderId: string;
+  };
   const [chatMessages, setChatMessages] = useState<ChattingProps[]>();
   const [flag, setFlag] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [text, setText] = useState('');
 
   useEffect(() => {
     if (scrollRef.current && flag) {
@@ -74,6 +105,68 @@ function ChatRoom() {
     return `${hours}:${minutes < 10 ? '0' : ''}${minutes} ${ampm}`;
   }
 
+  const connect = async () => {
+    const token: string = (await getCookie('token')) || '';
+    if (token) {
+      const queryParams = token;
+      const uri = encodeURIComponent(queryParams);
+      const alarmUri = encodeURIComponent(opponentAlarmToken);
+      const stompUrl = `${
+        process.env.NEXT_PUBLIC_STOMP_URL + uri
+      }&code_a=${alarmUri}`;
+      client.current = new StompJs.Client({
+        brokerURL: stompUrl,
+        connectHeaders: {
+          Authorization: token,
+        },
+        onConnect: () => {
+          console.log('success');
+        },
+        onStompError: frame => {
+          // ex : 커넥션을 맺은 후 채팅을 보내다 토큰이 만료 됐을때
+          console.error('STOMP 에러 발생');
+          console.error('STOMP Error:', frame.headers.message);
+        },
+        onDisconnect: () => {
+          console.error('연결끊김');
+        },
+        onWebSocketError: event => {
+          // ex : 애초에 토큰이 만료된 상태로 커넥션을 시도할때
+          console.error('웹소켓 에러발생', event);
+        },
+      });
+    }
+    client.current.activate();
+  };
+
+  useEffect(() => {
+    if (client.current.connected) return;
+    console.log('호출됨');
+    connect();
+  }, [pathname]);
+
+  const onClickHandler = async () => {
+    const token: string = (await getCookie('token')) || '';
+    if (token && text) {
+      client.current.publish({
+        destination: `/pub/chat.message.${chatroomId}`,
+        headers: {
+          Authorization: token,
+        },
+        body: JSON.stringify({
+          chatRoomId: chatroomId,
+          type: messageType,
+          message: text,
+        }),
+      });
+      setText('');
+    }
+  };
+
+  const saveUserText = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setText(event.target.value);
+  };
+
   return (
     <ChatWrapper>
       <Header>
@@ -88,7 +181,7 @@ function ChatRoom() {
       </Header>
       <ChattingHistory ref={scrollRef}>
         {chatMessages ? (
-          chatMessages.reverse().map(message => {
+          chatMessages.map(message => {
             if (message.fromMe) {
               return (
                 <MyMessageDiv key={message.messageId}>
@@ -120,8 +213,12 @@ function ChatRoom() {
       </ChattingHistory>
       <ChatBottomDiv>
         <IconImage />
-        <ChatInputDiv placeholder="메시지 보내기" />
-        <IconSend />
+        <ChatInputDiv
+          placeholder="메시지 보내기"
+          value={text}
+          onChange={saveUserText}
+        />
+        <IconSend onClick={onClickHandler} />
       </ChatBottomDiv>
     </ChatWrapper>
   );

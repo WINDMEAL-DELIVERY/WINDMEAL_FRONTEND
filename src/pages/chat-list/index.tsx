@@ -91,6 +91,7 @@ export default function ChatList() {
           chatroomId: chatRoom.chatroomId,
           opponentNickname: chatRoom.opponentNickname,
           opponentProfileImage: chatRoom.opponentProfileImage,
+          opponentAlarmToken: chatRoom.opponentAlarmToken,
           orderId: chatRoom.orderId,
         },
       },

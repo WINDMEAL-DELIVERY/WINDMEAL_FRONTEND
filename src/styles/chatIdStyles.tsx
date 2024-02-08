@@ -74,7 +74,7 @@ export const ChattingHistory = styled.div`
   font: inherit;
   text-decoration: none;
   color: black;
-  flex-direction: column;
+  flex-direction: column-reverse;
   overflow-y: auto;
   flex: 1;
 `;

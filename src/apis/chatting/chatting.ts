@@ -1,5 +1,6 @@
 import { ChatInstance, instance } from '@/apis';
 import { ChattingListProps } from '@type/chattingType';
+import { getCookie } from 'cookies-next';
 
 const imageURL = process.env.NEXT_PUBLIC_IMAGE_URL as string;
 
@@ -29,4 +30,21 @@ export const getChattingList = async () => {
 export const getChatting = async (chatroomId: string) => {
   const { data } = await ChatInstance.get(`/chat/${chatroomId}`);
   return data.data.chatMessageSpecResponses.content;
+};
+
+export const chatConnect = async (
+  chatroomId: string,
+  opponentAlarmToken: string,
+) => {
+  const token: string = (await getCookie('token')) || '';
+  if (token !== '') {
+    const uri = encodeURIComponent(token);
+    const alarmUri = encodeURIComponent(opponentAlarmToken);
+    const stompUrl = `${
+      process.env.NEXT_PUBLIC_STOMP_URL + uri
+    }&code_a=${alarmUri}`;
+
+    const { data } = await ChatInstance.get(`/chat/${chatroomId}`);
+    return data.data.chatMessageSpecResponses.content;
+  }
 };
