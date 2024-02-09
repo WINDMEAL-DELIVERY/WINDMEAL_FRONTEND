@@ -1,8 +1,12 @@
 import { ChatInstance, instance } from '@/apis';
-import { ChattingListProps } from '@type/chattingType';
-import { getCookie } from 'cookies-next';
+import { ChattingListProps, ChattingMessageProps } from '@type/chattingType';
 
 const imageURL = process.env.NEXT_PUBLIC_IMAGE_URL as string;
+
+function formattedTimeZone(dateTimeString: string) {
+  const inputDate = new Date(dateTimeString);
+  return new Date(inputDate.getTime() + 9 * 60 * 60 * 1000);
+}
 
 // 추후 해당 API 구현 되면 삭제 예정
 export const getOrderInfo = async (orderId: number) => {
@@ -24,27 +28,17 @@ export const getChattingList = async () => {
     ...chat,
     opponentProfileImage: `${imageURL}${chat.opponentProfileImage}`,
     orderInfo: orderInfoList[index].data,
+    lastMessageTime: formattedTimeZone(chat.lastMessageTime),
   }));
 };
 
-export const getChatting = async (chatroomId: string) => {
+export const getChattingMessage = async (chatroomId: string) => {
   const { data } = await ChatInstance.get(`/chat/${chatroomId}`);
-  return data.data.chatMessageSpecResponses.content;
-};
 
-export const chatConnect = async (
-  chatroomId: string,
-  opponentAlarmToken: string,
-) => {
-  const token: string = (await getCookie('token')) || '';
-  if (token !== '') {
-    const uri = encodeURIComponent(token);
-    const alarmUri = encodeURIComponent(opponentAlarmToken);
-    const stompUrl = `${
-      process.env.NEXT_PUBLIC_STOMP_URL + uri
-    }&code_a=${alarmUri}`;
-
-    const { data } = await ChatInstance.get(`/chat/${chatroomId}`);
-    return data.data.chatMessageSpecResponses.content;
-  }
+  return data.data.chatMessageSpecResponses.content.map(
+    (chatMessage: ChattingMessageProps) => ({
+      ...chatMessage,
+      sendTime: formattedTimeZone(chatMessage.sendTime),
+    }),
+  );
 };

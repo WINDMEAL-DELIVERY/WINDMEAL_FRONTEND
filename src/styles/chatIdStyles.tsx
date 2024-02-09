@@ -79,6 +79,13 @@ export const ChattingHistory = styled.div`
   flex: 1;
 `;
 
+export const TimeStamp = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+`;
+
 export const OpponentMessageDiv = styled.div`
   width: 100%;
   display: flex;

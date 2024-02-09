@@ -16,11 +16,12 @@ import {
   MyTimeStamp,
   ChatBottomDiv,
   ChatInputDiv,
+  TimeStamp,
 } from '@styles/chatIdStyles';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { ChattingProps } from '@type/chattingType';
-import { getChatting } from '@apis/chatting/chatting';
+import { ChattingMessageProps } from '@type/chattingType';
+import { getChattingMessage } from '@apis/chatting/chatting';
 import { useEffect, useRef, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import { useLocation } from 'react-use';
@@ -79,13 +80,14 @@ function ChatRoom() {
     }
   }, [flag]);
 
-  useQuery<ChattingProps[]>(
+  useQuery<ChattingMessageProps[]>(
     ['chatting'],
     () => {
-      return getChatting(chatroomId);
+      return getChattingMessage(chatroomId);
     },
     {
       onSuccess: chatMessage => {
+        console.log(chatMessage);
         if (!chatMessages) setFlag(true);
         setChatMessages(chatMessage);
       },
@@ -95,13 +97,21 @@ function ChatRoom() {
 
   function formatDateTime(dateTimeString: string) {
     const inputDate = new Date(dateTimeString);
-    const inputDateWithTimeZone = new Date(
-      inputDate.getTime() + 9 * 60 * 60 * 1000,
-    );
-    const hours = inputDateWithTimeZone.getHours() % 12 || 12;
-    const minutes = inputDateWithTimeZone.getMinutes();
-    const ampm = inputDateWithTimeZone.getHours() >= 12 ? 'PM' : 'AM';
+    const hours = inputDate.getHours() % 12 || 12;
+    const minutes = inputDate.getMinutes();
+    const ampm = inputDate.getHours() >= 12 ? 'PM' : 'AM';
     return `${hours}:${minutes < 10 ? '0' : ''}${minutes} ${ampm}`;
+  }
+
+  function formatTimeStamp(inputDate: Date) {
+    const year = inputDate.getFullYear();
+    const month = inputDate.getMonth() + 1;
+    const day = inputDate.getDate();
+
+    const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
+    const dayOfWeek = daysOfWeek[inputDate.getDay()];
+
+    return `${year}. ${month}. ${day}. ${dayOfWeek}요일`;
   }
 
   const connect = async () => {
@@ -166,6 +176,14 @@ function ChatRoom() {
     setText(event.target.value);
   };
 
+  const isSameDay = (toDay: Date, compareDay?: Date | null) => {
+    return (
+      toDay.getFullYear() === compareDay?.getFullYear() &&
+      toDay.getMonth() === compareDay?.getMonth() &&
+      toDay.getDate() === compareDay?.getDate()
+    );
+  };
+
   return (
     <ChatWrapper>
       <Header>
@@ -180,30 +198,49 @@ function ChatRoom() {
       </Header>
       <ChattingHistory ref={scrollRef}>
         {chatMessages ? (
-          chatMessages.map(message => {
+          chatMessages.map((message, index) => {
+            const currentMessageDate = new Date(message.sendTime);
+            const nextMessage = chatMessages[index + 1];
+
+            const isNewDate =
+              index === chatMessages.length - 1
+                ? false
+                : !isSameDay(
+                    new Date(message.sendTime),
+                    new Date(nextMessage.sendTime),
+                  );
+
             if (message.fromMe) {
               return (
-                <MyMessageDiv key={message.messageId}>
-                  <div>
+                <>
+                  {isNewDate && (
+                    <TimeStamp>{formatTimeStamp(currentMessageDate)}</TimeStamp>
+                  )}
+                  <MyMessageDiv key={message.messageId}>
                     <MyMessage>{message.message}</MyMessage>
                     <MyTimeStamp>
                       {formatDateTime(message.sendTime)}
                     </MyTimeStamp>
-                  </div>
-                </MyMessageDiv>
+                  </MyMessageDiv>
+                </>
               );
             }
             return (
-              <OpponentMessageDiv key={message.messageId}>
-                <OpponentProfileImage src={opponentProfileImage} />
-                <OpponentNicknameNMessageInfo>
-                  <OpponentNickName>{opponentNickname}</OpponentNickName>
-                  <OpponentMessage>{message.message}</OpponentMessage>
-                  <OpponentTimeStamp>
-                    {formatDateTime(message.sendTime)}
-                  </OpponentTimeStamp>
-                </OpponentNicknameNMessageInfo>
-              </OpponentMessageDiv>
+              <>
+                {isNewDate && (
+                  <TimeStamp>{formatTimeStamp(currentMessageDate)}</TimeStamp>
+                )}
+                <OpponentMessageDiv key={message.messageId}>
+                  <OpponentProfileImage src={opponentProfileImage} />
+                  <OpponentNicknameNMessageInfo>
+                    <OpponentNickName>{opponentNickname}</OpponentNickName>
+                    <OpponentMessage>{message.message}</OpponentMessage>
+                    <OpponentTimeStamp>
+                      {formatDateTime(message.sendTime)}
+                    </OpponentTimeStamp>
+                  </OpponentNicknameNMessageInfo>
+                </OpponentMessageDiv>
+              </>
             );
           })
         ) : (

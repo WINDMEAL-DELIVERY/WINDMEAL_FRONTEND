@@ -18,7 +18,7 @@ export interface ChattingListProps {
   orderInfo?: ChattingOrderProps;
 }
 
-export interface ChattingProps {
+export interface ChattingMessageProps {
   messageId: string;
   fromMe: boolean;
   message: string;
