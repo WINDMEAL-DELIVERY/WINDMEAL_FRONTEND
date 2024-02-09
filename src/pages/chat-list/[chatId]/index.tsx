@@ -55,7 +55,6 @@ function ChatRoom() {
     subscribe: () => {},
   });
   const { pathname } = useLocation();
-  const [messageType, setType] = useState('TEXT');
   const {
     chatroomId,
     opponentNickname,
@@ -145,7 +144,7 @@ function ChatRoom() {
     connect();
   }, [pathname]);
 
-  const onClickHandler = async () => {
+  const onClickMessageHandler = async () => {
     const token: string = (await getCookie('token')) || '';
     if (token && text) {
       client.current.publish({
@@ -155,7 +154,7 @@ function ChatRoom() {
         },
         body: JSON.stringify({
           chatRoomId: chatroomId,
-          type: messageType,
+          type: 'TEXT',
           message: text,
         }),
       });
@@ -218,7 +217,7 @@ function ChatRoom() {
           value={text}
           onChange={saveUserText}
         />
-        <IconSend onClick={onClickHandler} />
+        <IconSend onClick={onClickMessageHandler} />
       </ChatBottomDiv>
     </ChatWrapper>
   );
