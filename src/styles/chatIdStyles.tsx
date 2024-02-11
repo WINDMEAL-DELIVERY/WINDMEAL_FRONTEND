@@ -127,8 +127,8 @@ export const OpponentImage = styled.div<{ src: string }>`
   background-image: ${({ src }) => `url(${src})`};
   background-size: contain;
   background-repeat: no-repeat;
-  width: 30vw;
-  height: 30vh;
+  width: 15rem;
+  height: 15rem;
 `;
 
 export const OpponentTimeStamp = styled.div`
@@ -159,8 +159,8 @@ export const MyImage = styled.div<{ src: string }>`
   background-image: ${({ src }) => `url(${src})`};
   background-size: contain;
   background-repeat: no-repeat;
-  width: 30vw;
-  height: 30vh;
+  width: 15rem;
+  height: 15rem;
 `;
 
 export const MyTimeStamp = styled.div`
