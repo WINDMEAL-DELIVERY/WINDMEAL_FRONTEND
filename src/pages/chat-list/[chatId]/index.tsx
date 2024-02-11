@@ -17,11 +17,13 @@ import {
   ChatBottomDiv,
   ChatInputDiv,
   TimeStamp,
+  MyImage,
+  OpponentImage,
 } from '@styles/chatIdStyles';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { ChattingMessageProps } from '@type/chattingType';
-import { getChattingMessage } from '@apis/chatting/chatting';
+import { getChattingMessage, getImageUrl } from '@apis/chatting/chatting';
 import { useEffect, useRef, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import { useLocation } from 'react-use';
@@ -69,10 +71,12 @@ function ChatRoom() {
     opponentAlarmToken: string;
     orderId: string;
   };
-  const [chatMessages, setChatMessages] = useState<ChattingProps[]>();
+  const [chatMessages, setChatMessages] = useState<ChattingMessageProps[]>();
   const [flag, setFlag] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState('');
+  const [uploadImgUrl, setUploadImgUrl] = useState('');
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (scrollRef.current && flag) {
@@ -184,6 +188,43 @@ function ChatRoom() {
     );
   };
 
+  async function onUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files) {
+      const file = e.target.files[0];
+
+      if (!file) {
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+      const imageUrl = await getImageUrl(formData);
+      setUploadImgUrl(imageUrl);
+
+      const token: string = (await getCookie('token')) || '';
+      if (token && imageUrl) {
+        client.current.publish({
+          destination: `/pub/chat.message.${chatroomId}`,
+          headers: {
+            Authorization: token,
+          },
+          body: JSON.stringify({
+            chatRoomId: chatroomId,
+            type: 'IMAGE',
+            message: imageUrl,
+          }),
+        });
+        setUploadImgUrl('');
+      }
+    }
+  }
+
+  const handleIconClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   return (
     <ChatWrapper>
       <Header>
@@ -210,6 +251,8 @@ function ChatRoom() {
                     new Date(nextMessage.sendTime),
                   );
 
+            const isImage = message.messageType === 'IMAGE';
+
             if (message.fromMe) {
               return (
                 <>
@@ -217,7 +260,11 @@ function ChatRoom() {
                     <TimeStamp>{formatTimeStamp(currentMessageDate)}</TimeStamp>
                   )}
                   <MyMessageDiv key={message.messageId}>
-                    <MyMessage>{message.message}</MyMessage>
+                    {isImage ? (
+                      <MyImage src={message.message} />
+                    ) : (
+                      <MyMessage>{message.message}</MyMessage>
+                    )}
                     <MyTimeStamp>
                       {formatDateTime(message.sendTime)}
                     </MyTimeStamp>
@@ -234,7 +281,11 @@ function ChatRoom() {
                   <OpponentProfileImage src={opponentProfileImage} />
                   <OpponentNicknameNMessageInfo>
                     <OpponentNickName>{opponentNickname}</OpponentNickName>
-                    <OpponentMessage>{message.message}</OpponentMessage>
+                    {isImage ? (
+                      <OpponentImage src={message.message} />
+                    ) : (
+                      <OpponentMessage>{message.message}</OpponentMessage>
+                    )}
                     <OpponentTimeStamp>
                       {formatDateTime(message.sendTime)}
                     </OpponentTimeStamp>
@@ -248,10 +299,20 @@ function ChatRoom() {
         )}
       </ChattingHistory>
       <ChatBottomDiv>
-        <IconImage />
+        <div>
+          <input
+            ref={fileInputRef}
+            accept="image/*"
+            multiple
+            type="file"
+            onChange={onUpload}
+            style={{ display: 'none' }}
+          />
+          <IconImage onClick={handleIconClick} />
+        </div>
         <ChatInputDiv
           placeholder="메시지 보내기"
-          value={text}
+          value={uploadImgUrl}
           onChange={saveUserText}
         />
         <IconSend onClick={onClickMessageHandler} />

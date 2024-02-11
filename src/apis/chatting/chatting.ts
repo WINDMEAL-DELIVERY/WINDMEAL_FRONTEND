@@ -42,3 +42,8 @@ export const getChattingMessage = async (chatroomId: string) => {
     }),
   );
 };
+
+export const getImageUrl = async (formData: FormData) => {
+  const { data } = await instance.post('/api/image', formData);
+  return imageURL + data.data;
+};
