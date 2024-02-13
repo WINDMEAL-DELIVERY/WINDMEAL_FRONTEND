@@ -75,7 +75,6 @@ function ChatRoom() {
   const [flag, setFlag] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState('');
-  const [uploadImgUrl, setUploadImgUrl] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -199,7 +198,6 @@ function ChatRoom() {
       const formData = new FormData();
       formData.append('file', file);
       const imageUrl = await getImageUrl(formData);
-      setUploadImgUrl(imageUrl);
 
       const token: string = (await getCookie('token')) || '';
       if (token && imageUrl) {
@@ -214,7 +212,6 @@ function ChatRoom() {
             message: imageUrl,
           }),
         });
-        setUploadImgUrl('');
       }
     }
   }
