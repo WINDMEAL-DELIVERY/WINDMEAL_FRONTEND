@@ -234,7 +234,7 @@ function ChatRoom() {
           <IconDots />
         </Icons>
       </Header>
-      <ChattingHistory ref={scrollRef}>
+      <ChattingHistory ref={scrollRef} key={chatroomId}>
         {chatMessages ? (
           chatMessages.map((message, index) => {
             const currentMessageDate = new Date(message.sendTime);
