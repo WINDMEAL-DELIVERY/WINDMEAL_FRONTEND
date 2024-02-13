@@ -23,8 +23,6 @@ export {
   IconDots,
   IconImage,
   IconSend,
-  IconMiddle,
-  IconPlace,
   IconRight,
   IconChatting,
   IconMarker,
@@ -32,4 +30,4 @@ export {
   IconDown,
   IconFind,
   IconCart,
-}
+};
