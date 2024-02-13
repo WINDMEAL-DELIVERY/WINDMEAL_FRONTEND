@@ -123,12 +123,9 @@ export const OpponentMessage = styled.div`
   border-radius: 0 1rem 1rem 1rem;
 `;
 
-export const OpponentImage = styled.div<{ src: string }>`
-  background-image: ${({ src }) => `url(${src})`};
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 15rem;
-  height: 15rem;
+export const OpponentImage = styled.img`
+  width: 70%;
+  height: auto;
 `;
 
 export const OpponentTimeStamp = styled.div`
@@ -155,12 +152,9 @@ export const MyMessage = styled.div`
   border-radius: 1rem 0 1rem 1rem;
 `;
 
-export const MyImage = styled.div<{ src: string }>`
-  background-image: ${({ src }) => `url(${src})`};
-  background-size: contain;
-  background-repeat: no-repeat;
-  width: 15rem;
-  height: 15rem;
+export const MyImage = styled.img`
+  width: 70%;
+  height: auto;
 `;
 
 export const MyTimeStamp = styled.div`
