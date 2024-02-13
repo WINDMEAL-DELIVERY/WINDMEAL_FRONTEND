@@ -35,12 +35,12 @@ export const ContentWrapper = styled.div`
   margin-bottom: 56px; //바텀탭만큼
 `;
 
-export const Overlay = styled.div`
+export const Overlay = styled.div<{ background?: string }>`
   position: fixed;
   top: 0;
   width: inherit;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3);
+  background: ${({ background }) => background || 'rgba(0, 0, 0, 0.3)'};
   z-index: 1;
 
   /* 핸드폰 */
