@@ -241,10 +241,10 @@ function ChatRoom() {
         {chatMessages ? (
           chatMessages.map((message, index) => {
             const currentMessageDate = new Date(message.sendTime);
-            const nextMessage = chatMessages[index + 1];
+            const nextMessage = chatMessages[index - 1];
 
             const isNewDate =
-              index === chatMessages.length - 1
+              index === 0
                 ? false
                 : !isSameDay(
                     new Date(message.sendTime),
@@ -312,7 +312,7 @@ function ChatRoom() {
         </div>
         <ChatInputDiv
           placeholder="메시지 보내기"
-          value={uploadImgUrl}
+          value={text}
           onChange={saveUserText}
         />
         <IconSend onClick={onClickMessageHandler} />
