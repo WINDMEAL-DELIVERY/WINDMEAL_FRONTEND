@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { AutoComplete } from '@geist-ui/core';
 import { Wrapper } from '@components/auto-complete-box/styles';
 import { AutoCompleteOption } from '@geist-ui/core/esm/auto-complete';
+import { IconFind } from 'public/svgs';
 
 export default function AutoCompleteBox({
   handleSelect,
@@ -26,18 +27,18 @@ export default function AutoCompleteBox({
   return (
     <Wrapper>
       <AutoComplete
-        placeholder="식당을 검색해주세요"
+        placeholder="가게를 검색해주세요"
         options={options}
         crossOrigin="anonymous"
         onSearch={handleSearch}
         onSelect={handleSelect}
+        width="10rem"
         style={{
-          zIndex: '999',
-          backgroundColor: 'white',
-          height: '40px',
-          width: '15rem',
+          // height: '100%',
+          border: 'none',
         }}
       />
+      <IconFind />
     </Wrapper>
   );
 }

@@ -7,6 +7,7 @@ export interface MyMapProps {
 export interface AddfileProps {
   onImageUpload?: (imageFile: string) => void;
   imageUrl?: string;
+  onSubmit?: boolean;
 }
 
 export interface StoreListProps {
@@ -34,18 +35,15 @@ export interface GuideMessageType {
 //   name: string;
 // }
 
-interface MenuName {
-  menuName: string;
-}
-
 export interface Delivery {
-  id: number;
-  menus: MenuName[];
+  deliveryId: number;
+  orderId: number;
+  deliveryStatus: string;
+  summary: string;
+  description: string;
+  destinationName: string;
+  nickName: string;
   storeName: string;
-  destination: string;
-  customerName: string;
-  customerImg: string;
-  status: string;
 }
 
 export interface StoreCategoryTag {
@@ -163,4 +161,9 @@ export interface ReportContent {
   reportedEmail?: string;
   reporterEmail?: string;
   email?: string;
+}
+
+export interface MarkerIcon {
+  name: string;
+  requests: number | undefined;
 }

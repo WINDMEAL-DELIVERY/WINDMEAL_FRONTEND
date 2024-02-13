@@ -1,10 +1,9 @@
 import BottomTab from '@/components/bottom-tab';
 import { Wrapper } from '@styles/styles';
-import Link from 'next/link';
-import CardView from '@/components/card-view';
-// import Map from '@/components/map';
+import Map from '@/components/map';
 import { useTokenInitialization } from '@hooks/useTokenInitialization';
 import { useSetFCM } from '@hooks/useSetFCM';
+import BottomSheet from '@/components/bottom-sheet';
 
 export default function Main() {
   // 토큰 재할당 및 FCM 구독
@@ -13,10 +12,8 @@ export default function Main() {
   useSetFCM();
   return (
     <Wrapper>
-      <CardView />
-      {/* <Map /> */}
-      <span>CI/CD 테스트</span>
-      <Link href="/cms">CMS</Link>
+      <Map />
+      <BottomSheet />
       <BottomTab />
     </Wrapper>
   );
