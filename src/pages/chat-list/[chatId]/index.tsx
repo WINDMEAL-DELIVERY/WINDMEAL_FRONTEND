@@ -237,8 +237,9 @@ function ChatRoom() {
       <ChattingHistory ref={scrollRef} key={chatroomId}>
         {chatMessages ? (
           chatMessages.map((message, index) => {
-            const currentMessageDate = new Date(message.sendTime);
             const nextMessage = chatMessages[index - 1];
+            const nextMessageDate =
+              index !== 0 ? new Date(nextMessage.sendTime) : new Date();
 
             const isNewDate =
               index === 0
@@ -254,7 +255,7 @@ function ChatRoom() {
               return (
                 <>
                   {isNewDate && (
-                    <TimeStamp>{formatTimeStamp(currentMessageDate)}</TimeStamp>
+                    <TimeStamp>{formatTimeStamp(nextMessageDate)}</TimeStamp>
                   )}
                   <MyMessageDiv key={message.messageId}>
                     {isImage ? (
@@ -272,7 +273,7 @@ function ChatRoom() {
             return (
               <>
                 {isNewDate && (
-                  <TimeStamp>{formatTimeStamp(currentMessageDate)}</TimeStamp>
+                  <TimeStamp>{formatTimeStamp(nextMessageDate)}</TimeStamp>
                 )}
                 <OpponentMessageDiv key={message.messageId}>
                   <OpponentProfileImage src={opponentProfileImage} />
