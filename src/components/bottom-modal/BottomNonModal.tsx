@@ -3,6 +3,7 @@ import {
   Content,
   ContentWrapper,
   Overlay,
+  StoreInfoContent,
   Wrapper,
 } from '@components/bottom-modal/styles';
 import { useRef, useState } from 'react';
@@ -34,10 +35,10 @@ export default function BottomNonModal({ content }: BottomModalProps) {
   return (
     <>
       {isOpen && (
-        <Wrapper>
+        <Wrapper top={60}>
           <Header />
           <ContentWrapper>
-            <Content>{content}</Content>
+            <StoreInfoContent>{content}</StoreInfoContent>
           </ContentWrapper>
         </Wrapper>
       )}

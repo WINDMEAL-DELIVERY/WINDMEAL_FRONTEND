@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.div<{ top?: number }>`
   display: flex;
   flex-direction: column;
 
   position: fixed;
   z-index: 2;
-  top: 50vh; //전체 화면의 3/8
+  top: ${({ top }) =>
+    top === undefined ? '50vh' : `${top}vh`}; //전체 화면의 3/8
   height: 100%;
 
   border-radius: 1.875rem;
@@ -64,6 +65,13 @@ export const Content = styled.div`
   flex-direction: column;
   height: 100%;
   padding: 1rem 2rem 2rem 2.5rem;
+`;
+
+export const StoreInfoContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
 `;
 
 export const MapOptionContainer = styled.div`

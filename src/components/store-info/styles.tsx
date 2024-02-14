@@ -8,11 +8,15 @@ export const StoreInfoContainer = styled.div`
 export const StoreTopContainer = styled.div`
   display: flex;
   flex-direction: row;
+
+  margin-bottom: 0.25rem;
 `;
 
 export const StoreSecondContainer = styled.div`
   display: flex;
   flex-direction: row;
+
+  margin-bottom: 0.4rem;
 `;
 
 export const StoreImgContainer = styled.div`
@@ -21,12 +25,16 @@ export const StoreImgContainer = styled.div`
   background-color: #f2f4ff;
   width: 20.5rem;
   height: 5.9rem;
+
+  margin-bottom: 1rem;
 `;
 
 export const StoreButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
+
+  width: 20.5rem;
 `;
 
 export const StoreName = styled.p`
@@ -49,6 +57,8 @@ export const StoreIsOpen = styled.p`
   text-align: center;
 
   color: #ed1c24; //
+
+  margin-right: 0.4rem;
 `;
 
 export const StoreTime = styled.p`
