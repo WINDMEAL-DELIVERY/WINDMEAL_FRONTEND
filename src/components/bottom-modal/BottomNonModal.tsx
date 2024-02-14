@@ -1,6 +1,5 @@
 import Header from '@components/bottom-sheet/Header';
 import {
-  Content,
   ContentWrapper,
   Overlay,
   StoreInfoContent,
