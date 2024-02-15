@@ -279,16 +279,22 @@ export default function Map() {
         handleSelect={handleSelect}
       />
       {openStoreInfo && (
-        <BottomNonModal key={nonModalKey} content={<StoreInfo />} />
+        <BottomNonModal
+          key={`storeInfo_${nonModalKey}`}
+          content={<StoreInfo />}
+        />
       )}
       {openBottomModal === 1 && (
-        <BottomModal key={modalKey} content={<ETA />} />
+        <BottomModal key={`ETA_${modalKey}`} content={<ETA />} />
       )}
       {openBottomModal === 2 && (
-        <BottomModal key={modalKey} content={<Destination />} />
+        <BottomModal
+          key={`Destination_${modalKey}`}
+          content={<Destination />}
+        />
       )}
       {openBottomModal === 3 && (
-        <BottomModal key={modalKey} content={<StoreType />} />
+        <BottomModal key={`StoreType_${modalKey}`} content={<StoreType />} />
       )}
     </MapDiv>
   );
