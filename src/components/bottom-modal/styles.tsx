@@ -113,4 +113,8 @@ export const MapOptionList = styled.p`
 export const TimePickerContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
 `;

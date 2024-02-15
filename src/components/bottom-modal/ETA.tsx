@@ -4,7 +4,7 @@ import {
   MapOptionTitle,
   TimePickerContainer,
 } from '@components/bottom-modal/styles';
-import TimePicker from '../time-picker';
+import TimePicker from '@components/time-picker';
 
 export default function ETA() {
   return (
