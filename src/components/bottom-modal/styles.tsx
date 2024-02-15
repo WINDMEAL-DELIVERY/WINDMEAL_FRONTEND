@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
-export const Wrapper = styled.div<{ top?: number }>`
+export const Wrapper = styled.div<{ $top?: number }>`
   display: flex;
   flex-direction: column;
 
   position: fixed;
   z-index: 2;
-  top: ${({ top }) =>
-    top === undefined ? '50vh' : `${top}vh`}; //전체 화면의 3/8
+  top: ${({ $top }) =>
+    $top === undefined ? '50vh' : `${$top}vh`}; //전체 화면의 3/8
   height: 100%;
 
   border-radius: 1.875rem;
@@ -36,12 +36,12 @@ export const ContentWrapper = styled.div`
   margin-bottom: 56px; //바텀탭만큼
 `;
 
-export const Overlay = styled.div<{ background?: string }>`
+export const Overlay = styled.div<{ $background?: string }>`
   position: fixed;
   top: 0;
   width: inherit;
   height: 100%;
-  background: ${({ background }) => background || 'rgba(0, 0, 0, 0.3)'};
+  background: ${({ $background }) => $background || 'rgba(0, 0, 0, 0.3)'};
   z-index: 1;
 
   /* 핸드폰 */

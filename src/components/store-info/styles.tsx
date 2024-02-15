@@ -83,7 +83,7 @@ export const DeliveryButton = styled.button`
 export const DeliveryButtonText = styled.span`
   font-family: Noto Sans KR;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.5rem;
   letter-spacing: -0.025em;
   text-align: center;
@@ -102,7 +102,7 @@ export const OrderButton = styled.button`
 export const OrderButtonText = styled.span`
   font-family: Noto Sans KR;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.5rem;
   letter-spacing: -0.025em;
   text-align: center;

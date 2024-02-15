@@ -34,7 +34,7 @@ export default function BottomNonModal({ content }: BottomModalProps) {
   return (
     <>
       {isOpen && (
-        <Wrapper top={60}>
+        <Wrapper $top={60}>
           <Header />
           <ContentWrapper>
             <StoreInfoContent>{content}</StoreInfoContent>
@@ -43,7 +43,7 @@ export default function BottomNonModal({ content }: BottomModalProps) {
       )}
       {isOpen && (
         <Overlay
-          background="rgba(0, 0, 0, 0)"
+          $background="rgba(0, 0, 0, 0)"
           onMouseDown={handleDragStart}
           onMouseUp={handleDragEnd}
           draggable="true"

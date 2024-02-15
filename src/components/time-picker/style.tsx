@@ -23,12 +23,12 @@ export const ListCenter = styled.div`
   top: 50px;
 `;
 
-export const ListItem = styled.li<{ isSelected: boolean }>`
+export const ListItem = styled.li<{ $isSelected: boolean }>`
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ isSelected }) => isSelected && '#5776B9'};
-  font-weight: ${({ isSelected }) => isSelected && 'bold'};
-  opacity: ${({ isSelected }) => (isSelected ? 1 : 0.4)};
+  color: ${({ $isSelected }) => $isSelected && '#5776B9'};
+  font-weight: ${({ $isSelected }) => $isSelected && 'bold'};
+  opacity: ${({ $isSelected }) => ($isSelected ? 1 : 0.4)};
 `;

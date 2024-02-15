@@ -35,7 +35,7 @@ import Destination from '@/components/bottom-modal/Destination';
 import ETA from '@/components/bottom-modal/ETA';
 import StoreType from '@/components/bottom-modal/Storetype';
 import BottomNonModal from '../bottom-modal/BottomNonModal';
-import StoreInfo from '../store-info/StoreInfo';
+import StoreInfo from '../store-info';
 
 const stores: StoreProp[] = [
   {

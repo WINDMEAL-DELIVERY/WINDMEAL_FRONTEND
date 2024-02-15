@@ -55,7 +55,7 @@ export default function TimePicker({
       {newList.map((item, index) => (
         <ListItem
           key={index}
-          isSelected={index === selected}
+          $isSelected={index === selected}
           ref={el => {
             itemRefs.current[index] = el;
           }}
