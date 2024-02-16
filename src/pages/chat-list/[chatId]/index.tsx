@@ -181,6 +181,12 @@ function ChatRoom() {
     }
   };
 
+  const onKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      onClickMessageHandler();
+    }
+  };
+
   const saveUserText = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
   };
@@ -319,6 +325,7 @@ function ChatRoom() {
           placeholder="메시지 보내기"
           value={text}
           onChange={saveUserText}
+          onKeyDown={onKeyDown}
         />
         <IconSend onClick={onClickMessageHandler} />
       </ChatBottomDiv>
