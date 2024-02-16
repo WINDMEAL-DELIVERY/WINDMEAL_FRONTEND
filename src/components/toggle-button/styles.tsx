@@ -1,9 +1,5 @@
 import styled from 'styled-components';
 
-type ToggleType = {
-  latestSort: boolean;
-};
-
 export const BtnWrapper = styled.div`
   display: flex;
   z-index: 0;
@@ -13,7 +9,7 @@ export const CheckBox = styled.input`
   display: none;
 `;
 
-export const ButtonLabel = styled.label<ToggleType>`
+export const ButtonLabel = styled.label<{ $latestSort: boolean }>`
   z-index: 10;
   /* 만들고자 하는 button 의 크기와 색상 */
   width: 20rem;
@@ -67,7 +63,7 @@ export const ButtonLabel = styled.label<ToggleType>`
 
   /* state가 true = 진행일 때 배달 진행 중*/
   ${props =>
-    props.latestSort &&
+    props.$latestSort &&
     `
     // 선택 안된 요청 칸 스타일 우선 적용 
     &::before { 
