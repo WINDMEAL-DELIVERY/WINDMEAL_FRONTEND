@@ -174,4 +174,5 @@ export interface BottomModalProps {
 
 export interface headerBar {
   isHeaderBar?: boolean;
+  onCloseModal?: () => void;
 }

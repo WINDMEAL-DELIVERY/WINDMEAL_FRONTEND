@@ -5,7 +5,6 @@ const HeaderWrapper = styled.div`
   height: 1.13rem;
   position: relative;
   padding-top: 0.56rem;
-  // padding-bottom: 1.13rem;
 `;
 
 const Handle = styled.div`
