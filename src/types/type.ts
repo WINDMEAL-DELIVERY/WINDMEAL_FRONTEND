@@ -171,3 +171,7 @@ export interface MarkerIcon {
 export interface BottomModalProps {
   content: React.ReactNode;
 }
+
+export interface headerBar {
+  isHeaderBar?: boolean;
+}

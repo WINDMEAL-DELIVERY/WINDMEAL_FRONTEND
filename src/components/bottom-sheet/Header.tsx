@@ -1,3 +1,4 @@
+import { headerBar } from '@/types/type';
 import styled from 'styled-components';
 
 const HeaderWrapper = styled.div`
@@ -16,10 +17,6 @@ const Handle = styled.div`
   margin: auto;
 `;
 
-export default function Header() {
-  return (
-    <HeaderWrapper>
-      <Handle />
-    </HeaderWrapper>
-  );
+export default function Header({ isHeaderBar = false }: headerBar) {
+  return <HeaderWrapper>{isHeaderBar ? <Handle /> : null}</HeaderWrapper>;
 }
