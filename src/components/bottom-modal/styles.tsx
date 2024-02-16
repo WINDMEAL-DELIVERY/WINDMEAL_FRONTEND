@@ -36,13 +36,38 @@ export const ContentWrapper = styled.div`
   margin-bottom: 56px; //바텀탭만큼
 `;
 
-export const Overlay = styled.div<{ $background?: string }>`
+export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   width: inherit;
   height: 100%;
-  background: ${({ $background }) => $background || 'rgba(0, 0, 0, 0.3)'};
+  background: rgba(0, 0, 0, 0.3);
   z-index: 1;
+
+  /* 핸드폰 */
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+
+  /* 태블릿 */
+  @media screen and (min-width: 769px) and (max-width: 1024px) {
+    width: 50%;
+  }
+
+  /* 데스크탑 */
+  @media screen and (min-width: 1025px) {
+    width: 30%;
+  }
+`;
+
+export const NonModalOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  width: inherit;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  z-index: 0;
+  pointer-events: none; /* Overlay 위의 요소들에 대한 이벤트를 허용하지 않음 */
 
   /* 핸드폰 */
   @media screen and (max-width: 768px) {

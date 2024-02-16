@@ -1,7 +1,7 @@
 import Header from '@components/bottom-sheet/Header';
 import {
   ContentWrapper,
-  Overlay,
+  NonModalOverlay,
   StoreInfoContent,
   Wrapper,
 } from '@components/bottom-modal/styles';
@@ -35,15 +35,14 @@ export default function BottomNonModal({ content }: BottomModalProps) {
     <>
       {isOpen && (
         <Wrapper $top={60}>
-          <Header />
+          <Header isHeaderBar />
           <ContentWrapper>
             <StoreInfoContent>{content}</StoreInfoContent>
           </ContentWrapper>
         </Wrapper>
       )}
       {isOpen && (
-        <Overlay
-          $background="rgba(0, 0, 0, 0)"
+        <NonModalOverlay
           onMouseDown={handleDragStart}
           onMouseUp={handleDragEnd}
           draggable="true"

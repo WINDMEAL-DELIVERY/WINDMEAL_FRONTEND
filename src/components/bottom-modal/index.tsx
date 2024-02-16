@@ -2,7 +2,7 @@ import Header from '@components/bottom-sheet/Header';
 import {
   Content,
   ContentWrapper,
-  Overlay,
+  ModalOverlay,
   Wrapper,
 } from '@components/bottom-modal/styles';
 import { useRef, useState } from 'react';
@@ -32,7 +32,9 @@ export default function BottomModal({ content }: BottomModalProps) {
           </ContentWrapper>
         </Wrapper>
       )}
-      {isOpen && <Overlay onClick={handleClickOut} ref={modalBackground} />}
+      {isOpen && (
+        <ModalOverlay onClick={handleClickOut} ref={modalBackground} />
+      )}
     </>
   );
 }
