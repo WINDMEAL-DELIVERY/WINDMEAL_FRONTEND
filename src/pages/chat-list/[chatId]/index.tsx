@@ -21,7 +21,7 @@ import {
   OpponentImage,
 } from '@styles/chatIdStyles';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { ChattingMessageProps } from '@type/chattingType';
 import { getChattingMessage, getImageUrl } from '@apis/chatting/chatting';
 import { useEffect, useRef, useState } from 'react';
@@ -39,7 +39,11 @@ import {
 interface ChatClient {
   activate: () => void;
   connected: boolean;
-  publish: (params: StompJs.IPublishParams) => void;
+  publish: (params: {
+    headers: { Authorization: string };
+    destination: `/pub/chat.message.${string}`;
+    body: string;
+  }) => void;
   subscribe: (
     destination: string,
     callback: (message: StompJs.Message) => void,
@@ -76,6 +80,7 @@ function ChatRoom() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (scrollRef.current && flag) {
@@ -172,6 +177,7 @@ function ChatRoom() {
         }),
       });
       setText('');
+      queryClient.invalidateQueries('chatting');
     }
   };
 
@@ -213,6 +219,7 @@ function ChatRoom() {
           }),
         });
       }
+      queryClient.invalidateQueries('chatting');
     }
   }
 
