@@ -18,7 +18,7 @@ jobs:
       - name: Check Node v # Node v 확인
         run: node -v
 
-      - name: Create .env file
+      - name: Create .env.local file
         shell: bash
         run: |
           echo "${{ secrets.NEXT_ENV }}" >> .env

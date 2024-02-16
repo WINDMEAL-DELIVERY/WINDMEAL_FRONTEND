@@ -2,7 +2,6 @@ import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { GOOGLE_URL } from '@/apis';
-import LoginPageLogo from '@images/LoginPageLogo.svg';
 import LoginBtnLogo from '@images/LoginBtnLogo.png';
 import {
   BigText,
@@ -14,6 +13,7 @@ import {
   SmallText,
   TextDiv,
 } from '@styles/loginStyles';
+import { LoginPageLogo } from '../../../public/svgs';
 
 export default function Login() {
   const router = useRouter();
@@ -26,11 +26,7 @@ export default function Login() {
     <Wrapper>
       <LoginDiv>
         <MainLogoImgDiv>
-          <Image
-            src={LoginPageLogo}
-            alt="바람개비 딜리버리 메인로고"
-            style={{ width: '40%', height: '40%' }}
-          />
+          <LoginPageLogo />
         </MainLogoImgDiv>
         <TextDiv>
           <BigText>바람개비 딜리버리에{'\n'}오신 것을 환영합니다!</BigText>
