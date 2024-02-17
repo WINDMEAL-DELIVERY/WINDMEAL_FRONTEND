@@ -164,6 +164,7 @@ function ChatRoom() {
 
   const onClickMessageHandler = async () => {
     const token: string = (await getCookie('token')) || '';
+    console.log(text);
     if (token && text) {
       client.current.publish({
         destination: `/pub/chat.message.${chatroomId}`,
@@ -176,13 +177,14 @@ function ChatRoom() {
           message: text,
         }),
       });
-      setText('');
-      queryClient.invalidateQueries('chatting');
     }
+    setText('');
+    queryClient.invalidateQueries('chatting');
   };
 
-  const onKeyDown = (event: React.KeyboardEvent) => {
+  const onKeyUp = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
+      console.log('enter');
       onClickMessageHandler();
     }
   };
@@ -325,7 +327,7 @@ function ChatRoom() {
           placeholder="메시지 보내기"
           value={text}
           onChange={saveUserText}
-          onKeyDown={onKeyDown}
+          onKeyUp={onKeyUp}
         />
         <IconSend onClick={onClickMessageHandler} />
       </ChatBottomDiv>
