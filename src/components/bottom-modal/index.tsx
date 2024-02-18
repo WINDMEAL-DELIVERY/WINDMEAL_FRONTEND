@@ -23,19 +23,17 @@ export default function BottomModal({ content }: BottomModalProps) {
   };
 
   return (
-    <>
-      {isOpen && (
+    isOpen && (
+      <>
         <Wrapper>
           <Header />
           <ContentWrapper>
             <Content>{content}</Content>
           </ContentWrapper>
         </Wrapper>
-      )}
-      {isOpen && (
         <ModalOverlay onClick={handleClickOut} ref={modalBackground} />
-      )}
-    </>
+      </>
+    )
   );
 }
 
