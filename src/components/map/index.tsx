@@ -19,7 +19,6 @@ import {
 } from '@components/map/styles';
 import { RefObject, createRef, useEffect, useRef, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
-import Dialog from '@/components/dialog';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
 import { MyMapProps, StoreProp } from '@/types/type';
 import MapMarker from '@components/map-marker';
@@ -31,6 +30,12 @@ import {
   MapCluster5,
 } from '@/components/map-cluster';
 import { IconCart, IconDown, IconRefresh } from 'public/svgs';
+import BottomModal from '@/components/bottom-modal';
+import Destination from '@/components/bottom-modal/Destination';
+import ETA from '@/components/bottom-modal/ETA';
+import StoreType from '@/components/bottom-modal/Storetype';
+import BottomNonModal from '../bottom-modal/BottomNonModal';
+import StoreInfo from '../store-info';
 
 const stores: StoreProp[] = [
   {
@@ -211,16 +216,21 @@ export default function Map() {
   // 위 식당 중 selectedValue와 동일한 객체의 x,y 좌표를 불러와서 포커싱함
   const [selected, setSelected] = useState<string>();
   const [selectFlag, setSelectFlag] = useState<number>(0);
-  const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
+  const [openStoreInfo, setOpenStoreInfo] = useState<boolean>(false);
+  const [openBottomModal, setOpenBottomModal] = useState<number>(0);
+  const [modalKey, setModalKey] = useState<number>(1);
+  const [nonModalKey, setNonModalKey] = useState<number>(1);
 
   const handleSelect = (selectedValue: string) => {
     setSelected(selectedValue);
     setSelectFlag(selectFlag + 1);
-    setIsDialogVisible(true);
+    setOpenStoreInfo(true);
+    setNonModalKey(prev => prev + 1);
   };
 
-  const hideDialog = () => {
-    setIsDialogVisible(false); // 다이얼로그를 숨김 설정
+  const handleClickOption = (optionId: number) => {
+    setOpenBottomModal(optionId);
+    setModalKey(prev => prev + 1);
   };
 
   return (
@@ -245,14 +255,16 @@ export default function Map() {
             <IconRefresh />
           </OptionButton>
           <OptionButton>
-            <OptionText>도착시간</OptionText>
+            <OptionText onClick={() => handleClickOption(1)}>
+              도착시간
+            </OptionText>
             <IconDown />
           </OptionButton>
-          <OptionButton>
+          <OptionButton onClick={() => handleClickOption(2)}>
             <OptionText>배달지</OptionText>
             <IconDown />
           </OptionButton>
-          <OptionButton>
+          <OptionButton onClick={() => handleClickOption(3)}>
             <OptionText>음식종류</OptionText>
             <IconDown />
           </OptionButton>
@@ -266,15 +278,24 @@ export default function Map() {
         selectFlag={selectFlag}
         handleSelect={handleSelect}
       />
-      <Dialog
-        size={30}
-        visible={isDialogVisible}
-        title="임시 모달"
-        description="상점의 기본 사항들이 뜰 것"
-        onCancel={hideDialog}
-        onConfirm={hideDialog}
-        confirmTitle="Close"
-      />
+      {openStoreInfo && (
+        <BottomNonModal
+          key={`storeInfo_${nonModalKey}`}
+          content={<StoreInfo />}
+        />
+      )}
+      {openBottomModal === 1 && (
+        <BottomModal key={`ETA_${modalKey}`} content={<ETA />} />
+      )}
+      {openBottomModal === 2 && (
+        <BottomModal
+          key={`Destination_${modalKey}`}
+          content={<Destination />}
+        />
+      )}
+      {openBottomModal === 3 && (
+        <BottomModal key={`StoreType_${modalKey}`} content={<StoreType />} />
+      )}
     </MapDiv>
   );
 }

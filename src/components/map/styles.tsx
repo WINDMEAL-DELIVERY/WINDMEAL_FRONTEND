@@ -7,14 +7,13 @@ export const TopContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 999;
+  z-index: 1;
 `;
 
 export const FirstContainer = styled.div`
   width: 70%;
   display: flex;
   flex-direction: row;
-  // z-index: 999;
 `;
 
 export const CartButton = styled.div`
@@ -41,7 +40,7 @@ export const OptionButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  z-index: 999;
+  z-index: 1;
   margin-top: 0.44rem;
   gap: 0.59rem;
   align-self: flex-end; /* 홀로 오른쪽 정렬 */
