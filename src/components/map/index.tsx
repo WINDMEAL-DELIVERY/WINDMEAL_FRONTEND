@@ -34,46 +34,10 @@ import BottomModal from '@/components/bottom-modal';
 import Destination from '@/components/bottom-modal/Destination';
 import ETA from '@/components/bottom-modal/ETA';
 import StoreType from '@/components/bottom-modal/Storetype';
-import BottomNonModal from '../bottom-modal/BottomNonModal';
-import StoreInfo from '../store-info';
-
-const stores: StoreProp[] = [
-  {
-    storeId: 1,
-    longitude: 37.450795,
-    latitude: 127.128816,
-    orderCount: 100,
-    storeName: '카페 1',
-  },
-  {
-    storeId: 2,
-    longitude: 37.448,
-    latitude: 127.1278,
-    orderCount: 75,
-    storeName: '카페 2',
-  },
-  {
-    storeId: 3,
-    longitude: 37.447,
-    latitude: 127.1282,
-    orderCount: 120,
-    storeName: '컴포즈 커피',
-  },
-  {
-    storeId: 4,
-    longitude: 37.4487,
-    latitude: 127.128,
-    orderCount: 50,
-    storeName: '신의 한컵',
-  },
-  {
-    storeId: 5,
-    longitude: 37.4495,
-    latitude: 127.1292,
-    orderCount: 90,
-    storeName: '커피만',
-  },
-];
+import BottomNonModal from '@components/bottom-modal/BottomNonModal';
+import StoreInfo from '@components/store-info';
+import { useQuery } from 'react-query';
+import { getMapStoreList } from '@/apis/store/store';
 
 function MarkerCluster({
   markers,
@@ -156,15 +120,33 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
   const mapRef = useRef<naver.maps.Map>(null);
   const [, setMap] = useState<naver.maps.Map | null>(null);
   const [elRefs, setElRefs] = useState<RefObject<naver.maps.Marker>[]>([]);
-  const arrLength = stores.length; // 받아온 store 개수
+  const [stores, setStores] = useState<StoreProp[]>([]);
+  const [storesLength, setStoresLength] = useState<number>(0);
+
+  useQuery<StoreProp[]>(
+    ['storeList'],
+    async () => {
+      const { data } = await getMapStoreList();
+      return data;
+    },
+    {
+      onSuccess: storeList => {
+        console.log('response for store list', storeList);
+        setStores(storeList);
+        setStoresLength(storeList?.length);
+      },
+      onError: err => console.log('error', err),
+    },
+  );
 
   useEffect(() => {
     setElRefs(refs =>
-      Array(arrLength)
+      Array(storesLength)
         .fill('')
         .map((_, i) => refs[i] || createRef()),
     );
-  }, [arrLength]);
+    console.log('storesLength', storesLength);
+  }, [storesLength]);
 
   useEffect(() => {
     if (mapRef.current) {
@@ -184,23 +166,24 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
       ref={setMap}
     >
       <MarkerCluster markers={elRefs} />
-      {stores.map((store, idx) => (
-        <Marker
-          ref={elRefs[idx]}
-          key={store.storeName}
-          position={
-            new window.naver.maps.LatLng(store.longitude, store.latitude)
-          }
-          title={store.storeName}
-          icon={{
-            content: MapMarker({
-              name: store.storeName,
-              requests: store.orderCount,
-            }),
-          }}
-          onClick={() => handleSelect(store.storeName)}
-        />
-      ))}
+      {stores &&
+        stores.map((store, idx) => (
+          <Marker
+            ref={elRefs[idx]}
+            key={store.storeName}
+            position={
+              new window.naver.maps.LatLng(store.longitude, store.latitude)
+            }
+            title={store.storeName}
+            icon={{
+              content: MapMarker({
+                name: store.storeName,
+                requests: store.orderCount,
+              }),
+            }}
+            onClick={() => handleSelect(store.storeName)}
+          />
+        ))}
     </NaverMap>
   );
 }

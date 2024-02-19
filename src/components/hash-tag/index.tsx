@@ -10,7 +10,7 @@ import {
 } from '@/types/type';
 import { Card } from '@geist-ui/react';
 import { useMutation, useQuery } from 'react-query';
-import { createStoreCategory, getStoreInfo } from '@/apis/store/store';
+import { createStoreCategory, getStoreInfo } from '@/apis/cms-store/store';
 
 export default function HashTag({ storeId }: StoreIdProp) {
   const [newTag, setNewTag] = useState<string>('');
