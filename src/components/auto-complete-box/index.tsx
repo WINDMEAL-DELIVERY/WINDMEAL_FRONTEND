@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { AutoComplete } from '@geist-ui/core';
-import { Wrapper } from '@components/auto-complete-box/styles';
+import {
+  CustomAutoComplete,
+  Wrapper,
+} from '@components/auto-complete-box/styles';
 import { AutoCompleteOption } from '@geist-ui/core/esm/auto-complete';
 import { IconFind } from 'public/svgs';
 
@@ -26,17 +28,13 @@ export default function AutoCompleteBox({
 
   return (
     <Wrapper>
-      <AutoComplete
+      <CustomAutoComplete
         placeholder="가게를 검색해주세요"
         options={options}
         crossOrigin="anonymous"
         onSearch={handleSearch}
         onSelect={handleSelect}
         width="10rem"
-        style={{
-          // height: '100%',
-          border: 'none',
-        }}
       />
       <IconFind />
     </Wrapper>
