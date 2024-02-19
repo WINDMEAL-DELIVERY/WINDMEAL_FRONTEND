@@ -72,18 +72,10 @@ export interface MenuCategory {
 
 export interface StoreProp {
   storeId: number;
-  name: string;
-  phoneNumber?: string;
-  photo?: string;
-  openTime?: string;
-  closeTime?: string;
-  location: {
-    x: number;
-    y: number;
-  };
-  menuCategories?: MenuCategory[];
-  open?: boolean;
-  requests?: number;
+  longitude: number;
+  latitude: number;
+  orderCount: number;
+  storeName: string;
 }
 
 export interface MenuCategoryParameter {

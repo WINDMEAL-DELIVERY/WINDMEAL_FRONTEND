@@ -40,48 +40,38 @@ import StoreInfo from '../store-info';
 const stores: StoreProp[] = [
   {
     storeId: 1,
-    location: {
-      x: 37.450795,
-      y: 127.128816,
-    },
-    requests: 100,
-    name: '카페 1',
+    longitude: 37.450795,
+    latitude: 127.128816,
+    orderCount: 100,
+    storeName: '카페 1',
   },
   {
     storeId: 2,
-    location: {
-      x: 37.448,
-      y: 127.1278,
-    },
-    requests: 75,
-    name: '카페 2',
+    longitude: 37.448,
+    latitude: 127.1278,
+    orderCount: 75,
+    storeName: '카페 2',
   },
   {
     storeId: 3,
-    location: {
-      x: 37.447,
-      y: 127.1282,
-    },
-    requests: 120,
-    name: '컴포즈 커피',
+    longitude: 37.447,
+    latitude: 127.1282,
+    orderCount: 120,
+    storeName: '컴포즈 커피',
   },
   {
     storeId: 4,
-    location: {
-      x: 37.4487,
-      y: 127.128,
-    },
-    requests: 50,
-    name: '신의 한컵',
+    longitude: 37.4487,
+    latitude: 127.128,
+    orderCount: 50,
+    storeName: '신의 한컵',
   },
   {
     storeId: 5,
-    location: {
-      x: 37.4495,
-      y: 127.1292,
-    },
-    requests: 90,
-    name: '커피만',
+    longitude: 37.4495,
+    latitude: 127.1292,
+    orderCount: 90,
+    storeName: '커피만',
   },
 ];
 
@@ -178,9 +168,9 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
 
   useEffect(() => {
     if (mapRef.current) {
-      const store = stores.find(e => e.name === selected);
+      const store = stores.find(e => e.storeName === selected);
       if (store) {
-        const loc = new navermaps.LatLng(store.location.x, store.location.y);
+        const loc = new navermaps.LatLng(store.longitude, store.latitude);
         mapRef.current.setCenter(loc);
         mapRef.current.setZoom(18);
       }
@@ -197,15 +187,18 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
       {stores.map((store, idx) => (
         <Marker
           ref={elRefs[idx]}
-          key={store.name}
+          key={store.storeName}
           position={
-            new window.naver.maps.LatLng(store.location.x, store.location.y)
+            new window.naver.maps.LatLng(store.longitude, store.latitude)
           }
-          title={store.name}
+          title={store.storeName}
           icon={{
-            content: MapMarker({ name: store.name, requests: store.requests }),
+            content: MapMarker({
+              name: store.storeName,
+              requests: store.orderCount,
+            }),
           }}
-          onClick={() => handleSelect(store.name)}
+          onClick={() => handleSelect(store.storeName)}
         />
       ))}
     </NaverMap>
