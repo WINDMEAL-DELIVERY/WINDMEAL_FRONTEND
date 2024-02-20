@@ -2,7 +2,6 @@
 import {
   Container as MapDiv,
   NaverMap,
-  // Marker,
   useNavermaps,
   Overlay,
   useMap,
@@ -126,14 +125,23 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
   useQuery<StoreProp[]>(
     ['storeList'],
     async () => {
-      const { data } = await getMapStoreList();
+      const { data } = await getMapStoreList({
+        // placeId: a,
+        // eta,
+        storeCategory: '음식점',
+        isOpen: true,
+      });
       return data;
     },
     {
       onSuccess: storeList => {
         console.log('response for store list', storeList);
         setStores(storeList);
-        setStoresLength(storeList?.length);
+        setStoresLength(storeList.length);
+        // 이전 렌더링 된 마커 삭제
+        elRefs.forEach(marker => {
+          marker.current?.setMap(null);
+        });
       },
       onError: err => console.log('error', err),
     },
@@ -142,10 +150,10 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
   useEffect(() => {
     setElRefs(refs =>
       Array(storesLength)
-        .fill('')
+        .fill(null)
         .map((_, i) => refs[i] || createRef()),
     );
-    console.log('storesLength', storesLength);
+    console.log('storesLength', storesLength, elRefs);
   }, [storesLength]);
 
   useEffect(() => {
@@ -166,24 +174,23 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
       ref={setMap}
     >
       <MarkerCluster markers={elRefs} />
-      {stores &&
-        stores.map((store, idx) => (
-          <Marker
-            ref={elRefs[idx]}
-            key={store.storeName}
-            position={
-              new window.naver.maps.LatLng(store.longitude, store.latitude)
-            }
-            title={store.storeName}
-            icon={{
-              content: MapMarker({
-                name: store.storeName,
-                requests: store.orderCount,
-              }),
-            }}
-            onClick={() => handleSelect(store.storeName)}
-          />
-        ))}
+      {stores.map((store, idx) => (
+        <Marker
+          ref={elRefs[idx]}
+          key={store.storeName}
+          position={
+            new window.naver.maps.LatLng(store.longitude, store.latitude)
+          }
+          title={store.storeName}
+          icon={{
+            content: MapMarker({
+              name: store.storeName,
+              requests: store.orderCount,
+            }),
+          }}
+          onClick={() => handleSelect(store.storeName)}
+        />
+      ))}
     </NaverMap>
   );
 }
@@ -241,7 +248,7 @@ export default function Map() {
             <IconDown />
           </OptionButton>
           <OptionButton onClick={() => handleClickOption(3)}>
-            <OptionText>음식종류</OptionText>
+            <OptionText>가게종류</OptionText>
             <IconDown />
           </OptionButton>
           <OptionButton>

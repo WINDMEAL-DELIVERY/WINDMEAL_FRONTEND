@@ -168,3 +168,11 @@ export interface headerBar {
   isHeaderBar?: boolean;
   onCloseModal?: () => void;
 }
+
+export interface MapStoreProps {
+  storeId?: number;
+  placeId?: number;
+  eta?: string;
+  storeCategory?: string;
+  isOpen?: boolean;
+}
