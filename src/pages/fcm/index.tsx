@@ -12,12 +12,13 @@ export default function fcm() {
 
     // 이곳에도 아까 위에서 앱 등록할때 받은 'firebaseConfig' 값을 넣어주세요.
     const firebaseConfig = {
-      apiKey: process.env.NEXT_PUBLIC_API_KEY,
-      authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
-      projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
-      storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
-      messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
-      appId: process.env.NEXT_PUBLIC_APP_ID,
+      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+      storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+      messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+      appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+      measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
     };
 
     const firebaseApp = initializeApp(firebaseConfig);
@@ -25,10 +26,11 @@ export default function fcm() {
     const messaging = getMessaging(firebaseApp);
 
     // 이곳 vapidKey 값으로 아까 토큰에서 사용한다고 했던 인증서 키 값을 넣어주세요.
-    getToken(messaging, { vapidKey: process.env.NEXT_PUBLIC_VAPID_KEY })
+    getToken(messaging, {
+      vapidKey: process.env.NEXT_PUBLIC_FIREBASE_VAPID_KEY,
+    })
       .then(currentToken => {
         if (currentToken) {
-          // 정상적으로 토큰이 발급되면 콘솔에 출력합니다.
           console.log(currentToken);
         } else {
           console.log(
