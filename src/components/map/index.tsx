@@ -16,7 +16,7 @@ import {
   FirstContainer,
   CartButton,
 } from '@components/map/styles';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
 import { MapStoreProps, MyMapProps, StoreProp } from '@/types/type';
@@ -145,21 +145,6 @@ function MarkerCluster() {
   );
 }
 
-function MyMap({ selected, selectFlag }: MyMapProps) {
-  const navermaps = useNavermaps();
-  const [, setMap] = useState<naver.maps.Map | null>(null);
-
-  return (
-    <NaverMap
-      defaultCenter={new navermaps.LatLng(37.450795, 127.128816)}
-      defaultZoom={16}
-      ref={setMap}
-    >
-      <MarkerCluster />
-    </NaverMap>
-  );
-}
-
 export default function Map() {
   // 위 식당 중 selectedValue와 동일한 객체의 x,y 좌표를 불러와서 포커싱함
   const [selected, setSelected] = useState<string>();
@@ -169,6 +154,7 @@ export default function Map() {
   const [modalKey, setModalKey] = useState<number>(1);
   const [nonModalKey, setNonModalKey] = useState<number>(1);
   const [option, setOption] = useRecoilState(storeState);
+  const [, setMap] = useState<naver.maps.Map | null>(null);
 
   const handleSelect = (selectedValue: string) => {
     setSelected(selectedValue);
@@ -229,11 +215,15 @@ export default function Map() {
           </OptionButton>
         </OptionButtonContainer>
       </TopContainer>
-      <MyMap
-        selected={selected}
-        selectFlag={selectFlag}
-        handleSelect={handleSelect}
-      />
+
+      <NaverMap
+        defaultCenter={{ lat: 37.450795, lng: 127.128816 }}
+        defaultZoom={16}
+        ref={setMap}
+      >
+        <MarkerCluster selected={selected} handleSelect={handleSelect} />
+      </NaverMap>
+
       {openStoreInfo && (
         <BottomNonModal
           key={`storeInfo_${nonModalKey}`}
