@@ -16,7 +16,7 @@ import {
   FirstContainer,
   CartButton,
 } from '@components/map/styles';
-import { RefObject, createRef, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
 import { MapStoreProps, MyMapProps, StoreProp } from '@/types/type';
@@ -104,7 +104,7 @@ function MarkerCluster() {
   const createMarkers = (storeList: StoreProp[]) => {
     const markers = storeList.map(store => {
       const latlng = new navermaps.LatLng(store.longitude, store.latitude);
-      const marker = new navermaps.Marker({
+      const marker = new naver.maps.Marker({
         position: latlng,
         draggable: true,
         title: store.storeName,
@@ -115,12 +115,17 @@ function MarkerCluster() {
           }),
         },
       });
+      marker.addListener('click', () => {
+        map?.panTo(latlng, { duration: 1000 });
+        // map?.setZoom(17); 줌 이벤트
+      });
+
       return marker;
     });
     createCluster(markers); // 생성된 마커로 클러스터 생성
   };
 
-  const { data: stores } = useQuery<StoreProp[]>(
+  useQuery<StoreProp[]>(
     ['storeList', storeOption],
     async () => {
       const { data } = await getMapStoreList(storeOption);
