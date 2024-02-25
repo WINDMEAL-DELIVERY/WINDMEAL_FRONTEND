@@ -19,7 +19,7 @@ import {
 import { RefObject, createRef, useEffect, useRef, useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
-import { MyMapProps, StoreProp } from '@/types/type';
+import { MapStoreProps, MyMapProps, StoreProp } from '@/types/type';
 import MapMarker from '@components/map-marker';
 import {
   MapCluster1,
@@ -37,16 +37,15 @@ import BottomNonModal from '@components/bottom-modal/BottomNonModal';
 import StoreInfo from '@components/store-info';
 import { useQuery } from 'react-query';
 import { getMapStoreList } from '@/apis/store/store';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { storeState } from '@/states/mapOption';
 
-function MarkerCluster({
-  markers,
-}: {
-  markers: RefObject<naver.maps.Marker>[];
-}) {
+function MarkerCluster() {
   const navermaps = useNavermaps();
-  const map1 = useMap();
-
+  const map = useMap();
   const MarkerClustering = makeMarkerClustering(window.naver);
+  const storeOption = useRecoilValue<MapStoreProps>(storeState);
+  const [cluster, setCluster] = useState<any>(null); // 클러스터 상태
 
   const htmlMarker1 = {
     content: MapCluster1(),
@@ -74,16 +73,16 @@ function MarkerCluster({
     anchor: new navermaps.Point(20, 20),
   };
 
-  const getCluster = () => {
-    const markerList = markers.map(_marker => {
-      return _marker.current;
-    });
-
-    const cluster = new MarkerClustering({
+  // 클러스터 생성 함수
+  const createCluster = (markers: any[]) => {
+    if (cluster) {
+      cluster.setMap(null);
+    }
+    const newCluster = new MarkerClustering({
       minClusterSize: 2,
-      maxZoom: 17, // 조절하면 클러스터링이 되는 기준이 달라짐 (map zoom level)
-      map: map1,
-      markers: markerList.filter(marker => marker),
+      maxZoom: 17,
+      map,
+      markers,
       disableClickZoom: false,
       gridSize: 120,
       icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
@@ -98,74 +97,52 @@ function MarkerCluster({
         }
       },
     });
-
-    return cluster;
+    setCluster(newCluster); // 새로운 클러스터 상태로 업데이트
   };
 
-  const [cluster, setCluster] = useState(getCluster());
+  // 마커 생성 함수
+  const createMarkers = (storeList: StoreProp[]) => {
+    const markers = storeList.map(store => {
+      const latlng = new navermaps.LatLng(store.longitude, store.latitude);
+      const marker = new navermaps.Marker({
+        position: latlng,
+        draggable: true,
+        title: store.storeName,
+        icon: {
+          content: MapMarker({
+            name: store.storeName,
+            requests: store.orderCount,
+          }),
+        },
+      });
+      return marker;
+    });
+    createCluster(markers); // 생성된 마커로 클러스터 생성
+  };
 
-  useEffect(() => {
-    // 클러스트 객체 생성해서, 상태에 저장
-    setCluster(getCluster());
-  }, [markers]);
+  const { data: stores } = useQuery<StoreProp[]>(
+    ['storeList', storeOption],
+    async () => {
+      const { data } = await getMapStoreList(storeOption);
+      return data;
+    },
+    {
+      onSuccess: storeList => {
+        console.log('response for store list', storeList);
+        createMarkers(storeList); // 데이터 성공적으로 불러왔을 때 마커 생성 호출
+      },
+      onError: err => console.log('error', err),
+    },
+  );
 
   return (
     <Overlay element={{ ...cluster, setMap: () => null, getMap: () => null }} />
   );
 }
 
-function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
+function MyMap({ selected, selectFlag }: MyMapProps) {
   const navermaps = useNavermaps();
-  const mapRef = useRef<naver.maps.Map>(null);
   const [, setMap] = useState<naver.maps.Map | null>(null);
-  const [elRefs, setElRefs] = useState<RefObject<naver.maps.Marker>[]>([]);
-  const [stores, setStores] = useState<StoreProp[]>([]);
-  const [storesLength, setStoresLength] = useState<number>(0);
-
-  useQuery<StoreProp[]>(
-    ['storeList'],
-    async () => {
-      const { data } = await getMapStoreList({
-        // placeId: a,
-        // eta,
-        storeCategory: '음식점',
-        isOpen: true,
-      });
-      return data;
-    },
-    {
-      onSuccess: storeList => {
-        console.log('response for store list', storeList);
-        setStores(storeList);
-        setStoresLength(storeList.length);
-        // 이전 렌더링 된 마커 삭제
-        elRefs.forEach(marker => {
-          marker.current?.setMap(null);
-        });
-      },
-      onError: err => console.log('error', err),
-    },
-  );
-
-  useEffect(() => {
-    setElRefs(refs =>
-      Array(storesLength)
-        .fill(null)
-        .map((_, i) => refs[i] || createRef()),
-    );
-    console.log('storesLength', storesLength, elRefs);
-  }, [storesLength]);
-
-  useEffect(() => {
-    if (mapRef.current) {
-      const store = stores.find(e => e.storeName === selected);
-      if (store) {
-        const loc = new navermaps.LatLng(store.longitude, store.latitude);
-        mapRef.current.setCenter(loc);
-        mapRef.current.setZoom(18);
-      }
-    }
-  }, [selected, selectFlag]);
 
   return (
     <NaverMap
@@ -173,24 +150,7 @@ function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
       defaultZoom={16}
       ref={setMap}
     >
-      <MarkerCluster markers={elRefs} />
-      {stores.map((store, idx) => (
-        <Marker
-          ref={elRefs[idx]}
-          key={store.storeName}
-          position={
-            new window.naver.maps.LatLng(store.longitude, store.latitude)
-          }
-          title={store.storeName}
-          icon={{
-            content: MapMarker({
-              name: store.storeName,
-              requests: store.orderCount,
-            }),
-          }}
-          onClick={() => handleSelect(store.storeName)}
-        />
-      ))}
+      <MarkerCluster />
     </NaverMap>
   );
 }
@@ -203,6 +163,7 @@ export default function Map() {
   const [openBottomModal, setOpenBottomModal] = useState<number>(0);
   const [modalKey, setModalKey] = useState<number>(1);
   const [nonModalKey, setNonModalKey] = useState<number>(1);
+  const [option, setOption] = useRecoilState(storeState);
 
   const handleSelect = (selectedValue: string) => {
     setSelected(selectedValue);
@@ -214,6 +175,13 @@ export default function Map() {
   const handleClickOption = (optionId: number) => {
     setOpenBottomModal(optionId);
     setModalKey(prev => prev + 1);
+  };
+
+  const submitOption = (newOptions?: object) => {
+    setOption({
+      ...option,
+      ...newOptions,
+    });
   };
 
   return (
@@ -277,7 +245,10 @@ export default function Map() {
         />
       )}
       {openBottomModal === 3 && (
-        <BottomModal key={`StoreType_${modalKey}`} content={<StoreType />} />
+        <BottomModal
+          key={`StoreType_${modalKey}`}
+          content={<StoreType submitOption={submitOption} />}
+        />
       )}
     </MapDiv>
   );
