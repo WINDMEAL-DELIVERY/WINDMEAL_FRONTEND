@@ -10,7 +10,7 @@ import {
 } from '@/types/type';
 import { Card } from '@geist-ui/react';
 import { useMutation, useQuery } from 'react-query';
-import { createStoreCategory, getStoreInfo } from '@/apis/cms-store/store';
+import { createStoreCategory, getCMSStoreInfo } from '@/apis/cms-store/store';
 
 export default function HashTag({ storeId }: StoreIdProp) {
   const [newTag, setNewTag] = useState<string>('');
@@ -22,7 +22,7 @@ export default function HashTag({ storeId }: StoreIdProp) {
     async () => {
       const {
         data: { storeCategoryResponse },
-      } = await getStoreInfo(Number(storeId));
+      } = await getCMSStoreInfo(Number(storeId));
       return storeCategoryResponse;
     },
     {

@@ -5,7 +5,6 @@ import {
   useNavermaps,
   Overlay,
   useMap,
-  Marker,
 } from 'react-naver-maps';
 
 import {
@@ -16,10 +15,10 @@ import {
   FirstContainer,
   CartButton,
 } from '@components/map/styles';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
 import { makeMarkerClustering } from '@/components/map/marker-cluster';
-import { MapStoreProps, MyMapProps, StoreProp } from '@/types/type';
+import { MapStoreProps, StoreProp } from '@/types/type';
 import MapMarker from '@components/map-marker';
 import {
   MapCluster1,
@@ -40,7 +39,11 @@ import { getMapStoreList } from '@/apis/store/store';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { storeState } from '@/states/mapOption';
 
-function MarkerCluster() {
+function MarkerCluster({
+  handleSelect,
+}: {
+  handleSelect: (selectedId: number) => void;
+}) {
   const navermaps = useNavermaps();
   const map = useMap();
   const MarkerClustering = makeMarkerClustering(window.naver);
@@ -106,7 +109,6 @@ function MarkerCluster() {
       const latlng = new navermaps.LatLng(store.longitude, store.latitude);
       const marker = new naver.maps.Marker({
         position: latlng,
-        draggable: true,
         title: store.storeName,
         icon: {
           content: MapMarker({
@@ -117,6 +119,7 @@ function MarkerCluster() {
       });
       marker.addListener('click', () => {
         map?.panTo(latlng, { duration: 1000 });
+        handleSelect(store.storeId);
         // map?.setZoom(17); 줌 이벤트
       });
 
@@ -147,7 +150,7 @@ function MarkerCluster() {
 
 export default function Map() {
   // 위 식당 중 selectedValue와 동일한 객체의 x,y 좌표를 불러와서 포커싱함
-  const [selected, setSelected] = useState<string>();
+  const [selected, setSelected] = useState<number>(-1);
   const [selectFlag, setSelectFlag] = useState<number>(0);
   const [openStoreInfo, setOpenStoreInfo] = useState<boolean>(false);
   const [openBottomModal, setOpenBottomModal] = useState<number>(0);
@@ -156,8 +159,8 @@ export default function Map() {
   const [option, setOption] = useRecoilState(storeState);
   const [, setMap] = useState<naver.maps.Map | null>(null);
 
-  const handleSelect = (selectedValue: string) => {
-    setSelected(selectedValue);
+  const handleSelect = (selectedId: number) => {
+    setSelected(selectedId);
     setSelectFlag(selectFlag + 1);
     setOpenStoreInfo(true);
     setNonModalKey(prev => prev + 1);
@@ -221,13 +224,13 @@ export default function Map() {
         defaultZoom={16}
         ref={setMap}
       >
-        <MarkerCluster selected={selected} handleSelect={handleSelect} />
+        <MarkerCluster handleSelect={handleSelect} />
       </NaverMap>
 
       {openStoreInfo && (
         <BottomNonModal
           key={`storeInfo_${nonModalKey}`}
-          content={<StoreInfo />}
+          content={<StoreInfo storeId={selected} />}
         />
       )}
       {openBottomModal === 1 && (

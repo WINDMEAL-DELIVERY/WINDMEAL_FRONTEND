@@ -10,7 +10,7 @@ export const getStoreList = async () => {
   return data;
 };
 
-export const getStoreInfo = async (storeId: number) => {
+export const getCMSStoreInfo = async (storeId: number) => {
   const { data } = await instance.get(`/cms/store/${storeId}`);
   return data;
 };

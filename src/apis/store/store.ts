@@ -34,3 +34,13 @@ export const getMapStoreList = async ({
   const { data } = await instance.get(`/store/map?${queryString}`);
   return data;
 };
+
+export const getStoreList = async () => {
+  const { data } = await instance.get('/store');
+  return data;
+};
+
+export const getStoreInfo = async (storeId: number) => {
+  const { data } = await instance.get(`/store/${storeId}`);
+  return data;
+};

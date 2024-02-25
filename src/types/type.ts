@@ -49,6 +49,13 @@ export interface Delivery {
 export interface StoreCategoryTag {
   value: string;
   label: string;
+  storeId?: number;
+}
+
+export interface AutoComplete {
+  value: string;
+  label: string;
+  storeId: number;
 }
 
 export interface AddStoreProps {
@@ -116,7 +123,7 @@ export interface StoreCategory {
 }
 
 export interface StoreIdProp {
-  storeId?: number;
+  storeId: number;
 }
 
 export interface StoreCategorySpec {
