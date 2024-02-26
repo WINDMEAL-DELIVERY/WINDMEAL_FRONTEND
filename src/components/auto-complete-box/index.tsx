@@ -10,6 +10,7 @@ import { useQuery } from 'react-query';
 import { getStoreList } from '@/apis/cms-store/store';
 import { useRecoilState } from 'recoil';
 import { storeState } from '@/states/mapOption';
+import { AutoComplete } from '@geist-ui/core';
 
 export default function AutoCompleteBox() {
   const [allOptions, setAllOptions] = useState<AutoCompleteType[]>([]);
@@ -29,7 +30,11 @@ export default function AutoCompleteBox() {
           const value = e.name;
           const label = e.name;
           const { storeId } = e;
-          setAllOptions(prev => prev.concat({ value, label, storeId }));
+          setAllOptions(prev => {
+            if (!prev.some(element => element.value === value))
+              return prev.concat({ value, label, storeId });
+            return prev;
+          });
         });
       },
       onError: err => console.log('error', err),
@@ -72,7 +77,9 @@ export default function AutoCompleteBox() {
         onSearch={handleSearch}
         onSelect={handleSelectAutoComplete}
         width="10rem"
-      />
+      >
+        <AutoComplete.Empty hidden />
+      </CustomAutoComplete>
       <IconFind onClick={handleClickFind} style={{ cursor: 'pointer' }} />
     </Wrapper>
   );
