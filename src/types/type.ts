@@ -52,7 +52,7 @@ export interface StoreCategoryTag {
   storeId?: number;
 }
 
-export interface AutoComplete {
+export interface AutoCompleteType {
   value: string;
   label: string;
   storeId: number;

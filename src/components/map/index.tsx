@@ -159,6 +159,7 @@ export default function Map() {
   const [option, setOption] = useRecoilState(storeState);
   const [, setMap] = useState<naver.maps.Map | null>(null);
 
+  // 클릭 시에만, info 모달 뜸
   const handleSelect = (selectedId: number) => {
     setSelected(selectedId);
     setSelectFlag(selectFlag + 1);
@@ -189,7 +190,7 @@ export default function Map() {
     >
       <TopContainer>
         <FirstContainer>
-          <AutoCompleteBox handleSelect={handleSelect} />
+          <AutoCompleteBox />
           <CartButton>
             <IconCart />
           </CartButton>

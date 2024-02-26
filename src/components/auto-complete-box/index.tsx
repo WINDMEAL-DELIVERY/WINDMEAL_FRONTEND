@@ -5,16 +5,14 @@ import {
 } from '@components/auto-complete-box/styles';
 import { AutoCompleteOption } from '@geist-ui/core/esm/auto-complete';
 import { IconFind } from 'public/svgs';
-import { AutoComplete, StoreListProps } from '@/types/type';
+import { AutoCompleteType, StoreListProps } from '@/types/type';
 import { useQuery } from 'react-query';
 import { getStoreList } from '@/apis/cms-store/store';
+import { useRecoilState } from 'recoil';
+import { storeState } from '@/states/mapOption';
 
-export default function AutoCompleteBox({
-  handleSelect,
-}: {
-  handleSelect: (selectedValue: number) => void;
-}) {
-  const [allOptions, setAllOptions] = useState<AutoComplete[]>([]);
+export default function AutoCompleteBox() {
+  const [allOptions, setAllOptions] = useState<AutoCompleteType[]>([]);
   // 경우에 따라 파라미터로 style이나 options를 받아 사용하도록 변경 예정
   useQuery<StoreListProps[]>(
     ['storeNameList'],
@@ -39,9 +37,12 @@ export default function AutoCompleteBox({
   );
 
   const [options, setOptions] = useState<AutoCompleteOption[]>([]);
+  const [inputValue, setInputValue] = useState<string>('');
+  const [option, setOption] = useRecoilState(storeState);
 
   const handleSearch = (currentValue: string) => {
     if (!currentValue) return setOptions(allOptions);
+    setInputValue(currentValue);
     const relatedOptions = allOptions.filter(item =>
       item.value.includes(currentValue),
     );
@@ -49,8 +50,16 @@ export default function AutoCompleteBox({
   };
 
   const handleSelectAutoComplete = (selectedString: string) => {
-    const store = allOptions.filter(e => e.value === selectedString);
-    handleSelect(store[0].storeId);
+    setInputValue(selectedString);
+  };
+
+  const handleClickFind = () => {
+    const newOptions = { storeCategory: inputValue };
+    setOption({
+      ...option,
+      ...newOptions,
+    });
+    setInputValue('');
   };
 
   return (
@@ -58,12 +67,13 @@ export default function AutoCompleteBox({
       <CustomAutoComplete
         placeholder="가게를 검색해주세요"
         options={options}
+        value={inputValue}
         crossOrigin="anonymous"
         onSearch={handleSearch}
         onSelect={handleSelectAutoComplete}
         width="10rem"
       />
-      <IconFind />
+      <IconFind onClick={handleClickFind} style={{ cursor: 'pointer' }} />
     </Wrapper>
   );
 }
