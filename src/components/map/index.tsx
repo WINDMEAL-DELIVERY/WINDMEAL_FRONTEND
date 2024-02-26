@@ -197,7 +197,7 @@ export default function Map() {
         </FirstContainer>
         <OptionButtonContainer>
           <OptionButton>
-            <OptionText>초기화</OptionText>
+            <OptionText onClick={() => setOption({})}>초기화</OptionText>
             <IconRefresh />
           </OptionButton>
           <OptionButton>
