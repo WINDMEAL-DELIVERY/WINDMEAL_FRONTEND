@@ -6,15 +6,22 @@ import {
   MapOptionTitle,
   MapOptionWrapper,
 } from '@components/bottom-modal/styles';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { building } from '@/constants/building';
 import { StoreTypeInterface } from '@/types/type';
 
 export default function Destination({ submitOption }: StoreTypeInterface) {
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+
   const buildingOptions = useMemo(() => {
     // building 객체의 키와 값을 배열 형태로 변환하여 반환
     return Object.entries(building).map(([name, id]) => ({ name, id }));
   }, []);
+
+  const handleOptionClick = (id: number) => {
+    setSelectedOption(id);
+    submitOption({ placeId: id });
+  };
 
   return (
     <MapOptionWrapper>
@@ -28,9 +35,11 @@ export default function Destination({ submitOption }: StoreTypeInterface) {
         {buildingOptions.map(buildingOption => (
           <MapOptionList
             key={buildingOption.id}
-            onClick={() => submitOption({ placeId: buildingOption.id })}
+            $selected={selectedOption === buildingOption.id}
+            onClick={() => handleOptionClick(buildingOption.id)}
           >
             {buildingOption.name}
+            {selectedOption === buildingOption.id && ' ✔️'}
           </MapOptionList>
         ))}
       </MapOptionListContainer>

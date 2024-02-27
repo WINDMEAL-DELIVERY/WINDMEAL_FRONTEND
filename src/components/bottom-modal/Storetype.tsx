@@ -7,8 +7,16 @@ import {
   MapOptionTitle,
   MapOptionWrapper,
 } from '@components/bottom-modal/styles';
+import { useState } from 'react';
 
 export default function StoreType({ submitOption }: StoreTypeInterface) {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const handleOptionClick = (category: string) => {
+    setSelectedCategory(category);
+    submitOption({ storeCategory: category });
+  };
+
   return (
     <MapOptionWrapper>
       <MapOptionContainer>
@@ -19,17 +27,25 @@ export default function StoreType({ submitOption }: StoreTypeInterface) {
       </MapOptionContainer>
       <MapOptionListContainer>
         <MapOptionList
-          onClick={() => submitOption({ storeCategory: '음식점' })}
+          onClick={() => handleOptionClick('음식점')}
+          $selected={selectedCategory === '음식점'}
         >
           음식점
-        </MapOptionList>
-        <MapOptionList onClick={() => submitOption({ storeCategory: '카페' })}>
-          카페
+          {selectedCategory === '음식점' && ' ✔️'}
         </MapOptionList>
         <MapOptionList
-          onClick={() => submitOption({ storeCategory: '의약품' })}
+          onClick={() => handleOptionClick('카페')}
+          $selected={selectedCategory === '카페'}
+        >
+          카페
+          {selectedCategory === '카페' && ' ✔️'}
+        </MapOptionList>
+        <MapOptionList
+          onClick={() => handleOptionClick('의약품')}
+          $selected={selectedCategory === '의약품'}
         >
           의약품
+          {selectedCategory === '의약품' && ' ✔️'}
         </MapOptionList>
       </MapOptionListContainer>
     </MapOptionWrapper>

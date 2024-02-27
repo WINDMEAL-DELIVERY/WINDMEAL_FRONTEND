@@ -156,8 +156,11 @@ export const MapOptionListContainer = styled.div<{ $hideScrollbar?: boolean }>`
     `}
 `;
 
-export const MapOptionList = styled.p`
+export const MapOptionList = styled.p<{ $selected?: boolean }>`
   font-size: 0.88rem;
   font-family: 'Noto Sans KR';
   font-weight: 600;
+  cursor: pointer;
+  color: ${props =>
+    props.$selected ? 'var(--MainColor, #5776B9)' : 'inherit'};
 `;
