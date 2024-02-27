@@ -183,3 +183,7 @@ export interface MapStoreProps {
   storeCategory?: string;
   isOpen?: boolean;
 }
+
+export interface StoreTypeInterface {
+  submitOption: (newOptions?: object) => void;
+}

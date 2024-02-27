@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Wrapper = styled.div<{ $top?: number }>`
   display: flex;
@@ -99,6 +99,20 @@ export const StoreInfoContent = styled.div`
   align-items: center;
 `;
 
+export const TimePickerContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin: 0 auto;
+`;
+
+export const MapOptionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const MapOptionContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -120,26 +134,30 @@ export const MapOptionDescription = styled.p`
   margin-top: 1rem;
 `;
 
-export const MapOptionListContainer = styled.div`
+export const MapOptionListContainer = styled.div<{ $hideScrollbar?: boolean }>`
   display: flex;
   flex-direction: column;
   font-size: 0.88rem;
   font-style: regular;
   font-family: 'Noto Sans KR';
   line-height: 3.5rem;
+
+  ${props =>
+    props.$hideScrollbar &&
+    css`
+      overflow-y: auto;
+      max-height: 13rem; /* 적절한 높이로 설정 */
+      // margin-bottom: 4rem; /* 바텀탭만큼 */
+      scrollbar-width: thin;
+      scrollbar-color: transparent transparent;
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    `}
 `;
 
 export const MapOptionList = styled.p`
   font-size: 0.88rem;
   font-family: 'Noto Sans KR';
   font-weight: 600;
-`;
-
-export const TimePickerContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  width: 60%;
-  margin: 0 auto;
 `;

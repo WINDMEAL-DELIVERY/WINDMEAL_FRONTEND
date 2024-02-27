@@ -240,7 +240,7 @@ export default function Map() {
       {openBottomModal === 2 && (
         <BottomModal
           key={`Destination_${modalKey}`}
-          content={<Destination />}
+          content={<Destination submitOption={submitOption} />}
         />
       )}
       {openBottomModal === 3 && (

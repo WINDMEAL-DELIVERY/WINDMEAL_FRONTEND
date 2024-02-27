@@ -1,14 +1,16 @@
+import { StoreTypeInterface } from '@/types/type';
 import {
   MapOptionContainer,
   MapOptionDescription,
   MapOptionList,
   MapOptionListContainer,
   MapOptionTitle,
+  MapOptionWrapper,
 } from '@components/bottom-modal/styles';
 
-export default function StoreType() {
+export default function StoreType({ submitOption }: StoreTypeInterface) {
   return (
-    <>
+    <MapOptionWrapper>
       <MapOptionContainer>
         <MapOptionTitle>가게 종류</MapOptionTitle>
         <MapOptionDescription>
@@ -16,10 +18,20 @@ export default function StoreType() {
         </MapOptionDescription>
       </MapOptionContainer>
       <MapOptionListContainer>
-        <MapOptionList>음식점</MapOptionList>
-        <MapOptionList>카페</MapOptionList>
-        <MapOptionList>의약품</MapOptionList>
+        <MapOptionList
+          onClick={() => submitOption({ storeCategory: '음식점' })}
+        >
+          음식점
+        </MapOptionList>
+        <MapOptionList onClick={() => submitOption({ storeCategory: '카페' })}>
+          카페
+        </MapOptionList>
+        <MapOptionList
+          onClick={() => submitOption({ storeCategory: '의약품' })}
+        >
+          의약품
+        </MapOptionList>
       </MapOptionListContainer>
-    </>
+    </MapOptionWrapper>
   );
 }
