@@ -179,6 +179,10 @@ export default function Map() {
     });
   };
 
+  const handleClickIsOpen = () => {
+    submitOption({ isOpen: true });
+  };
+
   return (
     <MapDiv
       style={{
@@ -215,7 +219,7 @@ export default function Map() {
             <IconDown />
           </OptionButton>
           <OptionButton>
-            <OptionText>영업중</OptionText>
+            <OptionText onClick={handleClickIsOpen}>영업중</OptionText>
           </OptionButton>
         </OptionButtonContainer>
       </TopContainer>
