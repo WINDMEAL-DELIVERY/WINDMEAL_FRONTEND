@@ -7,7 +7,7 @@ export const Wrapper = styled.div<{ $top?: number }>`
   position: fixed;
   z-index: 2;
   top: ${({ $top }) =>
-    $top === undefined ? '50vh' : `${$top}vh`}; //전체 화면의 3/8
+    $top === undefined ? '45vh' : `${$top}vh`}; //전체 화면의 3/8
   height: 100%;
 
   border-radius: 1.875rem;
@@ -107,6 +107,30 @@ export const TimePickerContainer = styled.div`
   width: 60%;
   margin: 0 auto;
 `;
+
+export const ApplyButton = styled.button`
+  width: 9.1rem;
+  height: 2.6rem;
+  background-color: #ffffff;
+  border-radius: 20px;
+  border: 0.5px solid #5776b9;
+
+  margin: 0 auto;
+  margin-top: 1.4rem;
+`;
+
+export const ApplyButtonText = styled.span`
+  font-family: Noto Sans KR;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  letter-spacing: -0.025em;
+  text-align: center;
+
+  color: #5776b9;
+`;
+
+/// ////////////////////////////////////////
 
 export const MapOptionWrapper = styled.div`
   display: flex;
