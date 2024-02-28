@@ -235,7 +235,10 @@ export default function Map() {
         />
       )}
       {openBottomModal === 1 && (
-        <BottomModal key={`ETA_${modalKey}`} content={<ETA />} />
+        <BottomModal
+          key={`ETA_${modalKey}`}
+          content={<ETA submitOption={submitOption} />}
+        />
       )}
       {openBottomModal === 2 && (
         <BottomModal
