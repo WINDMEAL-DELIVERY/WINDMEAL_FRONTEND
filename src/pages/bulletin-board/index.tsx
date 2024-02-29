@@ -1,12 +1,14 @@
 import BottomTab from '@components/bottom-tab';
-import { Wrapper } from '@/styles/styles';
 import React from 'react';
+import { BulletinWrapper } from '@styles/bulletinStyles';
+import { IconFind, IconCart } from 'public/svgs';
+import PageHeader from '@/components/header';
 
 export default function BulletinBoard() {
   return (
-    <Wrapper>
-      <div>게시판</div>
+    <BulletinWrapper>
+      <PageHeader icon1={<IconFind />} icon2={<IconCart />} title="게시판" />
       <BottomTab />
-    </Wrapper>
+    </BulletinWrapper>
   );
 }

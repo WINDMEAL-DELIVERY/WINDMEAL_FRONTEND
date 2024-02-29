@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface MyMapProps {
   selected: string | undefined;
   selectFlag: number;
@@ -175,4 +177,10 @@ export interface BottomModalProps {
 export interface headerBar {
   isHeaderBar?: boolean;
   onCloseModal?: () => void;
+}
+
+export interface BulletinHeaderProps {
+  icon1: ReactNode;
+  icon2: ReactNode;
+  title: string;
 }
