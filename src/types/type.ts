@@ -181,6 +181,6 @@ export interface headerBar {
 
 export interface BulletinHeaderProps {
   icon1: ReactNode;
-  icon2: ReactNode;
+  icon2?: ReactNode;
   title: string;
 }
