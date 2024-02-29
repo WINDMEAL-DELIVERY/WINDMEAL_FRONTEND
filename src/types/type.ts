@@ -35,10 +35,20 @@ export interface GuideMessageType {
 //   name: string;
 // }
 
-export interface Delivery {
+export interface MyDelivery {
   deliveryId: number;
   orderId: number;
   deliveryStatus: string;
+  summary: string;
+  description: string;
+  destinationName: string;
+  nickName: string;
+  storeName: string;
+}
+
+export interface MyOrder {
+  orderId: number;
+  orderStatus: string;
   summary: string;
   description: string;
   destinationName: string;
