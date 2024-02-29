@@ -70,7 +70,7 @@ export default function AutoCompleteBox() {
   return (
     <Wrapper>
       <CustomAutoComplete
-        placeholder="가게를 검색해주세요"
+        placeholder="가게, 키워드 검색"
         options={options}
         value={inputValue}
         crossOrigin="anonymous"

@@ -11,10 +11,9 @@ export const Wrapper = styled.div<{ $top?: number }>`
   height: 100%;
 
   border-radius: 1.875rem;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.6);
 
   background: var(--BG, #fff);
-  box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px -8px 8px 0px rgba(0, 0, 0, 0.05);
 
   /* 핸드폰 */
   @media screen and (max-width: 768px) {

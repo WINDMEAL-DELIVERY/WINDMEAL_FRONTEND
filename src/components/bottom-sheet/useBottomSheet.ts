@@ -194,8 +194,8 @@ export default function useBottomSheet() {
     content.current!.addEventListener('mousedown', handleTouchStart);
 
     return () => {
-      content.current!.removeEventListener('touchstart', handleTouchStart);
-      content.current!.removeEventListener('mousedown', handleTouchStart);
+      // content.current!.removeEventListener('touchstart', handleTouchStart);
+      // content.current!.removeEventListener('mousedown', handleTouchStart);
     };
   }, []);
 
