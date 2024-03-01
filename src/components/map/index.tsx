@@ -8,10 +8,7 @@ import {
 } from 'react-naver-maps';
 
 import {
-  OptionButtonContainer,
-  OptionButton,
   TopContainer,
-  OptionText,
   FirstContainer,
   CartButton,
 } from '@components/map/styles';
@@ -27,7 +24,7 @@ import {
   MapCluster4,
   MapCluster5,
 } from '@/components/map-cluster';
-import { IconCart, IconDown, IconRefresh } from 'public/svgs';
+import { IconCart } from 'public/svgs';
 import BottomModal from '@/components/bottom-modal';
 import Destination from '@/components/bottom-modal/Destination';
 import ETA from '@/components/bottom-modal/ETA';
@@ -38,6 +35,7 @@ import { useQuery } from 'react-query';
 import { getMapStoreList } from '@/apis/store/store';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { storeState } from '@/states/mapOption';
+import OptionButtonComponent from '../option-button-container';
 
 function MarkerCluster({
   handleSelect,
@@ -179,10 +177,6 @@ export default function Map() {
     });
   };
 
-  const handleClickIsOpen = () => {
-    submitOption({ isOpen: true });
-  };
-
   return (
     <MapDiv
       style={{
@@ -199,29 +193,7 @@ export default function Map() {
             <IconCart />
           </CartButton>
         </FirstContainer>
-        <OptionButtonContainer>
-          <OptionButton>
-            <OptionText onClick={() => setOption({})}>초기화</OptionText>
-            <IconRefresh />
-          </OptionButton>
-          <OptionButton>
-            <OptionText onClick={() => handleClickOption(1)}>
-              도착시간
-            </OptionText>
-            <IconDown />
-          </OptionButton>
-          <OptionButton onClick={() => handleClickOption(2)}>
-            <OptionText>배달지</OptionText>
-            <IconDown />
-          </OptionButton>
-          <OptionButton onClick={() => handleClickOption(3)}>
-            <OptionText>가게종류</OptionText>
-            <IconDown />
-          </OptionButton>
-          <OptionButton>
-            <OptionText onClick={handleClickIsOpen}>영업중</OptionText>
-          </OptionButton>
-        </OptionButtonContainer>
+        <OptionButtonComponent handleClickOption={handleClickOption} />
       </TopContainer>
 
       <NaverMap
