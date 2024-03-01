@@ -11,7 +11,7 @@ export const Header = styled.div`
 
 export const GoBack = styled.button`
   cursor: pointer;
-  margin-left: 1rem;
+  margin-left: 0.5rem;
   margin-right: 1.5rem;
   display: flex;
   align-items: center;
