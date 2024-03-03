@@ -9,6 +9,7 @@ import {
 import { useMemo, useState } from 'react';
 import { building } from '@/constants/building';
 import { StoreTypeInterface } from '@/types/type';
+import { IconCheck } from 'public/svgs';
 
 export default function Destination({ submitOption }: StoreTypeInterface) {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -39,7 +40,7 @@ export default function Destination({ submitOption }: StoreTypeInterface) {
             onClick={() => handleOptionClick(buildingOption.id)}
           >
             {buildingOption.name}
-            {selectedOption === buildingOption.id && ' ✔️'}
+            {selectedOption === buildingOption.id && <IconCheck />}
           </MapOptionList>
         ))}
       </MapOptionListContainer>

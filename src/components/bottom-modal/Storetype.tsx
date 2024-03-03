@@ -7,6 +7,7 @@ import {
   MapOptionTitle,
   MapOptionWrapper,
 } from '@components/bottom-modal/styles';
+import { IconCheck } from 'public/svgs';
 import { useState } from 'react';
 
 export default function StoreType({ submitOption }: StoreTypeInterface) {
@@ -31,21 +32,21 @@ export default function StoreType({ submitOption }: StoreTypeInterface) {
           $selected={selectedCategory === '음식점'}
         >
           음식점
-          {selectedCategory === '음식점' && ' ✔️'}
+          {selectedCategory === '음식점' && <IconCheck />}
         </MapOptionList>
         <MapOptionList
           onClick={() => handleOptionClick('카페')}
           $selected={selectedCategory === '카페'}
         >
           카페
-          {selectedCategory === '카페' && ' ✔️'}
+          {selectedCategory === '카페' && <IconCheck />}
         </MapOptionList>
         <MapOptionList
           onClick={() => handleOptionClick('의약품')}
           $selected={selectedCategory === '의약품'}
         >
           의약품
-          {selectedCategory === '의약품' && ' ✔️'}
+          {selectedCategory === '의약품' && <IconCheck />}
         </MapOptionList>
       </MapOptionListContainer>
     </MapOptionWrapper>

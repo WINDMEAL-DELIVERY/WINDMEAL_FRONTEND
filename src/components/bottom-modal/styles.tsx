@@ -179,7 +179,12 @@ export const MapOptionListContainer = styled.div<{ $hideScrollbar?: boolean }>`
     `}
 `;
 
-export const MapOptionList = styled.p<{ $selected?: boolean }>`
+export const MapOptionList = styled.div<{ $selected?: boolean }>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+
   font-size: 0.88rem;
   font-family: 'Noto Sans KR';
   font-weight: 600;
