@@ -1,6 +1,6 @@
 import { AppProps } from 'next/dist/shared/lib/router/router';
 import { RecoilRoot } from 'recoil';
-import '../styles/globals.css';
+import 'styles/globals.css';
 import { Container } from '@/styles/styles';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ChatInstance, instance } from '@/apis';

@@ -28,13 +28,7 @@ import { useEffect, useRef, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import { useLocation } from 'react-use';
 import * as StompJs from '@stomp/stompjs';
-import {
-  IconAlarm,
-  IconDots,
-  IconImage,
-  IconLt,
-  IconSend,
-} from '../../../../public/svgs';
+import { IconAlarm, IconDots, IconImage, IconLt, IconSend } from 'public/svgs';
 
 interface ChatClient {
   activate: () => void;
