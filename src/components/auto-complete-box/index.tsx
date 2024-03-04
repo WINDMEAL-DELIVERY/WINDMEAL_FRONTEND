@@ -25,7 +25,6 @@ export default function AutoCompleteBox() {
     },
     {
       onSuccess: storeNameList => {
-        console.log('자동완성 store list', storeNameList);
         storeNameList.forEach(e => {
           const value = e.name;
           const label = e.name;
