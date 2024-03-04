@@ -1,4 +1,4 @@
-import { getStoreList } from '@/apis/store/store';
+import { getStoreList } from '@/apis/cms-store/store';
 import { StoreListProps } from '@/types/type';
 import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';

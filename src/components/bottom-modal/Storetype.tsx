@@ -1,14 +1,25 @@
+import { StoreTypeInterface } from '@/types/type';
 import {
   MapOptionContainer,
   MapOptionDescription,
   MapOptionList,
   MapOptionListContainer,
   MapOptionTitle,
+  MapOptionWrapper,
 } from '@components/bottom-modal/styles';
+import { IconCheck } from 'public/svgs';
+import { useState } from 'react';
 
-export default function StoreType() {
+export default function StoreType({ submitOption }: StoreTypeInterface) {
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  const handleOptionClick = (category: string) => {
+    setSelectedCategory(category);
+    submitOption({ storeCategory: category });
+  };
+
   return (
-    <>
+    <MapOptionWrapper>
       <MapOptionContainer>
         <MapOptionTitle>가게 종류</MapOptionTitle>
         <MapOptionDescription>
@@ -16,10 +27,28 @@ export default function StoreType() {
         </MapOptionDescription>
       </MapOptionContainer>
       <MapOptionListContainer>
-        <MapOptionList>음식점</MapOptionList>
-        <MapOptionList>카페</MapOptionList>
-        <MapOptionList>의약품</MapOptionList>
+        <MapOptionList
+          onClick={() => handleOptionClick('음식점')}
+          $selected={selectedCategory === '음식점'}
+        >
+          음식점
+          {selectedCategory === '음식점' && <IconCheck />}
+        </MapOptionList>
+        <MapOptionList
+          onClick={() => handleOptionClick('카페')}
+          $selected={selectedCategory === '카페'}
+        >
+          카페
+          {selectedCategory === '카페' && <IconCheck />}
+        </MapOptionList>
+        <MapOptionList
+          onClick={() => handleOptionClick('의약품')}
+          $selected={selectedCategory === '의약품'}
+        >
+          의약품
+          {selectedCategory === '의약품' && <IconCheck />}
+        </MapOptionList>
       </MapOptionListContainer>
-    </>
+    </MapOptionWrapper>
   );
 }
