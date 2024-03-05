@@ -7,6 +7,7 @@ export const OptionButtonContainer = styled.div<{ $isMap?: boolean }>`
   flex-direction: row;
   justify-content: space-between;
   z-index: 1;
+  margin-bottom: 0.81rem;
   margin-top: 0.44rem;
   gap: 0.59rem;
   align-self: ${({ $isMap }) => ($isMap ? 'flex-end' : 'center')};
@@ -20,7 +21,6 @@ export const OptionButton = styled.div`
   display: flex;
   width: 5.625rem;
   height: 2.375rem;
-  // padding: 0.625rem 0.875rem;
   justify-content: center;
   align-items: center;
   gap: 0.375rem;

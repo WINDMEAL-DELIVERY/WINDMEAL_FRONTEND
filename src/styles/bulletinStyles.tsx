@@ -10,7 +10,6 @@ export const BulletinListContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-top: 2px solid #f2f4ff;
-  margin-top: 0.81rem;
 
   overflow-y: scroll;
   scrollbar-width: thin;
