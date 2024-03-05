@@ -196,6 +196,13 @@ export interface MapStoreProps {
   isOpen?: boolean;
 }
 
+export interface BulletinProps {
+  storeId?: number;
+  placeId?: number;
+  eta?: string;
+  storeCategory?: string;
+}
+
 export interface StoreTypeInterface {
   submitOption: (newOptions?: object) => void;
 }
