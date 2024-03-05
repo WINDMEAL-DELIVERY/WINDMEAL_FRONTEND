@@ -166,6 +166,7 @@ export default function Map() {
   };
 
   const handleClickOption = (optionId: number) => {
+    if (optionId === -1) setOption({}); // 초기화
     setOpenBottomModal(optionId);
     setModalKey(prev => prev + 1);
   };
@@ -193,7 +194,7 @@ export default function Map() {
             <IconCart />
           </CartButton>
         </FirstContainer>
-        <OptionButtonComponent handleClickOption={handleClickOption} />
+        <OptionButtonComponent handleClickOption={handleClickOption} isMap />
       </TopContainer>
 
       <NaverMap

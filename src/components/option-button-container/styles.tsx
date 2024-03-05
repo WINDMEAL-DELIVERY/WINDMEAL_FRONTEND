@@ -1,16 +1,15 @@
 import styled from 'styled-components';
 
-export const OptionButtonContainer = styled.div`
+export const OptionButtonContainer = styled.div<{ $isMap?: boolean }>`
   width: 85%;
-  height: 5rem;
+  height: 3rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   z-index: 1;
   margin-top: 0.44rem;
   gap: 0.59rem;
-  align-self: flex-end; /* 홀로 오른쪽 정렬 */
-
+  align-self: ${({ $isMap }) => ($isMap ? 'flex-end' : 'center')};
   overflow-x: auto;
   &::-webkit-scrollbar {
     display: none; /* 스크롤바 감추기 */

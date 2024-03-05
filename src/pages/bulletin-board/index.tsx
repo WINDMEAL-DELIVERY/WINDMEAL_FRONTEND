@@ -24,6 +24,7 @@ export default function BulletinBoard() {
   const [option, setOption] = useRecoilState(bulletinState);
 
   const handleClickOption = (optionId: number) => {
+    if (optionId === -1) setOption({}); // 초기화
     setOpenBottomModal(optionId);
     setModalKey(prev => prev + 1);
   };
@@ -38,7 +39,10 @@ export default function BulletinBoard() {
   return (
     <BulletinWrapper>
       <PageHeader icon1={<IconFind />} icon2={<IconCart />} title="게시판" />
-      <OptionButtonComponent handleClickOption={handleClickOption} />
+      <OptionButtonComponent
+        handleClickOption={handleClickOption}
+        isMap={false}
+      />
       <BulletinListContainer>
         <BulletinList>
           <BulletinListTitle>컴포즈커피</BulletinListTitle>
