@@ -13,6 +13,7 @@ import IconRefresh from './refresh.svg';
 import IconDown from './down.svg';
 import IconFind from './find.svg';
 import IconCart from './cart.svg';
+import IconCheck from './check.svg';
 
 export {
   LoginPageLogo,
@@ -30,4 +31,5 @@ export {
   IconDown,
   IconFind,
   IconCart,
+  IconCheck,
 };

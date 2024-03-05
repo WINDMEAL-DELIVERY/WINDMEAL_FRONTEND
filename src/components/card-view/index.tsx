@@ -1,5 +1,5 @@
-// import { getMyDelivery, getMyOrder } from '@/apis/delievery/delievery';
-import { Delivery } from '@/types/type';
+import { getMyDelivery, getMyOrder } from '@/apis/delievery/delievery';
+import { MyDelivery, MyOrder } from '@/types/type';
 import {
   CardContainer,
   DeliveryContainer,
@@ -21,9 +21,38 @@ import {
 import ToggleButton from '@components/toggle-button';
 import { IconChatting, IconMiddle, IconPlace, IconRight } from 'public/svgs';
 import { useState } from 'react';
+import { useQuery } from 'react-query';
 
 export default function CardView() {
-  const [deliveries] = useState<Delivery[]>([
+  useQuery<MyOrder[]>(
+    ['myOrder'],
+    async () => {
+      const { data } = await getMyOrder();
+      return data;
+    },
+    {
+      onSuccess: myOrderList => {
+        console.log('response for my order', myOrderList);
+      },
+      onError: err => console.log('error', err),
+    },
+  );
+
+  useQuery<MyDelivery[]>(
+    ['myDelivery'],
+    async () => {
+      const { data } = await getMyDelivery();
+      return data;
+    },
+    {
+      onSuccess: myDeliveryList => {
+        console.log('response for my delivery', myDeliveryList);
+      },
+      onError: err => console.log('error', err),
+    },
+  );
+
+  const [deliveries] = useState<MyDelivery[]>([
     {
       deliveryId: 1,
       orderId: 1,

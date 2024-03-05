@@ -2,7 +2,7 @@ import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
-import { createMenu } from '@/apis/store/store';
+import { createMenu } from '@/apis/cms-store/store';
 import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@/styles/cmsStyles';
 import AddFile from '@/components/add-file';
