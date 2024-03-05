@@ -212,3 +212,16 @@ export interface BulletinHeaderProps {
   icon2?: ReactNode;
   title: string;
 }
+
+export interface Order {
+  id: number;
+  memberId: number;
+  memberNickName: string;
+  placeName: string;
+  longitude: number;
+  latitude: number;
+  eta: string;
+  deliveryFee: number;
+  name: string;
+  summary: string;
+}

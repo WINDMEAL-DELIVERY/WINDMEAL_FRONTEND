@@ -1,4 +1,5 @@
-import { getMyDelivery, getMyOrder } from '@/apis/delievery/delievery';
+import { getMyDelivery } from '@/apis/delievery/delievery';
+import { getMyOrder } from '@/apis/order/order';
 import { MyDelivery, MyOrder } from '@/types/type';
 import {
   CardContainer,

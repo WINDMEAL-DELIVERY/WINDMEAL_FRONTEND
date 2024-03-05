@@ -17,11 +17,30 @@ import ETA from '@/components/bottom-modal/ETA';
 import StoreType from '@/components/bottom-modal/Storetype';
 import { useRecoilState } from 'recoil';
 import { bulletinState } from '@/states/bulletinOption';
+import { useQuery } from 'react-query';
+import { getAllOrders } from '@/apis/order/order';
+import { Order } from '@/types/type';
 
 export default function BulletinBoard() {
   const [openBottomModal, setOpenBottomModal] = useState<number>(0);
   const [modalKey, setModalKey] = useState<number>(1);
   const [option, setOption] = useRecoilState(bulletinState);
+
+  const { data: allOrders } = useQuery<Order[]>(
+    ['allOrders', option],
+    async () => {
+      const {
+        data: { content },
+      } = await getAllOrders(option);
+      return content;
+    },
+    {
+      onSuccess: orderResponse => {
+        console.log('orderResponse', orderResponse);
+      },
+      onError: err => console.log('error', err),
+    },
+  );
 
   const handleClickOption = (optionId: number) => {
     if (optionId === -1) setOption({}); // 초기화
@@ -44,14 +63,18 @@ export default function BulletinBoard() {
         isMap={false}
       />
       <BulletinListContainer>
-        <BulletinList>
-          <BulletinListTitle>컴포즈커피</BulletinListTitle>
-          <BulletinListInfoContainer>
-            <BulletinListInfoText>가천관</BulletinListInfoText>
-            <BulletinListInfoText>10분전</BulletinListInfoText>
-            <BulletinListInfoText>리안이</BulletinListInfoText>
-          </BulletinListInfoContainer>
-        </BulletinList>
+        {allOrders?.map(order => (
+          <BulletinList key={order.id}>
+            <BulletinListTitle>{order.id}</BulletinListTitle>
+            <BulletinListInfoContainer>
+              <BulletinListInfoText>{order.placeName}</BulletinListInfoText>
+              <BulletinListInfoText>10분전</BulletinListInfoText>
+              <BulletinListInfoText>
+                {order.memberNickName}
+              </BulletinListInfoText>
+            </BulletinListInfoContainer>
+          </BulletinList>
+        ))}
       </BulletinListContainer>
       {openBottomModal === 1 && (
         <BottomModal
