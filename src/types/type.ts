@@ -224,4 +224,5 @@ export interface Order {
   deliveryFee: number;
   name: string;
   summary: string;
+  orderTime: string;
 }

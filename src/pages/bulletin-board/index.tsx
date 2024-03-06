@@ -20,6 +20,7 @@ import { bulletinState } from '@/states/bulletinOption';
 import { useQuery } from 'react-query';
 import { getAllOrders } from '@/apis/order/order';
 import { Order } from '@/types/type';
+import { formatDateTime } from '@/hooks/useFormatTime';
 
 export default function BulletinBoard() {
   const [openBottomModal, setOpenBottomModal] = useState<number>(0);
@@ -65,10 +66,12 @@ export default function BulletinBoard() {
       <BulletinListContainer>
         {allOrders?.map(order => (
           <BulletinList key={order.id}>
-            <BulletinListTitle>{order.id}</BulletinListTitle>
+            <BulletinListTitle>{order.name}</BulletinListTitle>
             <BulletinListInfoContainer>
               <BulletinListInfoText>{order.placeName}</BulletinListInfoText>
-              <BulletinListInfoText>10분전</BulletinListInfoText>
+              <BulletinListInfoText>
+                {formatDateTime(order.orderTime)}
+              </BulletinListInfoText>
               <BulletinListInfoText>
                 {order.memberNickName}
               </BulletinListInfoText>
