@@ -83,7 +83,7 @@ function ChatRoom() {
   }, [flag]);
 
   useQuery<ChattingMessageProps[]>(
-    ['chatting'],
+    ['chatting', chatroomId],
     () => {
       return getChattingMessage(chatroomId);
     },
