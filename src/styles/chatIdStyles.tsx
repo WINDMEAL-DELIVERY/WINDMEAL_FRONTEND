@@ -171,9 +171,18 @@ export const ChatBottomDiv = styled.div`
   padding: 1vh;
 `;
 
-export const ChatInputDiv = styled.input`
+export const ChatInputDiv = styled.textarea`
   background-color: #f2f4ff;
   width: 248px;
   border-radius: 30px;
   padding: 0.5rem 1rem;
+  resize: none;
+
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 6px; /* 스크롤바 너비 조절 */
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent; /* 스크롤바 색상 */
+  }
 `;

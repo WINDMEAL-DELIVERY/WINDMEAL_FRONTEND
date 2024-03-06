@@ -20,11 +20,11 @@ import {
   MyImage,
   OpponentImage,
 } from '@styles/chatIdStyles';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery, useQueryClient } from 'react-query';
 import { ChattingMessageProps } from '@type/chattingType';
 import { getChattingMessage, getImageUrl } from '@apis/chatting/chatting';
-import { useEffect, useRef, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import { useLocation } from 'react-use';
 import * as StompJs from '@stomp/stompjs';
@@ -159,8 +159,8 @@ function ChatRoom() {
 
   const onClickMessageHandler = async () => {
     const token: string = (await getCookie('token')) || '';
-    console.log(text);
-    if (token && text) {
+    const sendText = text.endsWith('\n') ? text.slice(0, -1) : text;
+    if (token && sendText) {
       client.current.publish({
         destination: `/pub/chat.message.${chatroomId}`,
         headers: {
@@ -169,22 +169,26 @@ function ChatRoom() {
         body: JSON.stringify({
           chatRoomId: chatroomId,
           type: 'TEXT',
-          message: text,
+          message: sendText,
         }),
       });
     }
+    await queryClient.invalidateQueries('chatting');
     setText('');
-    queryClient.invalidateQueries('chatting');
   };
 
   const onKeyUp = (event: React.KeyboardEvent) => {
-    if (event.key === 'Enter') {
-      console.log('enter');
-      onClickMessageHandler();
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+
+      if (text.trim() !== '') {
+        console.log(text);
+        onClickMessageHandler();
+      }
     }
   };
 
-  const saveUserText = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setText(event.target.value);
   };
 
@@ -321,7 +325,7 @@ function ChatRoom() {
         <ChatInputDiv
           placeholder="메시지 보내기"
           value={text}
-          onChange={saveUserText}
+          onChange={handleChange}
           onKeyUp={onKeyUp}
         />
         <IconSend onClick={onClickMessageHandler} />
