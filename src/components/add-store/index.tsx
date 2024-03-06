@@ -19,8 +19,7 @@ export default function AddStore() {
     categoryList: [],
   };
   const [inputData, setInputData] = useState<StoreInput>(initialStoreInput);
-  const defaultImgUrl =
-    'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F67%2F41%2Fb9%2F6741b98b6e8f6754c16775da03334535.png&type=sc960_832';
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -39,13 +38,14 @@ export default function AddStore() {
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const formData = new FormData();
-    const storeImgOptional = storeImg === null ? defaultImgUrl : storeImg;
+    const storeImgOptional = storeImg === null ? 'defaultImgUrl' : storeImg;
     formData.append(
       'request',
       new Blob([JSON.stringify(inputData)], { type: 'application/json' }),
     );
     formData.append('file', storeImgOptional);
     mutateStore.mutate(formData);
+    setIsSubmit(true);
   };
 
   const handleInputChange = (fieldName: string, value: string) => {
@@ -89,7 +89,7 @@ export default function AddStore() {
       <Spacer />
       {renderInputs()}
       <Spacer />
-      <AddFile onImageUpload={handleAddFile} />
+      <AddFile onImageUpload={handleAddFile} onSubmit={isSubmit} />
       <Spacer />
       <Button type="secondary" onClick={handleSubmit}>
         제출
