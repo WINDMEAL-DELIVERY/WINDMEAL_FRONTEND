@@ -32,6 +32,7 @@ import { IconAlarm, IconDots, IconImage, IconLt, IconSend } from 'public/svgs';
 
 interface ChatClient {
   activate: () => void;
+  deactivate: () => void;
   connected: boolean;
   publish: (params: {
     headers: { Authorization: string };
@@ -50,6 +51,9 @@ function ChatRoom() {
   const client = useRef<ChatClient>({
     activate: () => {
       client.current.connected = true;
+    },
+    deactivate: () => {
+      client.current.connected = false;
     },
     connected: false,
     publish: () => {},
@@ -90,7 +94,6 @@ function ChatRoom() {
     {
       enabled: !!chatroomId,
       onSuccess: chatMessage => {
-        console.log(chatMessage);
         if (!chatMessages) setFlag(true);
         setChatMessages(chatMessage);
       },
@@ -141,6 +144,8 @@ function ChatRoom() {
         },
         onDisconnect: () => {
           console.error('연결끊김');
+          client.current.deactivate();
+          router.back();
         },
         onWebSocketError: event => {
           // ex : 애초에 토큰이 만료된 상태로 커넥션을 시도할때
@@ -149,6 +154,11 @@ function ChatRoom() {
       });
     }
     client.current.activate();
+  };
+
+  const goBack = () => {
+    client.current.deactivate();
+    router.back();
   };
 
   useEffect(() => {
@@ -182,7 +192,6 @@ function ChatRoom() {
       event.preventDefault();
 
       if (text.trim() !== '') {
-        console.log(text);
         onClickMessageHandler();
       }
     }
@@ -239,7 +248,7 @@ function ChatRoom() {
   return (
     <ChatWrapper>
       <Header>
-        <GoBack onClick={router.back}>
+        <GoBack onClick={goBack}>
           <IconLt />
         </GoBack>
         <OppositeNickName>{opponentNickname}</OppositeNickName>
