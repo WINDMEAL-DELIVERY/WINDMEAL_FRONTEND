@@ -88,6 +88,7 @@ function ChatRoom() {
       return getChattingMessage(chatroomId);
     },
     {
+      enabled: !!chatroomId,
       onSuccess: chatMessage => {
         console.log(chatMessage);
         if (!chatMessages) setFlag(true);
@@ -221,7 +222,7 @@ function ChatRoom() {
           }),
         });
       }
-      queryClient.invalidateQueries('chatting');
+      await queryClient.invalidateQueries('chatting');
     }
   }
 
