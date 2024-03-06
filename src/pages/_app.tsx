@@ -8,6 +8,7 @@ import { AxiosInstance, AxiosResponse } from 'axios';
 import { getCookie, setCookie } from 'cookies-next';
 import { useRedirect } from '@hooks/routerHooks';
 import { requestInterceptor } from '@apis/headerTokenApi/Interceptors';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient();
@@ -69,6 +70,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <Container>
           <Component {...pageProps} />
+          <ReactQueryDevtools />
         </Container>
       </RecoilRoot>
     </QueryClientProvider>
