@@ -53,6 +53,12 @@ export default function AddStore() {
       ...prevData,
       [fieldName]: value,
     }));
+    if (fieldName === 'name') {
+      setInputData(prevData => ({
+        ...prevData,
+        placeName: value,
+      }));
+    }
   };
 
   const handleAddFile = (img: string) => {
@@ -64,7 +70,6 @@ export default function AddStore() {
     ['전화 번호', 'phoneNumber'],
     ['오픈 시간', 'openTime'],
     ['마감 시간', 'closeTime'],
-    ['장소 이름', 'placeName'],
     ['위도', 'longitude'],
     ['경도', 'latitude'],
   ];
