@@ -50,6 +50,13 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
     });
   };
 
+  const handleClickOrder = (storeID: string) => {
+    router.push({
+      pathname: `/어디`,
+      query: { storeId: storeID },
+    });
+  };
+
   return (
     <StoreInfoContainer>
       {isLoading ? (
@@ -77,7 +84,11 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
               </DeliveryButtonText>
             </DeliveryButton>
             <OrderButton>
-              <OrderButtonText>주문하기</OrderButtonText>
+              <OrderButtonText
+                onClick={() => handleClickOrder(storeInfo.storeId)}
+              >
+                주문하기
+              </OrderButtonText>
             </OrderButton>
           </StoreButtonContainer>
         </>
