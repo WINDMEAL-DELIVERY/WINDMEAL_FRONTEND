@@ -1,13 +1,14 @@
 import { AppProps } from 'next/dist/shared/lib/router/router';
 import { RecoilRoot } from 'recoil';
-import '../styles/globals.css';
+import '@/styles/globals.css';
 import { Container } from '@/styles/styles';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { BACKEND_URL, ChatInstance, instance } from '@/apis';
+import { ChatInstance, instance } from '@/apis';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { getCookie, setCookie } from 'cookies-next';
 import { useRedirect } from '@hooks/routerHooks';
 import { requestInterceptor } from '@apis/headerTokenApi/Interceptors';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 export default function App({ Component, pageProps }: AppProps) {
   const queryClient = new QueryClient({
@@ -45,7 +46,7 @@ export default function App({ Component, pageProps }: AppProps) {
       redirectToLogin();
     } else if (isUnauthorizedError) {
       try {
-        const response = await instance.post(`${BACKEND_URL}/auth/reissue`);
+        const response = await instance.post('/auth/reissue');
         await setCookie('token', response.data.data.token);
         const newToken: string = (await getCookie('token')) || '';
         requestApi.headers = {
@@ -75,6 +76,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <RecoilRoot>
         <Container>
           <Component {...pageProps} />
+          <ReactQueryDevtools />
         </Container>
       </RecoilRoot>
     </QueryClientProvider>

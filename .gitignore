@@ -27,9 +27,6 @@ yarn-error.log*
 # local env files
 .env.local
 
-# github PR template
-/.github/pull_request_template.md
-
 # vercel
 .vercel
 
