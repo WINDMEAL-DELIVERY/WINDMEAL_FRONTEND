@@ -16,14 +16,15 @@ export const BulletinListContainer = styled.div`
   scrollbar-color: transparent transparent;
 `;
 
-export const BulletinList = styled.div`
+export const BulletinList = styled.div<{ $noOrder: boolean }>`
   display: flex;
   flex-direction: column;
   height: 5.75rem;
   justify-content: center;
+  align-items: ${({ $noOrder }) => ($noOrder ? 'center' : 'stretch')};
   margin-left: 1rem;
   gap: 0.44rem;
-  border-bottom: 2px solid #f2f4ff;
+  border-bottom: ${({ $noOrder }) => ($noOrder ? 'none' : '2px solid #f2f4ff')};
 
   &:last-child {
     margin-bottom: 5rem; // 바텀탭 고려

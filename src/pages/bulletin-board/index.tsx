@@ -64,20 +64,28 @@ export default function BulletinBoard() {
         isMap={false}
       />
       <BulletinListContainer>
-        {allOrders?.map(order => (
-          <BulletinList key={order.id}>
-            <BulletinListTitle>{order.name}</BulletinListTitle>
-            <BulletinListInfoContainer>
-              <BulletinListInfoText>{order.placeName}</BulletinListInfoText>
-              <BulletinListInfoText>
-                {formatDateTime(order.orderTime)}
-              </BulletinListInfoText>
-              <BulletinListInfoText>
-                {order.memberNickName}
-              </BulletinListInfoText>
-            </BulletinListInfoContainer>
+        {allOrders?.length === 0 ? (
+          <BulletinList $noOrder>
+            <BulletinListInfoText>
+              당일 주문이 존재하지 않습니다.
+            </BulletinListInfoText>
           </BulletinList>
-        ))}
+        ) : (
+          allOrders?.map(order => (
+            <BulletinList key={order.id} $noOrder={false}>
+              <BulletinListTitle>{order.name}</BulletinListTitle>
+              <BulletinListInfoContainer>
+                <BulletinListInfoText>{order.placeName}</BulletinListInfoText>
+                <BulletinListInfoText>
+                  {formatDateTime(order.orderTime)}
+                </BulletinListInfoText>
+                <BulletinListInfoText>
+                  {order.memberNickName}
+                </BulletinListInfoText>
+              </BulletinListInfoContainer>
+            </BulletinList>
+          ))
+        )}
       </BulletinListContainer>
       {openBottomModal === 1 && (
         <BottomModal
