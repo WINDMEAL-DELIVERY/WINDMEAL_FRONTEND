@@ -3,7 +3,7 @@ import { atom } from 'recoil';
 
 const initialOption: BulletinProps = {};
 
-export const bulletinState = atom({
-  key: 'bulletinState',
+export const bulletinStoreState = atom({
+  key: 'bulletinStoreState',
   default: initialOption,
 });

@@ -1,6 +1,6 @@
 import { getStoreInfo } from '@/apis/store/store';
-import { bulletinState } from '@/states/bulletinOption';
-import { storeState } from '@/states/mapOption';
+import { bulletinStoreState } from '@/states/bulletinOption';
+import { mapStoreState } from '@/states/mapOption';
 import { StoreIdProp } from '@/types/type';
 import {
   StoreInfoContainer,
@@ -21,8 +21,8 @@ import { useQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
 
 export default function StoreInfo({ storeId }: StoreIdProp) {
-  const mapOption = useRecoilValue(storeState);
-  const [, setBulletinOption] = useRecoilState(bulletinState);
+  const mapOption = useRecoilValue(mapStoreState);
+  const [, setBulletinOption] = useRecoilState(bulletinStoreState);
 
   const { data: storeInfo, isLoading } = useQuery(
     ['storeInfo'],

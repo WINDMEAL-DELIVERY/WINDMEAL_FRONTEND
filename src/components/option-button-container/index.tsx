@@ -5,7 +5,7 @@ import {
   OptionButtonContainer,
 } from '@components/option-button-container/styles';
 import { useRecoilState } from 'recoil';
-import { storeState } from '@/states/mapOption';
+import { mapStoreState } from '@/states/mapOption';
 
 export default function OptionButtonComponent({
   handleClickOption,
@@ -14,7 +14,7 @@ export default function OptionButtonComponent({
   handleClickOption: (optionId: number) => void;
   isMap: boolean;
 }) {
-  const [option, setOption] = useRecoilState(storeState);
+  const [option, setOption] = useRecoilState(mapStoreState);
 
   const handleClickIsOpen = () => {
     setOption({

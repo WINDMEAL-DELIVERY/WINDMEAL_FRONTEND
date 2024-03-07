@@ -3,7 +3,7 @@ import { atom } from 'recoil';
 
 const initialOption: MapStoreProps = {};
 
-export const storeState = atom({
-  key: 'storeState',
+export const mapStoreState = atom({
+  key: 'mapStoreState',
   default: initialOption,
 });

@@ -16,16 +16,17 @@ import Destination from '@/components/bottom-modal/Destination';
 import ETA from '@/components/bottom-modal/ETA';
 import StoreType from '@/components/bottom-modal/Storetype';
 import { useRecoilState } from 'recoil';
-import { bulletinState } from '@/states/bulletinOption';
+import { bulletinStoreState } from '@/states/bulletinOption';
 import { useQuery } from 'react-query';
 import { getAllOrders } from '@/apis/order/order';
 import { Order } from '@/types/type';
 import { formatDateTime } from '@/hooks/useFormatTime';
+import AutoCompleteBox from '@/components/auto-complete-box';
 
 export default function BulletinBoard() {
   const [openBottomModal, setOpenBottomModal] = useState<number>(0);
   const [modalKey, setModalKey] = useState<number>(1);
-  const [option, setOption] = useRecoilState(bulletinState);
+  const [option, setOption] = useRecoilState(bulletinStoreState);
 
   const { data: allOrders } = useQuery<Order[]>(
     ['allOrders', option],
@@ -59,6 +60,7 @@ export default function BulletinBoard() {
   return (
     <BulletinWrapper>
       <PageHeader icon1={<IconFind />} icon2={<IconCart />} title="게시판" />
+      <AutoCompleteBox />
       <OptionButtonComponent
         handleClickOption={handleClickOption}
         isMap={false}

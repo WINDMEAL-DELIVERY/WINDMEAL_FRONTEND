@@ -9,7 +9,7 @@ import { AutoCompleteType, StoreListProps } from '@/types/type';
 import { useQuery } from 'react-query';
 import { getStoreList } from '@/apis/cms-store/store';
 import { useRecoilState } from 'recoil';
-import { storeState } from '@/states/mapOption';
+import { mapStoreState } from '@/states/mapOption';
 import { AutoComplete } from '@geist-ui/core';
 
 export default function AutoCompleteBox() {
@@ -42,7 +42,7 @@ export default function AutoCompleteBox() {
 
   const [options, setOptions] = useState<AutoCompleteOption[]>([]);
   const [inputValue, setInputValue] = useState<string>('');
-  const [option, setOption] = useRecoilState(storeState);
+  const [option, setOption] = useRecoilState(mapStoreState);
 
   const handleSearch = (currentValue: string) => {
     if (!currentValue) return setOptions(allOptions);
