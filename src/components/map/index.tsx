@@ -35,7 +35,7 @@ import { useQuery } from 'react-query';
 import { getMapStoreList } from '@/apis/store/store';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { storeState } from '@/states/mapOption';
-import OptionButtonComponent from '../option-button-container';
+import OptionButtonComponent from '@components/option-button-container';
 
 function MarkerCluster({
   handleSelect,

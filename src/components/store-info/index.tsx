@@ -1,4 +1,6 @@
 import { getStoreInfo } from '@/apis/store/store';
+import { bulletinState } from '@/states/bulletinOption';
+import { storeState } from '@/states/mapOption';
 import { StoreIdProp } from '@/types/type';
 import {
   StoreInfoContainer,
@@ -14,9 +16,14 @@ import {
   OrderButton,
   OrderButtonText,
 } from '@components/store-info/styles';
+import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
+import { useRecoilState, useRecoilValue } from 'recoil';
 
 export default function StoreInfo({ storeId }: StoreIdProp) {
+  const mapOption = useRecoilValue(storeState);
+  const [, setBulletinOption] = useRecoilState(bulletinState);
+
   const { data: storeInfo, isLoading } = useQuery(
     ['storeInfo'],
     async () => {
@@ -30,6 +37,18 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
       onError: err => console.log('error', err),
     },
   );
+
+  const router = useRouter();
+
+  const handleClickDelivery = () => {
+    router.push('/bulletin-board');
+    setBulletinOption({
+      storeId: mapOption.storeId,
+      placeId: mapOption.placeId,
+      eta: mapOption.eta,
+      storeCategory: mapOption.storeCategory,
+    });
+  };
 
   return (
     <StoreInfoContainer>
@@ -53,7 +72,9 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
           <StoreImgContainer />
           <StoreButtonContainer>
             <DeliveryButton>
-              <DeliveryButtonText>배달하기</DeliveryButtonText>
+              <DeliveryButtonText onClick={handleClickDelivery}>
+                배달하기
+              </DeliveryButtonText>
             </DeliveryButton>
             <OrderButton>
               <OrderButtonText>주문하기</OrderButtonText>
