@@ -28,7 +28,7 @@ export default function BulletinBoard() {
   const [modalKey, setModalKey] = useState<number>(1);
   const [option, setOption] = useRecoilState(bulletinStoreState);
 
-  const { data: allOrders } = useQuery<Order[]>(
+  const { data: allOrders, refetch } = useQuery<Order[]>(
     ['allOrders', option],
     async () => {
       const {
@@ -60,7 +60,7 @@ export default function BulletinBoard() {
   return (
     <BulletinWrapper>
       <PageHeader icon1={<IconFind />} icon2={<IconCart />} title="게시판" />
-      <SearchBox />
+      <SearchBox refetch={refetch} />
       <OptionButtonComponent
         handleClickOption={handleClickOption}
         isMap={false}

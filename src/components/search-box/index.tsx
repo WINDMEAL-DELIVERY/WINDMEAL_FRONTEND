@@ -2,7 +2,7 @@
 import { getStoreList } from '@/apis/cms-store/store';
 import { AutoCompleteType, StoreListProps } from '@/types/type';
 import { AutoCompleteOption } from '@geist-ui/core/esm/auto-complete';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import {
   SearchBoxContainer,
@@ -16,12 +16,15 @@ import {
 import { GoBack, Header, Icons } from '@components/header/styles';
 import { IconCart, IconFind, IconLt } from 'public/svgs';
 import { useRouter } from 'next/router';
+import { useRecoilState } from 'recoil';
+import { bulletinStoreState } from '@/states/bulletinOption';
 
-export function SearchBox() {
+export function SearchBox({ refetch }: { refetch: () => void }) {
   const [allOptions, setAllOptions] = useState<AutoCompleteType[]>([]);
-  const [options, setOptions] = useState<AutoCompleteOption[]>([]);
+  const [searchList, setSearchList] = useState<AutoCompleteOption[]>([]); // 자동완성 리스트
   const [inputValue, setInputValue] = useState<string>('');
-  const [bulletinOption, setBulletinOption] = useState({});
+  const [bulletinOption, setBulletinOption] =
+    useRecoilState(bulletinStoreState);
   const router = useRouter();
 
   useQuery<StoreListProps[]>(
@@ -52,25 +55,36 @@ export function SearchBox() {
   const handleSearch = (currentValue: string) => {
     setInputValue(currentValue);
     if (currentValue === '') {
-      setOptions(allOptions);
+      setSearchList(allOptions);
     } else {
       const relatedOptions = allOptions.filter(item =>
         item.value.toLowerCase().includes(currentValue.toLowerCase()),
       );
-      setOptions(relatedOptions);
+      setSearchList(relatedOptions);
     }
   };
 
-  const handleSelectAutoComplete = (selectedString: string) => {
-    setInputValue(selectedString);
-    // setOptions(selectedString);
-  };
-
   const handleClickFind = () => {
+    console.log(inputValue);
+
     const newOptions = { storeCategory: inputValue };
     setBulletinOption({ ...bulletinOption, ...newOptions });
     setInputValue('');
+    setSearchList([]);
   };
+
+  const handleSelectAutoComplete = (selectedString: string) => {
+    console.log(selectedString);
+
+    const newOptions = { storeCategory: selectedString };
+    setBulletinOption({ ...bulletinOption, ...newOptions });
+    setInputValue('');
+    setSearchList([]);
+  };
+
+  useEffect(() => {
+    refetch();
+  }, [bulletinOption, refetch]);
 
   return (
     <SearchBoxContainer>
@@ -96,7 +110,7 @@ export function SearchBox() {
       </Header>
 
       <SearchListContainer>
-        {options.map((option, index) => (
+        {searchList.map((option, index) => (
           <SearchList
             key={index}
             onClick={() => handleSelectAutoComplete(option.value)}
