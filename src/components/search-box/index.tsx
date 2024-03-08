@@ -84,7 +84,7 @@ export function SearchBox({ refetch }: { refetch: () => void }) {
 
   useEffect(() => {
     refetch();
-  }, [bulletinOption, refetch]);
+  }, [refetch]);
 
   return (
     <SearchBoxContainer>
