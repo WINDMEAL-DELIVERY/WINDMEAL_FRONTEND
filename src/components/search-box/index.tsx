@@ -19,7 +19,13 @@ import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { bulletinStoreState } from '@/states/bulletinOption';
 
-export function SearchBox({ refetch }: { refetch: () => void }) {
+export function SearchBox({
+  refetch,
+  setIsSearch,
+}: {
+  refetch: () => void;
+  setIsSearch: (isSearch: boolean) => void;
+}) {
   const [allOptions, setAllOptions] = useState<AutoCompleteType[]>([]);
   const [searchList, setSearchList] = useState<AutoCompleteOption[]>([]); // 자동완성 리스트
   const [inputValue, setInputValue] = useState<string>('');
@@ -65,21 +71,19 @@ export function SearchBox({ refetch }: { refetch: () => void }) {
   };
 
   const handleClickFind = () => {
-    console.log(inputValue);
-
     const newOptions = { storeCategory: inputValue };
     setBulletinOption({ ...bulletinOption, ...newOptions });
     setInputValue('');
     setSearchList([]);
+    setIsSearch(false);
   };
 
   const handleSelectAutoComplete = (selectedString: string) => {
-    console.log(selectedString);
-
     const newOptions = { storeCategory: selectedString };
     setBulletinOption({ ...bulletinOption, ...newOptions });
     setInputValue('');
     setSearchList([]);
+    setIsSearch(false);
   };
 
   useEffect(() => {
@@ -89,7 +93,7 @@ export function SearchBox({ refetch }: { refetch: () => void }) {
   return (
     <SearchBoxContainer>
       <Header>
-        <GoBack onClick={router.back}>
+        <GoBack onClick={() => setIsSearch(false)}>
           <IconLt />
         </GoBack>
         <SearchInputWrapper>
