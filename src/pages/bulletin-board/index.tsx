@@ -21,7 +21,7 @@ import { useQuery } from 'react-query';
 import { getAllOrders } from '@/apis/order/order';
 import { Order } from '@/types/type';
 import { formatDateTime } from '@/hooks/useFormatTime';
-import AutoCompleteBox from '@/components/auto-complete-box';
+import { SearchBox } from '@/components/search-box';
 
 export default function BulletinBoard() {
   const [openBottomModal, setOpenBottomModal] = useState<number>(0);
@@ -60,7 +60,7 @@ export default function BulletinBoard() {
   return (
     <BulletinWrapper>
       <PageHeader icon1={<IconFind />} icon2={<IconCart />} title="게시판" />
-      <AutoCompleteBox />
+      <SearchBox />
       <OptionButtonComponent
         handleClickOption={handleClickOption}
         isMap={false}

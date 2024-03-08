@@ -10,10 +10,11 @@ import {
   SearchButton,
   SearchListContainer,
   SearchList,
-  SearchTopContainer,
+  SearchInputWrapper,
+  SearchListText,
 } from '@components/search-box/styles';
 import { GoBack, Header, Icons } from '@components/header/styles';
-import { IconCart, IconLt } from 'public/svgs';
+import { IconCart, IconFind, IconLt } from 'public/svgs';
 import { useRouter } from 'next/router';
 
 export function SearchBox() {
@@ -62,6 +63,7 @@ export function SearchBox() {
 
   const handleSelectAutoComplete = (selectedString: string) => {
     setInputValue(selectedString);
+    // setOptions(selectedString);
   };
 
   const handleClickFind = () => {
@@ -76,7 +78,7 @@ export function SearchBox() {
         <GoBack onClick={router.back}>
           <IconLt />
         </GoBack>
-        <SearchTopContainer>
+        <SearchInputWrapper>
           <SearchInput
             type="text"
             placeholder="가게, 키워드 검색"
@@ -84,8 +86,10 @@ export function SearchBox() {
             onChange={e => handleSearch(e.target.value)}
             onFocus={e => handleSearch(e.target.value)}
           />
-          <SearchButton onClick={handleClickFind}>Find</SearchButton>
-        </SearchTopContainer>
+          <SearchButton onClick={handleClickFind}>
+            <IconFind />
+          </SearchButton>
+        </SearchInputWrapper>
         <Icons>
           <IconCart />
         </Icons>
@@ -97,7 +101,7 @@ export function SearchBox() {
             key={index}
             onClick={() => handleSelectAutoComplete(option.value)}
           >
-            {option.label}
+            <IconFind /> <SearchListText> {option.label}</SearchListText>
           </SearchList>
         ))}
       </SearchListContainer>
