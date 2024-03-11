@@ -52,8 +52,7 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
 
   const handleClickOrder = (storeID: string) => {
     router.push({
-      pathname: `/어디`,
-      query: { storeId: storeID },
+      pathname: `/store/${storeID}`,
     });
   };
 
