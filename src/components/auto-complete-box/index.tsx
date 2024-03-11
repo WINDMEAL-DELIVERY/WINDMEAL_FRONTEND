@@ -2,6 +2,7 @@ import { useState } from 'react';
 import {
   CustomAutoComplete,
   Wrapper,
+  dropdownStyles,
 } from '@components/auto-complete-box/styles';
 import { AutoCompleteOption } from '@geist-ui/core/esm/auto-complete';
 import { IconFind } from 'public/svgs';
@@ -76,6 +77,7 @@ export default function AutoCompleteBox() {
         onSearch={handleSearch}
         onSelect={handleSelectAutoComplete}
         width="10rem"
+        dropdownStyle={dropdownStyles}
       >
         <AutoComplete.Empty hidden />
       </CustomAutoComplete>
