@@ -40,13 +40,13 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
 
   const router = useRouter();
 
-  const handleClickDelivery = (storeID: number) => {
+  const handleClickDelivery = (storeName: string) => {
     router.push('/bulletin-board');
     setBulletinOption({
-      storeId: storeID,
+      storeId: mapOption.storeId,
       placeId: mapOption.placeId,
       eta: mapOption.eta,
-      storeCategory: mapOption.storeCategory,
+      storeCategory: storeName,
     });
   };
 
@@ -79,7 +79,7 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
           <StoreButtonContainer>
             <DeliveryButton>
               <DeliveryButtonText
-                onClick={() => handleClickDelivery(storeInfo.storeId)}
+                onClick={() => handleClickDelivery(storeInfo.name)}
               >
                 배달하기
               </DeliveryButtonText>
