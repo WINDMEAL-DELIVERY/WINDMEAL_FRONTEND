@@ -35,7 +35,7 @@ export interface GuideMessageType {
 //   name: string;
 // }
 
-export interface Delivery {
+export interface MyDelivery {
   deliveryId: number;
   orderId: number;
   deliveryStatus: string;
@@ -46,9 +46,26 @@ export interface Delivery {
   storeName: string;
 }
 
+export interface MyOrder {
+  orderId: number;
+  orderStatus: string;
+  summary: string;
+  description: string;
+  destinationName: string;
+  nickName: string;
+  storeName: string;
+}
+
 export interface StoreCategoryTag {
   value: string;
   label: string;
+  storeId?: number;
+}
+
+export interface AutoCompleteType {
+  value: string;
+  label: string;
+  storeId: number;
 }
 
 export interface AddStoreProps {
@@ -72,18 +89,10 @@ export interface MenuCategory {
 
 export interface StoreProp {
   storeId: number;
-  name: string;
-  phoneNumber?: string;
-  photo?: string;
-  openTime?: string;
-  closeTime?: string;
-  location: {
-    x: number;
-    y: number;
-  };
-  menuCategories?: MenuCategory[];
-  open?: boolean;
-  requests?: number;
+  longitude: number;
+  latitude: number;
+  orderCount: number;
+  storeName: string;
 }
 
 export interface MenuCategoryParameter {
@@ -124,7 +133,7 @@ export interface StoreCategory {
 }
 
 export interface StoreIdProp {
-  storeId?: number;
+  storeId: number;
 }
 
 export interface StoreCategorySpec {
@@ -166,4 +175,25 @@ export interface ReportContent {
 export interface MarkerIcon {
   name: string;
   requests: number | undefined;
+}
+
+export interface BottomModalProps {
+  content: React.ReactNode;
+}
+
+export interface headerBar {
+  isHeaderBar?: boolean;
+  onCloseModal?: () => void;
+}
+
+export interface MapStoreProps {
+  storeId?: number;
+  placeId?: number;
+  eta?: string;
+  storeCategory?: string;
+  isOpen?: boolean;
+}
+
+export interface StoreTypeInterface {
+  submitOption: (newOptions?: object) => void;
 }

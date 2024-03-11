@@ -11,7 +11,13 @@ import { requestInterceptor } from '@apis/headerTokenApi/Interceptors';
 import { ReactQueryDevtools } from 'react-query/devtools';
 
 export default function App({ Component, pageProps }: AppProps) {
-  const queryClient = new QueryClient();
+  const queryClient = new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  });
   const redirectToLogin = useRedirect('login');
 
   // 요청 전에 토큰 확인해서 보내기

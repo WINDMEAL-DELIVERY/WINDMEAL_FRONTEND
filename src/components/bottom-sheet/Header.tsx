@@ -1,10 +1,10 @@
+import { headerBar } from '@/types/type';
 import styled from 'styled-components';
 
 const HeaderWrapper = styled.div`
   height: 1.13rem;
   position: relative;
   padding-top: 0.56rem;
-  // padding-bottom: 1.13rem;
 `;
 
 const Handle = styled.div`
@@ -16,10 +16,6 @@ const Handle = styled.div`
   margin: auto;
 `;
 
-export default function Header() {
-  return (
-    <HeaderWrapper>
-      <Handle />
-    </HeaderWrapper>
-  );
+export default function Header({ isHeaderBar = false }: headerBar) {
+  return <HeaderWrapper>{isHeaderBar ? <Handle /> : null}</HeaderWrapper>;
 }

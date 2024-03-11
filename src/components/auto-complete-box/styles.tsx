@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { AutoComplete } from '@geist-ui/core';
 
 export const Wrapper = styled.div`
   border: none;
@@ -17,5 +18,11 @@ export const Wrapper = styled.div`
 
   & * {
     border: none;
+  }
+`;
+
+export const CustomAutoComplete = styled(AutoComplete)`
+  .input-wrapper {
+    border: none !important;
   }
 `;
