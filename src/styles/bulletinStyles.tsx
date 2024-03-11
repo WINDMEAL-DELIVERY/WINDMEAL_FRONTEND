@@ -50,6 +50,7 @@ export const BulletinListInfoContainer = styled.div`
 
 export const BulletinListInfoText = styled.p`
   color: var(--SubText, #696e82);
+  cursor: pointer;
 
   /* Sub */
   font-family: 'Noto Sans KR';

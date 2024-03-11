@@ -53,6 +53,7 @@ export const SearchList = styled.li`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
+  cursor: pointer;
 `;
 
 export const SearchListText = styled.p`

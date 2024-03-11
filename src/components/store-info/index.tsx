@@ -40,10 +40,10 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
 
   const router = useRouter();
 
-  const handleClickDelivery = () => {
+  const handleClickDelivery = (storeID: number) => {
     router.push('/bulletin-board');
     setBulletinOption({
-      storeId: mapOption.storeId,
+      storeId: storeID,
       placeId: mapOption.placeId,
       eta: mapOption.eta,
       storeCategory: mapOption.storeCategory,
@@ -79,7 +79,9 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
           <StoreImgContainer />
           <StoreButtonContainer>
             <DeliveryButton>
-              <DeliveryButtonText onClick={handleClickDelivery}>
+              <DeliveryButtonText
+                onClick={() => handleClickDelivery(storeInfo.storeId)}
+              >
                 배달하기
               </DeliveryButtonText>
             </DeliveryButton>

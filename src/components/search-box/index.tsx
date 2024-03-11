@@ -15,7 +15,6 @@ import {
 } from '@components/search-box/styles';
 import { GoBack, Header, Icons } from '@components/header/styles';
 import { IconCart, IconFind, IconLt } from 'public/svgs';
-import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import { bulletinStoreState } from '@/states/bulletinOption';
 
@@ -31,7 +30,6 @@ export function SearchBox({
   const [inputValue, setInputValue] = useState<string>('');
   const [bulletinOption, setBulletinOption] =
     useRecoilState(bulletinStoreState);
-  const router = useRouter();
 
   useQuery<StoreListProps[]>(
     ['storeNameList'],
