@@ -174,7 +174,7 @@ export const ChatBottomDiv = styled.div`
 export const ChatInputDiv = styled.textarea`
   background-color: #f2f4ff;
   width: 248px;
-  border-radius: 30px;
+  border-radius: 1rem;
   padding: 0.5rem 1rem;
   resize: none;
 
