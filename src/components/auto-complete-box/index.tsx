@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   CustomAutoComplete,
   Wrapper,
@@ -54,18 +54,18 @@ export default function AutoCompleteBox() {
     return setOptions(relatedOptions);
   };
 
-  const handleSelectAutoComplete = (selectedString: string) => {
-    setInputValue(selectedString);
-  };
-
-  const handleClickFind = () => {
-    const newOptions = { storeCategory: inputValue };
+  const handleClickFind = (selectedString?: string) => {
+    const categoryValue = selectedString || inputValue;
+    const newOptions = { storeCategory: categoryValue };
     setOption({
       ...option,
       ...newOptions,
     });
-    setInputValue('');
   };
+
+  useEffect(() => {
+    setInputValue('');
+  }, [option]);
 
   return (
     <Wrapper>
@@ -75,13 +75,16 @@ export default function AutoCompleteBox() {
         value={inputValue}
         crossOrigin="anonymous"
         onSearch={handleSearch}
-        onSelect={handleSelectAutoComplete}
+        onSelect={storeName => handleClickFind(storeName)}
         width="10rem"
         dropdownStyle={dropdownStyles}
       >
         <AutoComplete.Empty hidden />
       </CustomAutoComplete>
-      <IconFind onClick={handleClickFind} style={{ cursor: 'pointer' }} />
+      <IconFind
+        onClick={() => handleClickFind()}
+        style={{ cursor: 'pointer' }}
+      />
     </Wrapper>
   );
 }
