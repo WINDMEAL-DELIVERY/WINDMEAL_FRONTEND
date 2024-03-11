@@ -21,25 +21,23 @@ import {
   OpponentImage,
 } from '@styles/chatIdStyles';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { ChattingMessageProps } from '@type/chattingType';
 import { getChattingMessage, getImageUrl } from '@apis/chatting/chatting';
 import { useEffect, useRef, useState } from 'react';
 import { getCookie } from 'cookies-next';
 import { useLocation } from 'react-use';
 import * as StompJs from '@stomp/stompjs';
-import {
-  IconAlarm,
-  IconDots,
-  IconImage,
-  IconLt,
-  IconSend,
-} from '../../../../public/svgs';
+import { IconAlarm, IconDots, IconImage, IconLt, IconSend } from 'public/svgs';
 
 interface ChatClient {
   activate: () => void;
   connected: boolean;
-  publish: (params: StompJs.IPublishParams) => void;
+  publish: (params: {
+    headers: { Authorization: string };
+    destination: `/pub/chat.message.${string}`;
+    body: string;
+  }) => void;
   subscribe: (
     destination: string,
     callback: (message: StompJs.Message) => void,
@@ -76,6 +74,7 @@ function ChatRoom() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (scrollRef.current && flag) {
@@ -84,11 +83,12 @@ function ChatRoom() {
   }, [flag]);
 
   useQuery<ChattingMessageProps[]>(
-    ['chatting'],
+    ['chatting', chatroomId],
     () => {
       return getChattingMessage(chatroomId);
     },
     {
+      enabled: !!chatroomId,
       onSuccess: chatMessage => {
         console.log(chatMessage);
         if (!chatMessages) setFlag(true);
@@ -159,6 +159,7 @@ function ChatRoom() {
 
   const onClickMessageHandler = async () => {
     const token: string = (await getCookie('token')) || '';
+    console.log(text);
     if (token && text) {
       client.current.publish({
         destination: `/pub/chat.message.${chatroomId}`,
@@ -171,7 +172,15 @@ function ChatRoom() {
           message: text,
         }),
       });
-      setText('');
+    }
+    setText('');
+    queryClient.invalidateQueries('chatting');
+  };
+
+  const onKeyUp = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      console.log('enter');
+      onClickMessageHandler();
     }
   };
 
@@ -213,6 +222,7 @@ function ChatRoom() {
           }),
         });
       }
+      await queryClient.invalidateQueries('chatting');
     }
   }
 
@@ -312,6 +322,7 @@ function ChatRoom() {
           placeholder="메시지 보내기"
           value={text}
           onChange={saveUserText}
+          onKeyUp={onKeyUp}
         />
         <IconSend onClick={onClickMessageHandler} />
       </ChatBottomDiv>

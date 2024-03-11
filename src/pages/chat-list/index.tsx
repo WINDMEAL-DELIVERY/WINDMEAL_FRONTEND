@@ -23,7 +23,7 @@ import { getChattingList } from '@apis/chatting/chatting';
 import { useState } from 'react';
 import { ChattingListProps } from '@type/chattingType';
 import { useRouter } from 'next/router';
-import { IconLt } from '../../../public/svgs';
+import { IconLt } from 'public/svgs';
 
 export default function ChatList() {
   const [chattingRooms, setChattingRooms] = useState<ChattingListProps[]>([]);

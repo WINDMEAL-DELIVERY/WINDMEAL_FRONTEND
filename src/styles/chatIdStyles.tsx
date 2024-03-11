@@ -92,7 +92,7 @@ export const OpponentMessageDiv = styled.div`
   flex-direction: row;
   justify-content: start;
 
-  &:not(:last-child) {
+  &:not(:first-child) {
     margin-bottom: 1rem;
   }
 `;
@@ -140,7 +140,7 @@ export const MyMessageDiv = styled.div`
   flex-direction: column;
   align-items: end;
 
-  &:not(:last-child) {
+  &:not(:first-child) {
     margin-bottom: 1rem;
   }
 `;
