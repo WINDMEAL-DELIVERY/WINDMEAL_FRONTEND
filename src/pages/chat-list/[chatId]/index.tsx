@@ -180,7 +180,6 @@ function ChatRoom() {
     if (client.current.connected) return;
     console.log('호출됨');
     connect();
-    console.log(ErrorModalOpen);
   }, [pathname]);
 
   const onClickMessageHandler = async () => {
