@@ -41,6 +41,7 @@ import {
 import { useRecoilState } from 'recoil';
 import { ErrorModalState } from '@/states/chat';
 import Modal from 'react-modal';
+import ReactHtmlParser from 'react-html-parser';
 
 interface ChatClient {
   activate: () => void;
@@ -319,7 +320,11 @@ function ChatRoom() {
                     {isImage ? (
                       <MyImage src={message.message} />
                     ) : (
-                      <MyMessage>{message.message}</MyMessage>
+                      <MyMessage>
+                        {ReactHtmlParser(
+                          message.message.replace(/\n/g, '<br/>'),
+                        )}
+                      </MyMessage>
                     )}
                     <MyTimeStamp>
                       {formatDateTime(message.sendTime)}
@@ -340,7 +345,11 @@ function ChatRoom() {
                     {isImage ? (
                       <OpponentImage src={message.message} />
                     ) : (
-                      <OpponentMessage>{message.message}</OpponentMessage>
+                      <OpponentMessage>
+                        {ReactHtmlParser(
+                          message.message.replace(/\n/g, '<br/>'),
+                        )}
+                      </OpponentMessage>
                     )}
                     <OpponentTimeStamp>
                       {formatDateTime(message.sendTime)}
