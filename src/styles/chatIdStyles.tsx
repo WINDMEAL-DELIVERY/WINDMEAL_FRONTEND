@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ReactModal from 'react-modal';
 
 export const ChatWrapper = styled.div`
   height: 100vh;
@@ -185,4 +186,37 @@ export const ChatInputDiv = styled.textarea`
   &::-webkit-scrollbar-thumb {
     background-color: transparent; /* 스크롤바 색상 */
   }
+`;
+
+export const OpenModalStyle: ReactModal.Styles = {
+  overlay: {
+    backgroundColor: ' rgba(0, 0, 0, 0.4)',
+    width: '100%',
+    height: '100vh',
+    zIndex: '10',
+    position: 'fixed',
+    top: '0',
+    left: '0',
+  },
+  content: {
+    width: '17.5rem',
+    height: '10.5rem',
+    zIndex: '150',
+    position: 'absolute',
+    top: '40%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'white',
+    overflow: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: '1rem',
+  },
+};
+
+export const IconNMessage = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
+  gap: 1rem;
 `;

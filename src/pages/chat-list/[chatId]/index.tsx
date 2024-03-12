@@ -19,6 +19,8 @@ import {
   TimeStamp,
   MyImage,
   OpponentImage,
+  OpenModalStyle,
+  IconNMessage,
 } from '@styles/chatIdStyles';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -28,7 +30,17 @@ import { getChattingMessage, getImageUrl } from '@apis/chatting/chatting';
 import { getCookie } from 'cookies-next';
 import { useLocation } from 'react-use';
 import * as StompJs from '@stomp/stompjs';
-import { IconAlarm, IconDots, IconImage, IconLt, IconSend } from 'public/svgs';
+import {
+  ErrorIcon,
+  IconAlarm,
+  IconDots,
+  IconImage,
+  IconLt,
+  IconSend,
+} from 'public/svgs';
+import { useRecoilState } from 'recoil';
+import { ErrorModalState } from '@/states/chat';
+import Modal from 'react-modal';
 
 interface ChatClient {
   activate: () => void;
@@ -79,6 +91,7 @@ function ChatRoom() {
   const [text, setText] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+  const [ErrorModalOpen, setErrorModalOpen] = useRecoilState(ErrorModalState);
 
   useEffect(() => {
     if (scrollRef.current && flag) {
@@ -141,6 +154,7 @@ function ChatRoom() {
           // ex : 커넥션을 맺은 후 채팅을 보내다 토큰이 만료 됐을때
           console.error('STOMP 에러 발생');
           console.error('STOMP Error:', frame.headers.message);
+          setErrorModalOpen(true);
         },
         onDisconnect: () => {
           console.error('연결끊김');
@@ -150,6 +164,7 @@ function ChatRoom() {
         onWebSocketError: event => {
           // ex : 애초에 토큰이 만료된 상태로 커넥션을 시도할때
           console.error('웹소켓 에러발생', event);
+          setErrorModalOpen(true);
         },
       });
     }
@@ -165,6 +180,7 @@ function ChatRoom() {
     if (client.current.connected) return;
     console.log('호출됨');
     connect();
+    console.log(ErrorModalOpen);
   }, [pathname]);
 
   const onClickMessageHandler = async () => {
@@ -245,8 +261,28 @@ function ChatRoom() {
     }
   };
 
+  const DirectToChatListPage = () => {
+    setErrorModalOpen(false);
+    router.replace('/chat-list');
+  };
+
+  useEffect(() => {
+    if (ErrorModalOpen) {
+      setTimeout(() => {
+        DirectToChatListPage();
+      }, 3000);
+    }
+  }, [ErrorModalOpen]);
+
   return (
     <ChatWrapper>
+      <Modal isOpen={ErrorModalOpen} style={OpenModalStyle}>
+        <IconNMessage>
+          <ErrorIcon />
+          채팅 오류
+        </IconNMessage>
+        <div>채팅방 리스트 페이지로 넘어갑니다..</div>
+      </Modal>
       <Header>
         <GoBack onClick={goBack}>
           <IconLt />
