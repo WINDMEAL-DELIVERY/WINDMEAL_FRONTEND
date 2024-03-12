@@ -174,7 +174,8 @@ export const MyMessageDiv = styled.div`
 `;
 
 export const MyMessage = styled.div`
-  padding: 1rem;
+  padding: 0.625rem 0.9375rem;
+  gap: 0.5rem;
   background-color: #5776b9;
   color: white;
   font-family: 'Noto Sans KR';
