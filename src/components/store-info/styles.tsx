@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import styled from 'styled-components';
 
 export const StoreInfoContainer = styled.div`
@@ -23,16 +22,13 @@ export const StoreSecondContainer = styled.div`
 export const StoreImgContainer = styled.div`
   display: flex;
   flex-direction: row;
-  // background-color: #f2f4ff;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f4ff;
   width: 20.5rem;
   height: 5.9rem;
 
   margin-bottom: 1rem;
-`;
-
-export const StoreImg = styled(Image)`
-  width: 3rem;
-  height: 3rem;
 `;
 
 export const StoreButtonContainer = styled.div`
