@@ -5,6 +5,12 @@ export const StoreInfoContainer = styled.div`
   flex-direction: column;
 `;
 
+export const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 5rem;
+`;
+
 export const StoreTopContainer = styled.div`
   display: flex;
   flex-direction: row;

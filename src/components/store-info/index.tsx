@@ -13,9 +13,11 @@ import {
   DeliveryButtonText,
   OrderButton,
   OrderButtonText,
+  LoadingContainer,
 } from '@components/store-info/styles';
 import { useQuery } from 'react-query';
 import StoreImage from '@components/image-with-fallback';
+import { IconLoading } from 'public/svgs';
 
 export default function StoreInfo({ storeId }: StoreIdProp) {
   const { data: storeInfo, isLoading } = useQuery(
@@ -35,7 +37,9 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
   return (
     <StoreInfoContainer>
       {isLoading ? (
-        <>로딩 중</>
+        <LoadingContainer>
+          <IconLoading />
+        </LoadingContainer>
       ) : (
         <>
           <StoreTopContainer>
