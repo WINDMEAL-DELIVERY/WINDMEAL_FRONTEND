@@ -13,8 +13,11 @@ import {
   DeliveryButtonText,
   OrderButton,
   OrderButtonText,
+  StoreImg,
 } from '@components/store-info/styles';
 import { useQuery } from 'react-query';
+import defaultImg from 'public/kakao.png';
+import { useState } from 'react';
 
 export default function StoreInfo({ storeId }: StoreIdProp) {
   const { data: storeInfo, isLoading } = useQuery(
@@ -30,6 +33,8 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
       onError: err => console.log('error', err),
     },
   );
+
+  const [isImgError, setIsImgError] = useState<boolean>(false);
 
   return (
     <StoreInfoContainer>
@@ -50,7 +55,20 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
                 : `${storeInfo.openTime.slice(0, 5)}에 영업 시작`}
             </StoreTime>
           </StoreSecondContainer>
-          <StoreImgContainer />
+          <StoreImgContainer>
+            <StoreImg
+              src={
+                isImgError
+                  ? defaultImg
+                  : `${process.env.NEXT_PUBLIC_IMAGE_URL}${storeInfo.photo}`
+              }
+              onError={() => setIsImgError(true)}
+              alt="image"
+              layout="fixed"
+              width={3}
+              height={3}
+            />
+          </StoreImgContainer>
           <StoreButtonContainer>
             <DeliveryButton>
               <DeliveryButtonText>배달하기</DeliveryButtonText>
