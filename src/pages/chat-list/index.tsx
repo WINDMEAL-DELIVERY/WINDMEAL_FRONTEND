@@ -18,9 +18,9 @@ import {
   UpdateNums,
   LastMessage,
 } from '@styles/chat-listStyle';
-import { useInfiniteQuery, useQuery } from 'react-query';
-import { getChattingList, getChattingMessage } from '@apis/chatting/chatting';
-import { useEffect, useState } from 'react';
+import { useInfiniteQuery } from 'react-query';
+import { getChattingList } from '@apis/chatting/chatting';
+import { useEffect } from 'react';
 import { ChattingListProps } from '@type/chattingType';
 import { useRouter } from 'next/router';
 import { IconLt } from 'public/svgs';
