@@ -24,8 +24,7 @@ import {
 } from '@styles/chatIdStyles';
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { useQuery, useQueryClient } from 'react-query';
-import { ChattingMessageProps } from '@type/chattingType';
+import { useInfiniteQuery, useQueryClient } from 'react-query';
 import { getChattingMessage, getImageUrl } from '@apis/chatting/chatting';
 import { getCookie } from 'cookies-next';
 import { useLocation } from 'react-use';
@@ -40,8 +39,9 @@ import {
 } from 'public/svgs';
 import { useRecoilState } from 'recoil';
 import { ErrorModalState } from '@/states/chat';
-import Modal from 'react-modal';
 import ReactHtmlParser from 'react-html-parser';
+import Modal from 'react-modal';
+import { useInView } from 'react-intersection-observer';
 
 interface ChatClient {
   activate: () => void;
@@ -86,7 +86,6 @@ function ChatRoom() {
     opponentAlarmToken: string;
     orderId: string;
   };
-  const [chatMessages, setChatMessages] = useState<ChattingMessageProps[]>();
   const [flag, setFlag] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const [text, setText] = useState('');
@@ -100,20 +99,38 @@ function ChatRoom() {
     }
   }, [flag]);
 
-  useQuery<ChattingMessageProps[]>(
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
     ['chatting', chatroomId],
-    () => {
-      return getChattingMessage(chatroomId);
+    ({ pageParam = 0 }) => {
+      return getChattingMessage(chatroomId, pageParam);
     },
     {
       enabled: !!chatroomId,
-      onSuccess: chatMessage => {
-        if (!chatMessages) setFlag(true);
-        setChatMessages(chatMessage);
+      onSuccess: fetchedData => {
+        const ChatMessages = fetchedData.pages[0].messages.flat();
+        if (!ChatMessages) setFlag(true);
+      },
+      getNextPageParam: currentData => {
+        if (currentData.isLastPage) {
+          return undefined;
+        }
+        return currentData.pageNumber + 1;
       },
       onError: err => console.log('chatMessage Error', err),
     },
   );
+
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isLoading) {
+      fetchNextPage().catch(error => {
+        console.error(error);
+      });
+    }
+  }, [inView, hasNextPage, isLoading, fetchNextPage]);
 
   function formatDateTime(dateTimeString: string) {
     const inputDate = new Date(dateTimeString);
@@ -293,75 +310,78 @@ function ChatRoom() {
           <IconDots />
         </Icons>
       </Header>
-      <ChattingHistory ref={scrollRef} key={chatroomId}>
-        {chatMessages ? (
-          chatMessages.map((message, index) => {
-            const nextMessage = chatMessages[index - 1];
-            const nextMessageDate =
-              index !== 0 ? new Date(nextMessage.sendTime) : new Date();
+      <ChattingHistory ref={scrollRef}>
+        {data?.pages ? (
+          data?.pages
+            .flatMap(page => page.messages)
+            .map((message, index, messages) => {
+              const nextMessage = messages[index - 1];
+              const nextMessageDate =
+                index !== 0 ? new Date(nextMessage.sendTime) : new Date();
 
-            const isNewDate =
-              index === 0
-                ? false
-                : !isSameDay(
-                    new Date(message.sendTime),
-                    new Date(nextMessage.sendTime),
-                  );
+              const isNewDate =
+                index === 0
+                  ? false
+                  : !isSameDay(
+                      new Date(message.sendTime),
+                      new Date(nextMessage.sendTime),
+                    );
 
-            const isImage = message.messageType === 'IMAGE';
+              const isImage = message.messageType === 'IMAGE';
 
-            if (message.fromMe) {
+              if (message.fromMe) {
+                return (
+                  <>
+                    {isNewDate && (
+                      <TimeStamp>{formatTimeStamp(nextMessageDate)}</TimeStamp>
+                    )}
+                    <MyMessageDiv key={message.messageId}>
+                      {isImage ? (
+                        <MyImage src={message.message} />
+                      ) : (
+                        <MyMessage>
+                          {ReactHtmlParser(
+                            message.message.replace(/\n/g, '<br/>'),
+                          )}
+                        </MyMessage>
+                      )}
+                      <MyTimeStamp>
+                        {formatDateTime(message.sendTime)}
+                      </MyTimeStamp>
+                    </MyMessageDiv>
+                  </>
+                );
+              }
               return (
                 <>
                   {isNewDate && (
                     <TimeStamp>{formatTimeStamp(nextMessageDate)}</TimeStamp>
                   )}
-                  <MyMessageDiv key={message.messageId}>
-                    {isImage ? (
-                      <MyImage src={message.message} />
-                    ) : (
-                      <MyMessage>
-                        {ReactHtmlParser(
-                          message.message.replace(/\n/g, '<br/>'),
-                        )}
-                      </MyMessage>
-                    )}
-                    <MyTimeStamp>
-                      {formatDateTime(message.sendTime)}
-                    </MyTimeStamp>
-                  </MyMessageDiv>
+                  <OpponentMessageDiv key={message.messageId}>
+                    <OpponentProfileImage src={opponentProfileImage} />
+                    <OpponentNicknameNMessageInfo>
+                      <OpponentNickName>{opponentNickname}</OpponentNickName>
+                      {isImage ? (
+                        <OpponentImage src={message.message} />
+                      ) : (
+                        <OpponentMessage>
+                          {ReactHtmlParser(
+                            message.message.replace(/\n/g, '<br/>'),
+                          )}
+                        </OpponentMessage>
+                      )}
+                      <OpponentTimeStamp>
+                        {formatDateTime(message.sendTime)}
+                      </OpponentTimeStamp>
+                    </OpponentNicknameNMessageInfo>
+                  </OpponentMessageDiv>
                 </>
               );
-            }
-            return (
-              <>
-                {isNewDate && (
-                  <TimeStamp>{formatTimeStamp(nextMessageDate)}</TimeStamp>
-                )}
-                <OpponentMessageDiv key={message.messageId}>
-                  <OpponentProfileImage src={opponentProfileImage} />
-                  <OpponentNicknameNMessageInfo>
-                    <OpponentNickName>{opponentNickname}</OpponentNickName>
-                    {isImage ? (
-                      <OpponentImage src={message.message} />
-                    ) : (
-                      <OpponentMessage>
-                        {ReactHtmlParser(
-                          message.message.replace(/\n/g, '<br/>'),
-                        )}
-                      </OpponentMessage>
-                    )}
-                    <OpponentTimeStamp>
-                      {formatDateTime(message.sendTime)}
-                    </OpponentTimeStamp>
-                  </OpponentNicknameNMessageInfo>
-                </OpponentMessageDiv>
-              </>
-            );
-          })
+            })
         ) : (
           <div />
         )}
+        {hasNextPage && <div ref={ref} />}
       </ChattingHistory>
       <ChatBottomDiv>
         <div>

@@ -32,15 +32,25 @@ export const getChattingList = async () => {
   }));
 };
 
-export const getChattingMessage = async (chatroomId: string) => {
-  const { data } = await ChatInstance.get(`/chat/${chatroomId}`);
+export const getChattingMessage = async (
+  chatroomId: string,
+  pageParam: number,
+) => {
+  const { data } = await ChatInstance.get(
+    `/chat/${chatroomId}?page=${pageParam}`,
+  );
 
-  return data.data.chatMessageSpecResponses.content.map(
+  const messages = data.data.chatMessageSpecResponses.content.map(
     (chatMessage: ChattingMessageProps) => ({
       ...chatMessage,
       sendTime: formattedTimeZone(chatMessage.sendTime),
     }),
   );
+
+  const isLastPage = data.data.chatMessageSpecResponses.last;
+  const pageNumber = data.data.chatMessageSpecResponses.number;
+
+  return { messages, isLastPage, pageNumber };
 };
 
 export const getImageUrl = async (formData: FormData) => {
