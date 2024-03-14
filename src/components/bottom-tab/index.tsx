@@ -5,11 +5,8 @@ export default function BottomTab() {
   const router = useRouter();
   return (
     <Wrapper>
-      <NavItem
-        href="/bulletin-board"
-        $isActive={router.pathname === '/bulletin-board'}
-      >
-        게시글
+      <NavItem href="/order-list" $isActive={router.pathname === '/order-list'}>
+        주문목록
       </NavItem>
       <NavItem href="/main" $isActive={router.pathname === '/main'}>
         홈

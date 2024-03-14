@@ -41,7 +41,7 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
   const router = useRouter();
 
   const handleClickDelivery = (storeName: string) => {
-    router.push('/bulletin-board');
+    router.push('/order-list');
     setBulletinOption({
       storeId: mapOption.storeId,
       placeId: mapOption.placeId,
