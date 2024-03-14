@@ -15,6 +15,7 @@ import IconDown from './down.svg';
 import IconFind from './find.svg';
 import IconCart from './cart.svg';
 import IconCheck from './check.svg';
+import ErrorIcon from './ErrorIcon.svg';
 
 export {
   UponLogoImage,
@@ -34,4 +35,5 @@ export {
   IconFind,
   IconCart,
   IconCheck,
+  ErrorIcon,
 };

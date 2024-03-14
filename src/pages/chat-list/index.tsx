@@ -18,29 +18,44 @@ import {
   UpdateNums,
   LastMessage,
 } from '@styles/chat-listStyle';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import { getChattingList } from '@apis/chatting/chatting';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { ChattingListProps } from '@type/chattingType';
 import { useRouter } from 'next/router';
 import { IconLt } from 'public/svgs';
+import { useInView } from 'react-intersection-observer';
 
 export default function ChatList() {
-  const [chattingRooms, setChattingRooms] = useState<ChattingListProps[]>([]);
   const router = useRouter();
 
-  useQuery<ChattingListProps[]>(
+  const { data, fetchNextPage, hasNextPage, isLoading } = useInfiniteQuery(
     ['chattingList'],
-    () => {
-      return getChattingList();
+    ({ pageParam = 1 }) => {
+      return getChattingList(pageParam);
     },
     {
-      onSuccess: chattingList => {
-        setChattingRooms(chattingList);
+      getNextPageParam: currentData => {
+        if (currentData.isLastPage) {
+          return undefined;
+        }
+        return currentData.pageNumber + 1;
       },
-      onError: err => console.log('chattingList Error', err),
+      onError: err => console.log('chatMessage Error', err),
     },
   );
+
+  const { ref, inView } = useInView({
+    threshold: 0,
+  });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isLoading) {
+      fetchNextPage().catch(error => {
+        console.error(error);
+      });
+    }
+  }, [inView, hasNextPage, isLoading, fetchNextPage]);
 
   function formatDateTime(dateTimeString: string) {
     const inputDate = new Date(dateTimeString);
@@ -103,11 +118,12 @@ export default function ChatList() {
         <Title>채팅</Title>
       </Header>
       <ChattingList>
-        {!chattingRooms ? (
+        {!data?.pages ? (
           <div>채팅방이 없습니다.</div>
         ) : (
-          <>
-            {chattingRooms.map(chatRoom => (
+          data?.pages
+            .flatMap(page => page.chatList)
+            .map(chatRoom => (
               <Chat
                 key={chatRoom.chatroomId}
                 onClick={() => handleChatClick(chatRoom)}
@@ -134,16 +150,14 @@ export default function ChatList() {
                         <UpdateNums>
                           {chatRoom.uncheckedMessageCount}
                         </UpdateNums>
-                      ) : (
-                        <div />
-                      )}
+                      ) : null}
                     </Update>
                   </ChattingNUpdate>
                 </ChattingInfoFrame>
               </Chat>
-            ))}
-          </>
+            ))
         )}
+        {hasNextPage && <div ref={ref} />}
       </ChattingList>
       <BottomTab />
     </Wrapper>

@@ -1,8 +1,9 @@
 import styled from 'styled-components';
+import ReactModal from 'react-modal';
 
 export const ChatWrapper = styled.div`
   height: 100vh;
-  overflow: hidden;
+  overflow: auto;
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -29,7 +30,8 @@ export const Header = styled.div`
   box-sizing: border-box;
   flex-direction: row;
   align-items: center;
-  height: 4rem;
+  width: 22.5rem;
+  height: 3.5rem;
   padding: 0 2rem;
   gap: 3rem;
   font-size: large;
@@ -54,11 +56,18 @@ export const Header = styled.div`
 
 export const GoBack = styled.button`
   cursor: pointer;
+  width: 1.5rem;
+  height: 1.5rem;
 `;
 
 export const OppositeNickName = styled.span`
-  font-weight: bold;
-  width: 60%;
+  width: 12.9375rem;
+  font-family: 'Noto Sans KR';
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.025rem;
 `;
 
 export const Icons = styled.div`
@@ -84,6 +93,12 @@ export const TimeStamp = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
+  font-family: 'Noto Sans KR';
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.01875rem;
 `;
 
 export const OpponentMessageDiv = styled.div`
@@ -91,19 +106,15 @@ export const OpponentMessageDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: start;
-
-  &:not(:first-child) {
-    margin-bottom: 1rem;
-  }
 `;
 
 export const OpponentProfileImage = styled.div<{ src: string }>`
   background-image: ${({ src }) => `url(${src})`};
   background-size: cover;
   background-position: center;
-  border-radius: 100%;
-  width: 40px;
-  height: 40px;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 2.5rem;
 `;
 
 export const OpponentNicknameNMessageInfo = styled.div`
@@ -114,13 +125,28 @@ export const OpponentNicknameNMessageInfo = styled.div`
 `;
 
 export const OpponentNickName = styled.div`
-  font-weight: bold;
+  ont-family: 'Noto Sans KR';
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.025rem;
 `;
 
 export const OpponentMessage = styled.div`
-  padding: 1rem;
+  display: flex;
+  padding: 0.625rem 0.9375rem;
+  align-items: flex-start;
+  gap: 0.5rem;
+  align-self: stretch;
   background-color: #f2f4ff;
-  border-radius: 0 1rem 1rem 1rem;
+  border-radius: 0 0.625rem 0.625rem 0.625rem;
+  font-family: 'Noto Sans KR';
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.025rem;
 `;
 
 export const OpponentImage = styled.img`
@@ -132,23 +158,32 @@ export const OpponentTimeStamp = styled.div`
   color: #a8b1ce;
   justify-content: flex-end;
   display: flex;
+  font-family: 'Source Sans Pro';
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 
 export const MyMessageDiv = styled.div`
-  width: 100%;
   display: flex;
+  padding: 0.625rem 0.9375rem;
   flex-direction: column;
-  align-items: end;
-
-  &:not(:first-child) {
-    margin-bottom: 1rem;
-  }
+  align-items: flex-end;
+  gap: 0.5rem;
 `;
 
 export const MyMessage = styled.div`
-  padding: 1rem;
+  padding: 0.625rem 0.9375rem;
+  gap: 0.5rem;
   background-color: #5776b9;
   color: white;
+  font-family: 'Noto Sans KR';
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.025rem;
   border-radius: 1rem 0 1rem 1rem;
 `;
 
@@ -158,9 +193,12 @@ export const MyImage = styled.img`
 `;
 
 export const MyTimeStamp = styled.div`
+  font-family: 'Source Sans Pro';
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
   color: #a8b1ce;
-  margin-left: 0.5rem;
-  margin-top: 0.3rem;
 `;
 
 export const ChatBottomDiv = styled.div`
@@ -169,11 +207,56 @@ export const ChatBottomDiv = styled.div`
   justify-content: space-evenly;
   align-items: center;
   padding: 1vh;
+  height: 3.5rem;
 `;
 
-export const ChatInputDiv = styled.input`
+export const ChatInputDiv = styled.textarea`
   background-color: #f2f4ff;
-  width: 248px;
-  border-radius: 30px;
+  width: 15.5rem;
+  height: 2.5rem;
+  border-radius: 1rem;
   padding: 0.5rem 1rem;
+  resize: none;
+  font-family: 'Source Sans Pro';
+
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 6px; /* 스크롤바 너비 조절 */
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: transparent; /* 스크롤바 색상 */
+  }
+`;
+
+export const OpenModalStyle: ReactModal.Styles = {
+  overlay: {
+    backgroundColor: ' rgba(0, 0, 0, 0.4)',
+    width: '100%',
+    height: '100vh',
+    zIndex: '10',
+    position: 'fixed',
+    top: '0',
+    left: '0',
+  },
+  content: {
+    width: '17.5rem',
+    height: '10.5rem',
+    zIndex: '150',
+    position: 'absolute',
+    top: '40%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: 'white',
+    overflow: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    borderRadius: '1rem',
+  },
+};
+
+export const IconNMessage = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 3rem;
+  gap: 1rem;
 `;

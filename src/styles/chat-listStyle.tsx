@@ -5,8 +5,8 @@ export const Header = styled.div`
   box-sizing: border-box;
   flex-direction: row;
   align-items: center;
-  width: 55%;
-  height: 4rem;
+  width: 22.5rem;
+  height: 3.5rem;
   padding: 0 2rem;
   gap: 3rem;
   font-size: large;
@@ -14,10 +14,17 @@ export const Header = styled.div`
 
 export const GoBack = styled.button`
   cursor: pointer;
+  width: 1.5rem;
+  height: 1.5rem;
 `;
 
 export const Title = styled.span`
-  font-weight: bold;
+  font-family: 'Noto Sans KR';
+  font-size: 1.125rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.03375rem;
 `;
 
 export const ChattingList = styled.div`
@@ -67,6 +74,7 @@ export const ChattingInfoFrame = styled.div`
 `;
 
 export const ShopNDest = styled.div`
+  font-family: 'Noto Sans KR';
   font-size: small;
   padding-bottom: 0.3rem;
 `;
@@ -81,10 +89,21 @@ export const NickNameNTime = styled.div`
 `;
 
 export const NickName = styled.div`
-  font-size: large;
+  font-family: 'Noto Sans KR';
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: -0.025rem;
 `;
 
 export const Time = styled.div`
+  font-family: 'Noto Sans KR';
+  font-size: 0.75rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.01875rem;
   color: #797c7b;
   opacity: 50%;
 `;
@@ -98,6 +117,12 @@ export const ChattingNUpdate = styled.div`
 `;
 
 export const LastMessage = styled.div`
+  font-family: 'Noto Sans KR';
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%;
+  letter-spacing: -0.02188rem;
   color: #696e82;
 `;
 
@@ -126,4 +151,10 @@ export const Update = styled.div<UpdateProps>`
 
 export const UpdateNums = styled.div`
   padding-top: 0.1rem;
+  font-family: 'Noto Sans KR';
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%;
+  letter-spacing: -0.02188rem;
 `;
