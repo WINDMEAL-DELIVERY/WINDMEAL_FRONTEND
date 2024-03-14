@@ -13,7 +13,7 @@ import {
   SmallText,
   TextDiv,
 } from '@styles/loginStyles';
-import { LoginPageLogo } from '../../../public/svgs';
+import { LoginPageLogo } from 'public/svgs';
 
 export default function Login() {
   const router = useRouter();
