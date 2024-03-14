@@ -179,6 +179,7 @@ export interface MarkerIcon {
 
 export interface BottomModalProps {
   content: React.ReactNode;
+  height?: number;
 }
 
 export interface headerBar {
