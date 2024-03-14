@@ -197,3 +197,9 @@ export interface MapStoreProps {
 export interface StoreTypeInterface {
   submitOption: (newOptions?: object) => void;
 }
+
+export interface ImageProps {
+  src: string;
+  width: number;
+  height: number;
+}

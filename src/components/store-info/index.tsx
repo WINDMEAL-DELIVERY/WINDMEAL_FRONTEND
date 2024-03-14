@@ -56,11 +56,7 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
             </StoreTime>
           </StoreSecondContainer>
           <StoreImgContainer>
-            <StoreImage
-              src={`${process.env.NEXT_PUBLIC_IMAGE_URL}${storeInfo.photo}`}
-              width={80}
-              height={80}
-            />
+            <StoreImage src={storeInfo.photo} width={80} height={80} />
           </StoreImgContainer>
           <StoreButtonContainer>
             <DeliveryButton>
