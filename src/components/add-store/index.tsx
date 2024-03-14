@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import AddFile from '@components/add-file';
-import { createStore } from '@/apis/cms-store/store';
-import { useMutation, useQueryClient } from 'react-query';
+import { createStore, getMyInfo } from '@/apis/cms-store/store';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { StoreInput } from '@/types/type';
 
 export default function AddStore() {
   const [storeImg, setStoreImg] = useState<string | null>(null);
   const initialStoreInput: StoreInput = {
-    memberId: 4, // 이후 멤버 아이디 받아 넣어줘야함
+    memberId: 0, // 이후 멤버 아이디 받아 넣어줘야함
     name: '',
     phoneNumber: '',
     openTime: '',
@@ -34,6 +34,23 @@ export default function AddStore() {
       console.log('error', error);
     },
   });
+
+  useQuery(
+    ['myInfo'],
+    async () => {
+      const { data } = await getMyInfo();
+      return data;
+    },
+    {
+      onSuccess: response => {
+        setInputData(prevData => ({
+          ...prevData,
+          memberId: response.id,
+        }));
+      },
+      onError: err => console.log('error', err),
+    },
+  );
 
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
