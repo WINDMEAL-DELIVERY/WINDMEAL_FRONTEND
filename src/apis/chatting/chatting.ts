@@ -14,22 +14,32 @@ export const getOrderInfo = async (orderId: number) => {
   return data;
 };
 
-export const getChattingList = async () => {
-  const { data } = await ChatInstance.get('/chat/chatroom');
+export const getChattingList = async (pageParam: number) => {
+  const { data } = await ChatInstance.get(
+    `/chat/chatroom?page=${pageParam}&size=10`,
+  );
   const chattingList = data.data.chatroomSpecResponses.content;
 
+  console.log(data);
   const orderIds = chattingList.map((chat: ChattingListProps) => chat.orderId);
   const orderInfoPromises = orderIds.map((orderId: number) =>
     getOrderInfo(orderId),
   );
   const orderInfoList = await Promise.all(orderInfoPromises);
 
-  return chattingList.map((chat: ChattingListProps, index: number) => ({
-    ...chat,
-    opponentProfileImage: `${imageURL}${chat.opponentProfileImage}`,
-    orderInfo: orderInfoList[index].data,
-    lastMessageTime: formattedTimeZone(chat.lastMessageTime),
-  }));
+  const chatList = chattingList.map(
+    (chat: ChattingListProps, index: number) => ({
+      ...chat,
+      opponentProfileImage: `${imageURL}${chat.opponentProfileImage}`,
+      orderInfo: orderInfoList[index].data,
+      lastMessageTime: formattedTimeZone(chat.lastMessageTime),
+    }),
+  );
+
+  const isLastPage = data.data.chatroomSpecResponses.last;
+  const pageNumber = data.data.chatroomSpecResponses.number;
+
+  return { chatList, isLastPage, pageNumber };
 };
 
 export const getChattingMessage = async (
