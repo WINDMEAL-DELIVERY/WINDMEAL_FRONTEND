@@ -42,3 +42,9 @@ export const StoreContainer = styled.div`
   flex-direction: column;
   width: 90%;
 `;
+
+export const ReportContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;

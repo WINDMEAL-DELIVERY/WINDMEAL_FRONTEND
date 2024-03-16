@@ -2,7 +2,12 @@ import { getStoreList } from '@/apis/cms-store/store';
 import { StoreListProps } from '@/types/type';
 import { useState } from 'react';
 import { Card, Spacer } from '@geist-ui/react';
-import { CMSWrapper, StoreContainer, StyledText } from '@/styles/cmsStyles';
+import {
+  CMSWrapper,
+  ReportContainer,
+  StoreContainer,
+  StyledText,
+} from '@/styles/cmsStyles';
 import { useRouter } from 'next/router';
 import AddStore from '@/components/add-store';
 import { useQuery } from 'react-query';
@@ -47,9 +52,13 @@ export default function CMS() {
         </StoreContainer>
       </Card>
       <AddStore />
-      <IconPlace />
-      <text onClick={() => router.push(`/cms/report`)}>REPORT</text>
-      <Spacer style={{ marginTop: '3rem' }} />
+      <Spacer style={{ marginTop: '2rem' }} />
+      <ReportContainer>
+        <IconPlace />
+        <StyledText onClick={() => router.push(`/cms/report`)}>
+          REPORT
+        </StyledText>
+      </ReportContainer>
       <FloatingHomeButton />
     </CMSWrapper>
   );
