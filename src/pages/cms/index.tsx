@@ -1,14 +1,13 @@
 import { getStoreList } from '@/apis/cms-store/store';
 import { StoreListProps } from '@/types/type';
-import BottomTab from '@components/bottom-tab';
-import { Wrapper } from '@styles/styles';
 import { useState } from 'react';
 import { Card, Spacer } from '@geist-ui/react';
-import { StoreContainer, StyledText } from '@/styles/cmsStyles';
+import { CMSWrapper, StoreContainer, StyledText } from '@/styles/cmsStyles';
 import { useRouter } from 'next/router';
 import AddStore from '@/components/add-store';
 import { useQuery } from 'react-query';
 import { IconPlace } from 'public/svgs';
+import FloatingHomeButton from '@/components/floating-home-button';
 
 export default function CMS() {
   const [storeList, setStoreList] = useState<StoreListProps[]>([]);
@@ -34,8 +33,7 @@ export default function CMS() {
   };
 
   return (
-    <Wrapper>
-      <div>CMS</div>
+    <CMSWrapper>
       <Card>
         <StoreContainer>
           {storeList.map(store => (
@@ -51,8 +49,8 @@ export default function CMS() {
       <AddStore />
       <IconPlace />
       <text onClick={() => router.push(`/cms/report`)}>REPORT</text>
-      <BottomTab />
       <Spacer style={{ marginTop: '3rem' }} />
-    </Wrapper>
+      <FloatingHomeButton />
+    </CMSWrapper>
   );
 }

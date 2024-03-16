@@ -1,15 +1,14 @@
-import BottomTab from '@components/bottom-tab';
-import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import { createMenu } from '@/apis/cms-store/store';
 import { useEffect, useState } from 'react';
-import { StoreContainer, StyledText } from '@/styles/cmsStyles';
+import { CMSWrapper, StoreContainer, StyledText } from '@/styles/cmsStyles';
 import AddFile from '@/components/add-file';
 import { Menu, MenuInput } from '@/types/type';
 import { useMutation } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { menuState } from '@/states/menu';
+import FloatingHomeButton from '@/components/floating-home-button';
 
 export default function CMSMenuCategory() {
   const router = useRouter();
@@ -92,7 +91,7 @@ export default function CMSMenuCategory() {
   };
 
   return (
-    <Wrapper>
+    <CMSWrapper>
       <Card>
         <StoreContainer>
           {menuContents?.map((menu: Menu) => (
@@ -117,7 +116,7 @@ export default function CMSMenuCategory() {
         </Button>
         <Spacer style={{ marginTop: '3rem' }} />
       </Card>
-      <BottomTab />
-    </Wrapper>
+      <FloatingHomeButton />
+    </CMSWrapper>
   );
 }
