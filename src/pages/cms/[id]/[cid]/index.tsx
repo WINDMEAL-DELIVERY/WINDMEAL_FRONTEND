@@ -2,7 +2,7 @@ import BottomTab from '@components/bottom-tab';
 import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
-import { createMenu } from '@/apis/store/store';
+import { createMenu } from '@/apis/cms-store/store';
 import { useEffect, useState } from 'react';
 import { StoreContainer, StyledText } from '@/styles/cmsStyles';
 import AddFile from '@/components/add-file';
@@ -23,6 +23,7 @@ export default function CMSMenuCategory() {
     price: 0,
   };
   const [inputData, setInputData] = useState<MenuInput>(initialInput);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const handleInputChange = (fieldName: string, value: string) => {
     setInputData(prevData => ({
@@ -81,6 +82,7 @@ export default function CMSMenuCategory() {
     );
     formData.append('file', menuImgOptional);
     mutateMenu.mutate(formData);
+    setIsSubmit(true);
   };
 
   const handleClickStore = (menuID: number) => {
@@ -108,7 +110,7 @@ export default function CMSMenuCategory() {
         <Spacer />
         {renderInputs()}
         <Spacer />
-        <AddFile onImageUpload={handleAddFile} />
+        <AddFile onImageUpload={handleAddFile} onSubmit={isSubmit} />
         <Spacer />
         <Button type="secondary" onClick={handleSubmit}>
           제출

@@ -1,4 +1,4 @@
-import { getMemberReport, getSuggestReport } from '@/apis/store/store';
+import { getMemberReport, getSuggestReport } from '@/apis/cms-store/store';
 import { ReportContent } from '@/types/type';
 import { Card, Text, Spacer, Input, Button, Toggle } from '@geist-ui/react';
 import { useState } from 'react';

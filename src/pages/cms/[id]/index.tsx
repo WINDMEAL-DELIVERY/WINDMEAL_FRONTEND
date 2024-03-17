@@ -5,7 +5,7 @@ import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import { useState } from 'react';
 import { StoreContainer, StyledText } from '@/styles/cmsStyles';
 import { Menu, MenuCategory } from '@/types/type';
-import { createMenuCategory, getStoreInfo } from '@/apis/store/store';
+import { createMenuCategory, getCMSStoreInfo } from '@/apis/cms-store/store';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { menuState } from '@/states/menu';
@@ -32,7 +32,7 @@ export default function CMSStore() {
         data: {
           storeResponse: { menuCategories },
         },
-      } = await getStoreInfo(Number(storeId));
+      } = await getCMSStoreInfo(Number(storeId));
       return menuCategories;
     },
     {

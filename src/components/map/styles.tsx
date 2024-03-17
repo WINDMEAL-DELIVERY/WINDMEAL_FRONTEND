@@ -1,29 +1,35 @@
 import styled from 'styled-components';
 
 export const TopContainer = styled.div`
-  width: 80%;
-  height: 3rem;
+  width: 100%;
+  height: 7rem; //
+  margin-top: 0.44rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 999;
+  z-index: 1;
 `;
 
-export const OptionButtonContainer = styled.div`
-  width: 80%;
-  height: 5rem;
+export const FirstContainer = styled.div`
+  width: 70%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  z-index: 999;
-  margin-top: 1rem;
 `;
 
-export const OptionButton = styled.button`
-  width: 5rem;
+export const CartButton = styled.div`
   display: flex;
+  width: 3rem;
+  height: 2.75rem;
+  // padding: 0.625rem 0.875rem;
+  align-items: center;
   justify-content: center;
-  border-radius: 0.5rem;
-  font-size: 0.7rem;
+  // gap: 0.625rem;
+  flex-shrink: 0;
+
+  border-radius: 1.25rem;
+  background: var(--SubColor, #fff);
+  box-shadow: 2px 4px 4px 0px rgba(0, 0, 0, 0.1);
+
+  margin-left: 0.44rem;
   cursor: pointer;
 `;

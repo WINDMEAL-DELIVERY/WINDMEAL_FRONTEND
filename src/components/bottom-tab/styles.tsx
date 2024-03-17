@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
   bottom: 0;
   padding: 2% 0 2% 0;
   background-color: whitesmoke;
+  z-index: 3;
 
   /* 핸드폰 */
   @media screen and (max-width: 768px) {

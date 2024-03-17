@@ -3,11 +3,11 @@ os: linux
 
 files:
   - source: /
-    destination: /home/ubuntu/WINDMEAL_FRONTEND
+    destination: /home/ubuntu/deploy-fe
     overwrite: yes
 #file_exists_behavior: OVERWRITE
 permissions:
-  - object: /home/ubuntu/WINDMEAL_FRONTEND
+  - object: /home/ubuntu/deploy-fe
     owner: ubuntu
     group: ubuntu
     mode: 755

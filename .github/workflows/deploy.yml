@@ -2,7 +2,7 @@ name: Deploy # Workflow 이름
 on: # Event 감지
   push:
     branches:
-      - develop # 해당 브랜치의 푸쉬가 일어날 때 CI/CD를 진행하겠다는 뜻
+      - develop
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -18,7 +18,7 @@ jobs:
       - name: Check Node v # Node v 확인
         run: node -v
 
-      - name: Create .env file
+      - name: Create .env.local file # .env.local 생성
         shell: bash
         run: |
           echo "${{ secrets.NEXT_ENV }}" >> .env
@@ -32,7 +32,6 @@ jobs:
           CI: ""
 
       - name: zip create
-        # zip 파일을 만듭니다(파일명은 자유, 대신 아래 workflow에 적을 파일명과 동일하게 맞춰주세요).
         run: zip -qq -r ./build-fe.zip .
         shell: bash
 
@@ -52,7 +51,7 @@ jobs:
 
       - name: Deploy # Deploy to EC2
         run: aws deploy create-deployment
-          --application-name windmeal-app
+          --application-name windmeal-frontend
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name windmeal
+          --deployment-group-name windmealGroup
           --s3-location bucket=windmeal-bucket,key=build-fe.zip,bundleType=zip

@@ -1,253 +1,233 @@
-// import {
-//   Container as MapDiv,
-//   NaverMap,
-//   // Marker,
-//   useNavermaps,
-//   Overlay,
-//   useMap,
-//   Marker,
-// } from 'react-naver-maps';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  Container as MapDiv,
+  NaverMap,
+  useNavermaps,
+  Overlay,
+  useMap,
+} from 'react-naver-maps';
 
-// 배포테스트0
-// import {
-//   OptionButtonContainer,
-//   OptionButton,
-//   TopContainer,
-// } from '@components/map/styles';
-// import { useEffect, useState } from 'react';
-// import AutoCompleteBox from '@/components/auto-complete-box';
-// import Dialog from '@/components/dialog';
-// import { makeMarkerClustering } from '@/components/map/marker-cluster';
-// import { MyMapProps, StoreProp } from '@/types/type';
+import {
+  TopContainer,
+  FirstContainer,
+  CartButton,
+} from '@components/map/styles';
+import { useState } from 'react';
+import AutoCompleteBox from '@/components/auto-complete-box';
+import { makeMarkerClustering } from '@/components/map/marker-cluster';
+import { MapStoreProps, StoreProp } from '@/types/type';
+import MapMarker from '@components/map-marker';
+import {
+  MapCluster1,
+  MapCluster2,
+  MapCluster3,
+  MapCluster4,
+  MapCluster5,
+} from '@/components/map-cluster';
+import { IconCart } from 'public/svgs';
+import BottomModal from '@/components/bottom-modal';
+import Destination from '@/components/bottom-modal/Destination';
+import ETA from '@/components/bottom-modal/ETA';
+import StoreType from '@/components/bottom-modal/Storetype';
+import BottomNonModal from '@components/bottom-modal/BottomNonModal';
+import StoreInfo from '@components/store-info';
+import { useQuery } from 'react-query';
+import { getMapStoreList } from '@/apis/store/store';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { storeState } from '@/states/mapOption';
+import OptionButtonComponent from '../option-button-container';
 
-// const stores: StoreProp[] = [
-//   {
-//     storeId: 1,
-//     location: {
-//       x: 37.450795,
-//       y: 127.128816,
-//     },
-//     requests: 100,
-//     name: '카페 1',
-//   },
-//   {
-//     storeId: 2,
-//     location: {
-//       x: 37.448,
-//       y: 127.1278,
-//     },
-//     requests: 75,
-//     name: '카페 2',
-//   },
-//   {
-//     storeId: 3,
-//     location: {
-//       x: 37.447,
-//       y: 127.1282,
-//     },
-//     requests: 120,
-//     name: '컴포즈 커피',
-//   },
-//   {
-//     storeId: 4,
-//     location: {
-//       x: 37.4487,
-//       y: 127.128,
-//     },
-//     requests: 50,
-//     name: '신의 한컵',
-//   },
-//   {
-//     storeId: 5,
-//     location: {
-//       x: 37.4495,
-//       y: 127.1292,
-//     },
-//     requests: 90,
-//     name: '커피만',
-//   },
-// ];
+function MarkerCluster({
+  handleSelect,
+}: {
+  handleSelect: (selectedId: number) => void;
+}) {
+  const navermaps = useNavermaps();
+  const map = useMap();
+  const MarkerClustering = makeMarkerClustering(window.naver);
+  const storeOption = useRecoilValue<MapStoreProps>(storeState);
+  const [cluster, setCluster] = useState<any>(null); // 클러스터 상태
 
-// function MarkerCluster() {
-//   const navermaps = useNavermaps();
-//   const map1 = useMap();
+  const htmlMarker1 = {
+    content: MapCluster1(),
+    size: new navermaps.Size(40, 40),
+    anchor: new navermaps.Point(20, 20),
+  };
+  const htmlMarker2 = {
+    content: MapCluster2(),
+    size: new navermaps.Size(40, 40),
+    anchor: new navermaps.Point(20, 20),
+  };
+  const htmlMarker3 = {
+    content: MapCluster3(),
+    size: new navermaps.Size(40, 40),
+    anchor: new navermaps.Point(20, 20),
+  };
+  const htmlMarker4 = {
+    content: MapCluster4(),
+    size: new navermaps.Size(40, 40),
+    anchor: new navermaps.Point(20, 20),
+  };
+  const htmlMarker5 = {
+    content: MapCluster5(),
+    size: new navermaps.Size(40, 40),
+    anchor: new navermaps.Point(20, 20),
+  };
 
-//   const MarkerClustering = makeMarkerClustering(window.naver);
+  // 클러스터 생성 함수
+  const createCluster = (markers: any[]) => {
+    if (cluster) {
+      cluster.setMap(null);
+    }
+    const newCluster = new MarkerClustering({
+      minClusterSize: 2,
+      maxZoom: 17,
+      map,
+      markers,
+      disableClickZoom: false,
+      gridSize: 120,
+      icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
+      indexGenerator: [2, 4, 6, 10, 20],
+      stylingFunction: (clusterMarker: any, count: number) => {
+        const element = clusterMarker.getElement();
+        if (element) {
+          const firstChild = element.querySelector('#count');
+          if (firstChild) {
+            firstChild.innerText = `+${count}`;
+          }
+        }
+      },
+    });
+    setCluster(newCluster); // 새로운 클러스터 상태로 업데이트
+  };
 
-//   const htmlMarker1 = {
-//     content:
-//       '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-1.png);background-size:contain;">a</div>',
-//     size: new navermaps.Size(40, 40),
-//     anchor: new navermaps.Point(20, 20),
-//   };
-//   const htmlMarker2 = {
-//     content:
-//       '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-2.png);background-size:contain;"></div>',
-//     size: new navermaps.Size(40, 40),
-//     anchor: new navermaps.Point(20, 20),
-//   };
-//   const htmlMarker3 = {
-//     content:
-//       '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-3.png);background-size:contain;"></div>',
-//     size: new navermaps.Size(40, 40),
-//     anchor: new navermaps.Point(20, 20),
-//   };
-//   const htmlMarker4 = {
-//     content:
-//       '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-4.png);background-size:contain;"></div>',
-//     size: new navermaps.Size(40, 40),
-//     anchor: new navermaps.Point(20, 20),
-//   };
-//   const htmlMarker5 = {
-//     content:
-//       '<div style="cursor:pointer;width:40px;height:40px;line-height:42px;font-size:10px;color:white;text-align:center;font-weight:bold;background:url(https://navermaps.github.io/maps.js.ncp/docs/img/cluster-marker-5.png);background-size:contain;"></div>',
-//     size: new navermaps.Size(40, 40),
-//     anchor: new navermaps.Point(20, 20),
-//   };
+  // 마커 생성 함수
+  const createMarkers = (storeList: StoreProp[]) => {
+    const markers = storeList.map(store => {
+      const latlng = new navermaps.LatLng(store.longitude, store.latitude);
+      const marker = new naver.maps.Marker({
+        position: latlng,
+        title: store.storeName,
+        icon: {
+          content: MapMarker({
+            name: store.storeName,
+            requests: store.orderCount,
+          }),
+        },
+      });
+      marker.addListener('click', () => {
+        map?.panTo(latlng, { duration: 1000 });
+        handleSelect(store.storeId);
+        // map?.setZoom(17); 줌 이벤트
+      });
 
-//   // Customize Overlay 참고
-//   // https://zeakd.github.io/react-naver-maps/guides/customize-overlays/
-//   const [cluster] = useState(() => {
-//     const markers = [];
+      return marker;
+    });
+    createCluster(markers); // 생성된 마커로 클러스터 생성
+  };
 
-//     for (let i = 0; i < stores.length; i += 1) {
-//       const storeData: StoreProp = stores[i];
-//       const marker = new window.naver.maps.Marker({
-//         position: new window.naver.maps.LatLng(
-//           storeData.location.x,
-//           storeData.location.y,
-//         ),
-//         map1,
-//         requests: storeData.requests,
-//         title: storeData.name,
-//       });
+  useQuery<StoreProp[]>(
+    ['storeList', storeOption],
+    async () => {
+      const { data } = await getMapStoreList(storeOption);
+      return data;
+    },
+    {
+      onSuccess: storeList => {
+        console.log('response for store list', storeList);
+        createMarkers(storeList); // 데이터 성공적으로 불러왔을 때 마커 생성 호출
+      },
+      onError: err => console.log('error', err),
+    },
+  );
 
-//       markers.push(marker);
-//     }
+  return (
+    <Overlay element={{ ...cluster, setMap: () => null, getMap: () => null }} />
+  );
+}
 
-//     const clusters = new MarkerClustering({
-//       minClusterSize: 2,
-//       maxZoom: 17,
-//       map1,
-//       markers,
-//       disableClickZoom: false,
-//       gridSize: 120,
-//       icons: [htmlMarker1, htmlMarker2, htmlMarker3, htmlMarker4, htmlMarker5],
-//       indexGenerator: [2, 4, 8, 12, 20],
-//       stylingFunction: (clusterMarker: any, count: number) => {
-//         const element = clusterMarker.getElement();
-//         if (element) {
-//           const firstChild = element.querySelector('div:first-child');
-//           if (firstChild) {
-//             firstChild.innerText = count;
-//           }
-//         }
-//       },
-//     });
+export default function Map() {
+  // 위 식당 중 selectedValue와 동일한 객체의 x,y 좌표를 불러와서 포커싱함
+  const [selected, setSelected] = useState<number>(-1);
+  const [selectFlag, setSelectFlag] = useState<number>(0);
+  const [openStoreInfo, setOpenStoreInfo] = useState<boolean>(false);
+  const [openBottomModal, setOpenBottomModal] = useState<number>(0);
+  const [modalKey, setModalKey] = useState<number>(1);
+  const [nonModalKey, setNonModalKey] = useState<number>(1);
+  const [option, setOption] = useRecoilState(storeState);
+  const [, setMap] = useState<naver.maps.Map | null>(null);
 
-//     return clusters;
-//   });
+  // 클릭 시에만, info 모달 뜸
+  const handleSelect = (selectedId: number) => {
+    setSelected(selectedId);
+    setSelectFlag(selectFlag + 1);
+    setOpenStoreInfo(true);
+    setNonModalKey(prev => prev + 1);
+  };
 
-//   return <Overlay element={cluster} />;
-// }
+  const handleClickOption = (optionId: number) => {
+    setOpenBottomModal(optionId);
+    setModalKey(prev => prev + 1);
+  };
 
-// function MyMap({ selected, selectFlag, handleSelect }: MyMapProps) {
-//   const navermaps = useNavermaps();
-//   const [map, setMap] = useState();
+  const submitOption = (newOptions?: object) => {
+    setOption({
+      ...option,
+      ...newOptions,
+    });
+  };
 
-//   // select 이벤트 발생 시 포커싱 하기 위함
-//   useEffect(() => {
-//     const store = stores.filter(e => e.name === selected);
-//     if (store.length > 0) {
-//       const loc = new navermaps.LatLng(
-//         store[0].location.x,
-//         store[0].location.y,
-//       );
-//       if (map) {
-//         map.setCenter(loc);
-//         map.setZoom(18);
-//       }
-//     }
-//   }, [selected, selectFlag]);
+  return (
+    <MapDiv
+      style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <TopContainer>
+        <FirstContainer>
+          <AutoCompleteBox />
+          <CartButton>
+            <IconCart />
+          </CartButton>
+        </FirstContainer>
+        <OptionButtonComponent handleClickOption={handleClickOption} />
+      </TopContainer>
 
-//   return (
-//     <NaverMap
-//       defaultCenter={new navermaps.LatLng(37.450795, 127.128816)}
-//       defaultZoom={16}
-//       zoomControl
-//       ref={setMap}
-//       zoomControlOptions={{
-//         position: navermaps.Position.TOP_LEFT,
-//         style: navermaps.ZoomControlStyle.SMALL,
-//       }}
-//     >
-//       {stores.map(store => (
-//         <Marker
-//           key={store.name}
-//           position={
-//             new window.naver.maps.LatLng(store.location.x, store.location.y)
-//           }
-//           title={store.name}
-//           icon={{
-//             content: `<button><div>${store.name}</div></button>`,
-//           }}
-//           onClick={() => handleSelect(store.name)}
-//         />
-//       ))}
-//       <MarkerCluster />
-//     </NaverMap>
-//   );
-// }
+      <NaverMap
+        defaultCenter={{ lat: 37.450795, lng: 127.128816 }}
+        defaultZoom={16}
+        ref={setMap}
+      >
+        <MarkerCluster handleSelect={handleSelect} />
+      </NaverMap>
 
-// export default function Map() {
-//   // 위 식당 중 selectedValue와 동일한 객체의 x,y 좌표를 불러와서 포커싱함
-//   const [selected, setSelected] = useState<string>();
-//   const [selectFlag, setSelectFlag] = useState<number>(0);
-//   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
-
-//   const handleSelect = (selectedValue: string) => {
-//     setSelected(selectedValue);
-//     setSelectFlag(selectFlag + 1);
-//     setIsDialogVisible(true);
-//   };
-
-//   const hideDialog = () => {
-//     setIsDialogVisible(false); // 다이얼로그를 숨김 설정
-//   };
-
-//   return (
-//     <MapDiv
-//       style={{
-//         width: '100%',
-//         height: '100vh',
-//         display: 'flex',
-//         justifyContent: 'center',
-//       }}
-//     >
-//       <TopContainer>
-//         <AutoCompleteBox handleSelect={handleSelect} />
-//         <OptionButtonContainer>
-//           <OptionButton>출발</OptionButton>
-//           <OptionButton>도착</OptionButton>
-//           <OptionButton>도착시간</OptionButton>
-//           <OptionButton>음식종류</OptionButton>
-//           <OptionButton>영업중</OptionButton>
-//         </OptionButtonContainer>
-//       </TopContainer>
-//       <MyMap
-//         selected={selected}
-//         selectFlag={selectFlag}
-//         handleSelect={handleSelect}
-//       />
-//       <Dialog
-//         size={30}
-//         visible={isDialogVisible}
-//         title="임시 모달"
-//         description="상점의 기본 사항들이 뜰 것"
-//         onCancel={hideDialog}
-//         onConfirm={hideDialog}
-//         confirmTitle="Close"
-//       />
-//     </MapDiv>
-//   );
-// }
+      {openStoreInfo && (
+        <BottomNonModal
+          key={`storeInfo_${nonModalKey}`}
+          content={<StoreInfo storeId={selected} />}
+        />
+      )}
+      {openBottomModal === 1 && (
+        <BottomModal
+          key={`ETA_${modalKey}`}
+          content={<ETA submitOption={submitOption} />}
+        />
+      )}
+      {openBottomModal === 2 && (
+        <BottomModal
+          key={`Destination_${modalKey}`}
+          content={<Destination submitOption={submitOption} />}
+        />
+      )}
+      {openBottomModal === 3 && (
+        <BottomModal
+          key={`StoreType_${modalKey}`}
+          content={<StoreType submitOption={submitOption} />}
+        />
+      )}
+    </MapDiv>
+  );
+}

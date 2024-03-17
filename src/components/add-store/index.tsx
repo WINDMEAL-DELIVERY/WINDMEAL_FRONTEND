@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import AddFile from '@components/add-file';
-import { createStore } from '@/apis/store/store';
+import { createStore } from '@/apis/cms-store/store';
 import { useMutation, useQueryClient } from 'react-query';
 import { StoreInput } from '@/types/type';
 
