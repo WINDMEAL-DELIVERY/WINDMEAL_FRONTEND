@@ -194,8 +194,21 @@ export default function useBottomSheet() {
     content.current!.addEventListener('mousedown', handleTouchStart);
 
     return () => {
-      // content.current!.removeEventListener('touchstart', handleTouchStart);
-      // content.current!.removeEventListener('mousedown', handleTouchStart);
+      content.current!.removeEventListener('touchstart', handleTouchStart);
+      content.current!.removeEventListener('mousedown', handleTouchStart);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleTouchMove = (e: TouchEvent) => {
+      // 컨텐츠 영역을 터치로 스크롤할 수 있도록 설정
+      e.stopPropagation();
+    };
+
+    content.current!.addEventListener('touchmove', handleTouchMove);
+
+    return () => {
+      content.current!.removeEventListener('touchmove', handleTouchMove);
     };
   }, []);
 
