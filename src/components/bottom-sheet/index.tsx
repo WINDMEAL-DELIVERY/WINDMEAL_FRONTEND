@@ -14,7 +14,7 @@ export default function BottomSheet() {
 
   return (
     <Wrapper ref={sheet} bottomsheetheight={BOTTOM_SHEET_HEIGHT}>
-      <Header isHeaderBar />
+      <Header isHeaderBar isBottomSheet />
       <BottomSheetContent ref={content}>
         <Content />
       </BottomSheetContent>
