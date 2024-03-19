@@ -4,6 +4,7 @@ import Map from '@/components/map';
 import { useTokenInitialization } from '@hooks/useTokenInitialization';
 import { useSetFCM } from '@hooks/useSetFCM';
 import BottomSheet from '@/components/bottom-sheet';
+import Seo from '@/components/seo';
 
 export default function Main() {
   // 토큰 재할당 및 FCM 구독
@@ -12,6 +13,10 @@ export default function Main() {
   useSetFCM();
   return (
     <Wrapper>
+      <Seo
+        title="메인 페이지"
+        description="가게 및 요청 정보를 필터링 하여 확인하실 수 있습니다."
+      />
       <Map />
       <BottomSheetContainer>
         <BottomSheet />
