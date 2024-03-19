@@ -17,7 +17,7 @@ export const Wrapper = styled.div<{ $top?: number }>`
 
   /* 핸드폰 */
   @media screen and (max-width: 768px) {
-    width: 100%;
+    width: 430px;
   }
 
   /* 태블릿 */

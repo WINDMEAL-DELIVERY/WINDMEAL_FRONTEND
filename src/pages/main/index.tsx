@@ -1,5 +1,5 @@
 import BottomTab from '@/components/bottom-tab';
-import { Wrapper } from '@styles/styles';
+import { BottomSheetContainer, Wrapper } from '@styles/styles';
 import Map from '@/components/map';
 import { useTokenInitialization } from '@hooks/useTokenInitialization';
 import { useSetFCM } from '@hooks/useSetFCM';
@@ -13,7 +13,9 @@ export default function Main() {
   return (
     <Wrapper>
       <Map />
-      <BottomSheet />
+      <BottomSheetContainer>
+        <BottomSheet />
+      </BottomSheetContainer>
       <BottomTab />
     </Wrapper>
   );
