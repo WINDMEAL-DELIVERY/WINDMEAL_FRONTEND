@@ -53,5 +53,5 @@ jobs:
         run: aws deploy create-deployment
           --application-name windmeal-frontend
           --deployment-config-name CodeDeployDefault.AllAtOnce
-          --deployment-group-name windmealGroup
+          --deployment-group-name windmeal
           --s3-location bucket=windmeal-bucket,key=build-fe.zip,bundleType=zip
