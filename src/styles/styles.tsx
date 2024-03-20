@@ -41,3 +41,8 @@ export const HeaderBar = styled.div`
   background-color: #f5f8faff;
   padding: 0 1.5% 0 1.5%;
 `;
+
+export const BottomSheetContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;

@@ -8,9 +8,10 @@ import {
 } from 'react-naver-maps';
 
 import {
-  TopContainer,
   FirstContainer,
   CartButton,
+  TopContainer,
+  MapStyles,
 } from '@components/map/styles';
 import { useState } from 'react';
 import AutoCompleteBox from '@/components/auto-complete-box';
@@ -178,14 +179,7 @@ export default function Map() {
   };
 
   return (
-    <MapDiv
-      style={{
-        width: '100%',
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-      }}
-    >
+    <MapDiv style={MapStyles}>
       <TopContainer>
         <FirstContainer>
           <AutoCompleteBox />
