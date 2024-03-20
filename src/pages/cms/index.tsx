@@ -1,14 +1,18 @@
 import { getStoreList } from '@/apis/cms-store/store';
 import { StoreListProps } from '@/types/type';
-import BottomTab from '@components/bottom-tab';
-import { Wrapper } from '@styles/styles';
 import { useState } from 'react';
 import { Card, Spacer } from '@geist-ui/react';
-import { StoreContainer, StyledText } from '@/styles/cmsStyles';
+import {
+  CMSWrapper,
+  ReportContainer,
+  StoreContainer,
+  StyledText,
+} from '@/styles/cmsStyles';
 import { useRouter } from 'next/router';
 import AddStore from '@/components/add-store';
 import { useQuery } from 'react-query';
 import { IconPlace } from 'public/svgs';
+import FloatingHomeButton from '@/components/floating-home-button';
 import Seo from '@/components/seo';
 
 export default function CMS() {
@@ -35,7 +39,7 @@ export default function CMS() {
   };
 
   return (
-    <Wrapper>
+    <CMSWrapper>
       <div>CMS</div>
       <Seo
         title="CMS"
@@ -54,10 +58,14 @@ export default function CMS() {
         </StoreContainer>
       </Card>
       <AddStore />
-      <IconPlace />
-      <text onClick={() => router.push(`/cms/report`)}>REPORT</text>
-      <BottomTab />
-      <Spacer style={{ marginTop: '3rem' }} />
-    </Wrapper>
+      <Spacer style={{ marginTop: '2rem' }} />
+      <ReportContainer>
+        <IconPlace />
+        <StyledText onClick={() => router.push(`/cms/report`)}>
+          REPORT
+        </StyledText>
+      </ReportContainer>
+      <FloatingHomeButton />
+    </CMSWrapper>
   );
 }

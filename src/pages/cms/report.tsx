@@ -1,14 +1,14 @@
+import FloatingHomeButton from '@/components/floating-home-button';
 import ReportBox from '@/components/report-box';
-import BottomTab from '@components/bottom-tab';
+import { CMSWrapper } from '@/styles/cmsStyles';
 import { Spacer } from '@geist-ui/react';
-import { Wrapper } from '@styles/styles';
 
 export default function Report() {
   return (
-    <Wrapper>
+    <CMSWrapper>
       <ReportBox />
       <Spacer style={{ marginTop: '3rem' }} />
-      <BottomTab />
-    </Wrapper>
+      <FloatingHomeButton />
+    </CMSWrapper>
   );
 }

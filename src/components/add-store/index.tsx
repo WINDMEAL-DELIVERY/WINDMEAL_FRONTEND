@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import AddFile from '@components/add-file';
-import { createStore } from '@/apis/cms-store/store';
-import { useMutation, useQueryClient } from 'react-query';
+import { createStore, getMyInfo } from '@/apis/cms-store/store';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { StoreInput } from '@/types/type';
 
 export default function AddStore() {
   const [storeImg, setStoreImg] = useState<string | null>(null);
   const initialStoreInput: StoreInput = {
-    memberId: 4, // 이후 멤버 아이디 받아 넣어줘야함
+    memberId: 0, // 이후 멤버 아이디 받아 넣어줘야함
     name: '',
     phoneNumber: '',
     openTime: '',
@@ -19,8 +19,7 @@ export default function AddStore() {
     categoryList: [],
   };
   const [inputData, setInputData] = useState<StoreInput>(initialStoreInput);
-  const defaultImgUrl =
-    'https://search.pstatic.net/sunny/?src=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F67%2F41%2Fb9%2F6741b98b6e8f6754c16775da03334535.png&type=sc960_832';
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -36,16 +35,34 @@ export default function AddStore() {
     },
   });
 
+  useQuery(
+    ['myInfo'],
+    async () => {
+      const { data } = await getMyInfo();
+      return data;
+    },
+    {
+      onSuccess: response => {
+        setInputData(prevData => ({
+          ...prevData,
+          memberId: response.id,
+        }));
+      },
+      onError: err => console.log('error', err),
+    },
+  );
+
   const handleSubmit = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const formData = new FormData();
-    const storeImgOptional = storeImg === null ? defaultImgUrl : storeImg;
+    const storeImgOptional = storeImg === null ? 'defaultImgUrl' : storeImg;
     formData.append(
       'request',
       new Blob([JSON.stringify(inputData)], { type: 'application/json' }),
     );
     formData.append('file', storeImgOptional);
     mutateStore.mutate(formData);
+    setIsSubmit(true);
   };
 
   const handleInputChange = (fieldName: string, value: string) => {
@@ -53,6 +70,12 @@ export default function AddStore() {
       ...prevData,
       [fieldName]: value,
     }));
+    if (fieldName === 'name') {
+      setInputData(prevData => ({
+        ...prevData,
+        placeName: value,
+      }));
+    }
   };
 
   const handleAddFile = (img: string) => {
@@ -64,7 +87,6 @@ export default function AddStore() {
     ['전화 번호', 'phoneNumber'],
     ['오픈 시간', 'openTime'],
     ['마감 시간', 'closeTime'],
-    ['장소 이름', 'placeName'],
     ['위도', 'longitude'],
     ['경도', 'latitude'],
   ];
@@ -89,7 +111,7 @@ export default function AddStore() {
       <Spacer />
       {renderInputs()}
       <Spacer />
-      <AddFile onImageUpload={handleAddFile} />
+      <AddFile onImageUpload={handleAddFile} onSubmit={isSubmit} />
       <Spacer />
       <Button type="secondary" onClick={handleSubmit}>
         제출

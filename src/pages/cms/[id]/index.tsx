@@ -1,20 +1,19 @@
-import BottomTab from '@components/bottom-tab';
-import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button } from '@geist-ui/react';
 import { useState } from 'react';
-import { StoreContainer, StyledText } from '@/styles/cmsStyles';
+import { CMSWrapper, StoreContainer, StyledText } from '@/styles/cmsStyles';
 import { Menu, MenuCategory } from '@/types/type';
 import { createMenuCategory, getCMSStoreInfo } from '@/apis/cms-store/store';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { useRecoilState } from 'recoil';
 import { menuState } from '@/states/menu';
 import HashTag from '@/components/hash-tag';
+import FloatingHomeButton from '@/components/floating-home-button';
 
 export default function CMSStore() {
   const router = useRouter();
   const { id: storeIdString } = router.query;
-  const storeId = storeIdString ? Number(storeIdString) : undefined;
+  const storeId = Number(storeIdString);
   const [menuCategory, setMenuCategory] = useState<string>('');
   const [menuCategoryList, setMenuCategoryList] = useState<MenuCategory[]>([]); // 전체 리스트 관리
   const [, setMenuContents] = useRecoilState<Menu[]>(menuState);
@@ -73,7 +72,7 @@ export default function CMSStore() {
   };
 
   return (
-    <Wrapper>
+    <CMSWrapper>
       <Card>
         <StoreContainer>
           {menuCategoryList.map(category => (
@@ -107,7 +106,7 @@ export default function CMSStore() {
       </Card>
       <HashTag storeId={storeId} />
       <Spacer style={{ marginTop: '3rem' }} />
-      <BottomTab />
-    </Wrapper>
+      <FloatingHomeButton />
+    </CMSWrapper>
   );
 }
