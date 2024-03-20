@@ -136,7 +136,7 @@ export default function useBottomSheet() {
         }
 
         if (touchMove.movingDirection === 'up') {
-          if (currentSheetY >= 280 && currentSheetY <= 800) {
+          if (currentSheetY >= 350 && currentSheetY <= 800) {
             sheet.current!.style.setProperty(
               'transform',
               `translateY(${MIDDLE_Y - MAX_Y}px)`,
@@ -196,6 +196,19 @@ export default function useBottomSheet() {
     return () => {
       // content.current!.removeEventListener('touchstart', handleTouchStart);
       // content.current!.removeEventListener('mousedown', handleTouchStart);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleTouchMove = (e: TouchEvent) => {
+      // 컨텐츠 영역을 터치로 스크롤할 수 있도록 설정
+      e.stopPropagation();
+    };
+
+    content.current!.addEventListener('touchmove', handleTouchMove);
+
+    return () => {
+      // content.current!.removeEventListener('touchmove', handleTouchMove);
     };
   }, []);
 

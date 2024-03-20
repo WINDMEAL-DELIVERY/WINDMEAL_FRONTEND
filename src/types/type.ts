@@ -181,10 +181,12 @@ export interface MarkerIcon {
 
 export interface BottomModalProps {
   content: React.ReactNode;
+  height?: number;
 }
 
 export interface headerBar {
   isHeaderBar?: boolean;
+  isBottomSheet?: boolean;
   onCloseModal?: () => void;
 }
 
@@ -205,6 +207,12 @@ export interface BulletinProps {
 
 export interface StoreTypeInterface {
   submitOption: (newOptions?: object) => void;
+}
+
+export interface ImageProps {
+  src: string;
+  width: number;
+  height: number;
 }
 
 export interface BulletinHeaderProps {

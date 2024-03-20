@@ -25,3 +25,10 @@ export const CustomAutoComplete = styled(AutoComplete)`
     border: none !important;
   }
 `;
+
+export const dropdownStyles = {
+  maxHeight: '11.5rem',
+  scrollbarColor: 'transparent transparent',
+  borderRadius: '4px',
+  boxShadow: '0 24px 32px rgba(0, 0, 0, 0.2)',
+};

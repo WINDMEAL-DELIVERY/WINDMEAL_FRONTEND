@@ -15,10 +15,13 @@ import {
   DeliveryButtonText,
   OrderButton,
   OrderButtonText,
+  LoadingContainer,
 } from '@components/store-info/styles';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import StoreImage from '@components/image-with-fallback';
+import { IconLoading } from 'public/svgs';
 
 export default function StoreInfo({ storeId }: StoreIdProp) {
   const mapOption = useRecoilValue(mapStoreState);
@@ -59,7 +62,9 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
   return (
     <StoreInfoContainer>
       {isLoading ? (
-        <>로딩 중</>
+        <LoadingContainer>
+          <IconLoading />
+        </LoadingContainer>
       ) : (
         <>
           <StoreTopContainer>
@@ -75,7 +80,9 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
                 : `${storeInfo.openTime.slice(0, 5)}에 영업 시작`}
             </StoreTime>
           </StoreSecondContainer>
-          <StoreImgContainer />
+          <StoreImgContainer>
+            <StoreImage src={storeInfo.photo} width={80} height={80} />
+          </StoreImgContainer>
           <StoreButtonContainer>
             <DeliveryButton>
               <DeliveryButtonText

@@ -33,3 +33,10 @@ export const CartButton = styled.div`
   margin-left: 0.44rem;
   cursor: pointer;
 `;
+
+export const MapStyles = {
+  width: '100%',
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+};

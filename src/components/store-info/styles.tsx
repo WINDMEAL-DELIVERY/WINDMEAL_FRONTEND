@@ -5,6 +5,12 @@ export const StoreInfoContainer = styled.div`
   flex-direction: column;
 `;
 
+export const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 5rem;
+`;
+
 export const StoreTopContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -22,6 +28,8 @@ export const StoreSecondContainer = styled.div`
 export const StoreImgContainer = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   background-color: #f2f4ff;
   width: 20.5rem;
   height: 5.9rem;

@@ -17,7 +17,7 @@ export const Wrapper = styled.div<{ $top?: number }>`
 
   /* 핸드폰 */
   @media screen and (max-width: 768px) {
-    width: 100%;
+    width: 430px;
   }
 
   /* 태블릿 */
@@ -170,7 +170,6 @@ export const MapOptionListContainer = styled.div<{ $hideScrollbar?: boolean }>`
     css`
       overflow-y: auto;
       max-height: 13rem; /* 적절한 높이로 설정 */
-      // margin-bottom: 4rem; /* 바텀탭만큼 */
       scrollbar-width: thin;
       scrollbar-color: transparent transparent;
       ::-webkit-scrollbar {

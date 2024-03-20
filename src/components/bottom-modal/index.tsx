@@ -8,7 +8,7 @@ import {
 import { useRef, useState } from 'react';
 import { BottomModalProps } from '@/types/type';
 
-export default function BottomModal({ content }: BottomModalProps) {
+export default function BottomModal({ content, height }: BottomModalProps) {
   const [isOpen, setIsOpen] = useState(true);
   const modalBackground = useRef(null);
 
@@ -25,7 +25,7 @@ export default function BottomModal({ content }: BottomModalProps) {
   return (
     isOpen && (
       <>
-        <Wrapper>
+        <Wrapper $top={height}>
           <Header />
           <ContentWrapper>
             <Content>{content}</Content>

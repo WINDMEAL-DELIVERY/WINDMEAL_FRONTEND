@@ -78,3 +78,8 @@ export const getSuggestReport = async (nickname?: string, email?: string) => {
   );
   return data;
 };
+
+export const getMyInfo = async () => {
+  const { data } = await instance.get(`/api/member`);
+  return data;
+};
