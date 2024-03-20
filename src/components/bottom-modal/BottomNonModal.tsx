@@ -48,7 +48,7 @@ export default function BottomNonModal({ content }: BottomModalProps) {
     <>
       {isOpen && (
         <Wrapper
-          $top={60}
+          $top={55}
           onMouseDown={handleDragStart}
           onMouseUp={handleDragEnd}
           onTouchStart={handleDragStart}
