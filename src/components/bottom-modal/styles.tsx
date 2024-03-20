@@ -7,7 +7,7 @@ export const Wrapper = styled.div<{ $top?: number }>`
   position: fixed;
   z-index: 2;
   top: ${({ $top }) =>
-    $top === undefined ? '45vh' : `${$top}vh`}; //전체 화면의 3/8
+    $top === undefined ? '40vh' : `${$top}vh`}; //전체 화면의 3/8
   height: 100%;
 
   border-radius: 1.875rem;
