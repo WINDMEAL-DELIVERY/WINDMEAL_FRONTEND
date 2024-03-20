@@ -22,6 +22,7 @@ import { getAllOrders } from '@/apis/order/order';
 import { Order } from '@/types/type';
 import { formatDateTime } from '@/hooks/useFormatTime';
 import { SearchBox } from '@/components/search-box';
+import Seo from '@/components/seo';
 
 export default function BulletinBoard() {
   const [openBottomModal, setOpenBottomModal] = useState<number>(0);
@@ -60,6 +61,10 @@ export default function BulletinBoard() {
 
   return (
     <BulletinWrapper>
+      <Seo
+        title="요청 목록 페이지"
+        description="요청 목록을 필터링 할 수 있으며 요청에 대한 상세 정보를 확인하실 수 있습니다."
+      />
       {isSearch ? (
         <SearchBox refetch={refetch} setIsSearch={setIsSearch} />
       ) : (
