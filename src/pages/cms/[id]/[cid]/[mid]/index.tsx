@@ -1,12 +1,11 @@
-import BottomTab from '@components/bottom-tab';
-import { Wrapper } from '@styles/styles';
 import { useRouter } from 'next/router';
 import { Card, Text, Spacer, Input, Button, Checkbox } from '@geist-ui/react';
 import { createOption, getOption } from '@/apis/cms-store/store';
 import { useState } from 'react';
-import { StoreContainer, StyledText } from '@/styles/cmsStyles';
+import { CMSWrapper, StoreContainer, StyledText } from '@/styles/cmsStyles';
 import { Option } from '@/types/type';
 import { useMutation, useQuery } from 'react-query';
+import FloatingHomeButton from '@/components/floating-home-button';
 
 export default function CMSMenu() {
   const router = useRouter();
@@ -158,7 +157,7 @@ export default function CMSMenu() {
   };
 
   return (
-    <Wrapper>
+    <CMSWrapper>
       <Card>
         <StoreContainer>
           {optionList.map((option: Option) => (
@@ -183,7 +182,7 @@ export default function CMSMenu() {
         </form>
         <Spacer style={{ marginTop: '3rem' }} />
       </Card>
-      <BottomTab />
-    </Wrapper>
+      <FloatingHomeButton />
+    </CMSWrapper>
   );
 }
