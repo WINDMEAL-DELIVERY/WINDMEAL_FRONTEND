@@ -1,4 +1,6 @@
 import { getStoreInfo } from '@/apis/store/store';
+import { bulletinStoreState } from '@/states/bulletinOption';
+import { mapStoreState } from '@/states/mapOption';
 import { StoreIdProp } from '@/types/type';
 import {
   StoreInfoContainer,
@@ -15,11 +17,16 @@ import {
   OrderButtonText,
   LoadingContainer,
 } from '@components/store-info/styles';
+import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import StoreImage from '@components/image-with-fallback';
 import { IconLoading } from 'public/svgs';
 
 export default function StoreInfo({ storeId }: StoreIdProp) {
+  const mapOption = useRecoilValue(mapStoreState);
+  const [, setBulletinOption] = useRecoilState(bulletinStoreState);
+
   const { data: storeInfo, isLoading } = useQuery(
     ['storeInfo'],
     async () => {
@@ -33,6 +40,24 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
       onError: err => console.log('error', err),
     },
   );
+
+  const router = useRouter();
+
+  const handleClickDelivery = (storeName: string) => {
+    router.push('/order-list');
+    setBulletinOption({
+      storeId: mapOption.storeId,
+      placeId: mapOption.placeId,
+      eta: mapOption.eta,
+      storeCategory: storeName,
+    });
+  };
+
+  const handleClickOrder = (storeID: string) => {
+    router.push({
+      pathname: `/store/${storeID}`,
+    });
+  };
 
   return (
     <StoreInfoContainer>
@@ -60,10 +85,18 @@ export default function StoreInfo({ storeId }: StoreIdProp) {
           </StoreImgContainer>
           <StoreButtonContainer>
             <DeliveryButton>
-              <DeliveryButtonText>배달하기</DeliveryButtonText>
+              <DeliveryButtonText
+                onClick={() => handleClickDelivery(storeInfo.name)}
+              >
+                배달하기
+              </DeliveryButtonText>
             </DeliveryButton>
             <OrderButton>
-              <OrderButtonText>주문하기</OrderButtonText>
+              <OrderButtonText
+                onClick={() => handleClickOrder(storeInfo.storeId)}
+              >
+                주문하기
+              </OrderButtonText>
             </OrderButton>
           </StoreButtonContainer>
         </>

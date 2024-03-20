@@ -35,8 +35,8 @@ import StoreInfo from '@components/store-info';
 import { useQuery } from 'react-query';
 import { getMapStoreList } from '@/apis/store/store';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { storeState } from '@/states/mapOption';
-import OptionButtonComponent from '../option-button-container';
+import { mapStoreState } from '@/states/mapOption';
+import OptionButtonComponent from '@components/option-button-container';
 
 function MarkerCluster({
   handleSelect,
@@ -46,7 +46,7 @@ function MarkerCluster({
   const navermaps = useNavermaps();
   const map = useMap();
   const MarkerClustering = makeMarkerClustering(window.naver);
-  const storeOption = useRecoilValue<MapStoreProps>(storeState);
+  const storeOption = useRecoilValue<MapStoreProps>(mapStoreState);
   const [cluster, setCluster] = useState<any>(null); // 클러스터 상태
 
   const htmlMarker1 = {
@@ -155,7 +155,7 @@ export default function Map() {
   const [openBottomModal, setOpenBottomModal] = useState<number>(0);
   const [modalKey, setModalKey] = useState<number>(1);
   const [nonModalKey, setNonModalKey] = useState<number>(1);
-  const [option, setOption] = useRecoilState(storeState);
+  const [option, setOption] = useRecoilState(mapStoreState);
   const [, setMap] = useState<naver.maps.Map | null>(null);
 
   // 클릭 시에만, info 모달 뜸
@@ -167,6 +167,7 @@ export default function Map() {
   };
 
   const handleClickOption = (optionId: number) => {
+    if (optionId === -1) setOption({}); // 초기화
     setOpenBottomModal(optionId);
     setModalKey(prev => prev + 1);
   };
@@ -187,7 +188,7 @@ export default function Map() {
             <IconCart />
           </CartButton>
         </FirstContainer>
-        <OptionButtonComponent handleClickOption={handleClickOption} />
+        <OptionButtonComponent handleClickOption={handleClickOption} isMap />
       </TopContainer>
 
       <NaverMap

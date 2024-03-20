@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface MyMapProps {
   selected: string | undefined;
   selectFlag: number;
@@ -196,6 +198,13 @@ export interface MapStoreProps {
   isOpen?: boolean;
 }
 
+export interface BulletinProps {
+  storeId?: number;
+  placeId?: number;
+  eta?: string;
+  storeCategory?: string;
+}
+
 export interface StoreTypeInterface {
   submitOption: (newOptions?: object) => void;
 }
@@ -204,4 +213,24 @@ export interface ImageProps {
   src: string;
   width: number;
   height: number;
+}
+
+export interface BulletinHeaderProps {
+  icon1: ReactNode;
+  icon2?: ReactNode;
+  title: string;
+}
+
+export interface Order {
+  id: number;
+  memberId: number;
+  memberNickName: string;
+  placeName: string;
+  longitude: number;
+  latitude: number;
+  eta: string;
+  deliveryFee: number;
+  name: string;
+  summary: string;
+  orderTime: string;
 }

@@ -5,14 +5,16 @@ import {
   OptionButtonContainer,
 } from '@components/option-button-container/styles';
 import { useRecoilState } from 'recoil';
-import { storeState } from '@/states/mapOption';
+import { mapStoreState } from '@/states/mapOption';
 
 export default function OptionButtonComponent({
   handleClickOption,
+  isMap,
 }: {
   handleClickOption: (optionId: number) => void;
+  isMap: boolean;
 }) {
-  const [option, setOption] = useRecoilState(storeState);
+  const [option, setOption] = useRecoilState(mapStoreState);
 
   const handleClickIsOpen = () => {
     setOption({
@@ -22,9 +24,9 @@ export default function OptionButtonComponent({
   };
 
   return (
-    <OptionButtonContainer>
+    <OptionButtonContainer $isMap={isMap}>
       <OptionButton>
-        <OptionText onClick={() => setOption({})}>초기화</OptionText>
+        <OptionText onClick={() => handleClickOption(-1)}>초기화</OptionText>
         <IconRefresh />
       </OptionButton>
       <OptionButton onClick={() => handleClickOption(1)}>
@@ -39,9 +41,11 @@ export default function OptionButtonComponent({
         <OptionText>음식종류</OptionText>
         <IconDown />
       </OptionButton>
-      <OptionButton>
-        <OptionText onClick={handleClickIsOpen}>영업중</OptionText>
-      </OptionButton>
+      {isMap && (
+        <OptionButton>
+          <OptionText onClick={handleClickIsOpen}>영업중</OptionText>
+        </OptionButton>
+      )}
     </OptionButtonContainer>
   );
 }

@@ -6,11 +6,11 @@ export default function BottomTab() {
   return (
     <Wrapper>
       <NavItem
-        href="/bulletin-board"
+        href="/order-list"
         prefetch
-        $isActive={router.pathname === '/bulletin-board'}
+        $isActive={router.pathname === '/order-list'}
       >
-        게시글
+        주문목록
       </NavItem>
       <NavItem href="/main" prefetch $isActive={router.pathname === '/main'}>
         홈
