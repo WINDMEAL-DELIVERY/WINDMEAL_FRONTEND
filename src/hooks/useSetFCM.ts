@@ -49,6 +49,7 @@ export function useSetFCM() {
       });
 
       if (currentToken) {
+        console.log(currentToken);
         setAlarmToken({
           alarmToken: currentToken,
         });
