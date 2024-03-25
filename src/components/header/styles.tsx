@@ -27,6 +27,10 @@ export const Icons = styled.div`
   margin-left: auto;
 `;
 
+export const IconContainer = styled.div`
+  cursor: pointer;
+`;
+
 export const Title = styled.span`
   color: var(--MainText, #1f1f1f);
   font-family: 'Noto Sans KR';

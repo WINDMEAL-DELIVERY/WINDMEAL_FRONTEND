@@ -1,6 +1,12 @@
 import { useRouter } from 'next/router';
 import { IconLt } from 'public/svgs';
-import { GoBack, Header, Icons, Title } from '@components/header/styles';
+import {
+  GoBack,
+  Header,
+  IconContainer,
+  Icons,
+  Title,
+} from '@components/header/styles';
 import { BulletinHeaderProps } from '@/types/type';
 
 export default function PageHeader({
@@ -17,9 +23,10 @@ export default function PageHeader({
       </GoBack>
       <Title>{title}</Title>
       <Icons>
-        {icon1}
-        {icon2}
+        <IconContainer>{icon1}</IconContainer>
+        <IconContainer>{icon2}</IconContainer>
       </Icons>
     </Header>
   );
 }
+// 아이콘에 디폴트로 cursor style 하는 방법?

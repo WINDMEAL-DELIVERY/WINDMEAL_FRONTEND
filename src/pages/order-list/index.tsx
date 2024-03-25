@@ -70,13 +70,8 @@ export default function BulletinBoard() {
       ) : (
         <>
           <PageHeader
-            icon1={
-              <IconFind
-                onClick={() => setIsSearch(true)}
-                style={{ cursor: 'pointer' }}
-              />
-            }
-            icon2={<IconCart style={{ cursor: 'pointer' }} />}
+            icon1={<IconFind onClick={() => setIsSearch(true)} />}
+            icon2={<IconCart />}
             title="게시판"
           />
           <OptionButtonComponent
