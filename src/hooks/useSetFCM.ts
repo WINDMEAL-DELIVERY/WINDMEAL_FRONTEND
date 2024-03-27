@@ -10,6 +10,7 @@ export function useSetFCM() {
   const [alarmToken, setAlarmToken] = useState({
     alarmToken: '',
   });
+
   const FCMTokenMutation = useMutation<
     FCMTokenResponse,
     AxiosError,

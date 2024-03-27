@@ -33,11 +33,6 @@ export default function App({ Component, pageProps }: AppProps) {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const handleErrorResponse = async (error, thisInstance: AxiosInstance) => {
-    if (!error.config || !error.response) {
-      alert('일시적인 네트워크 오류입니다. 잠시 후에 다시 시도해주세요.');
-      console.log(error);
-    }
-
     const requestApi = error.config;
     const isReissueRequest = error.config.url?.includes('auth/reissue');
     const isUnauthorizedError = error.response.status === 401;
